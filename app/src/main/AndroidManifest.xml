@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="grabbuddy.infobite.grabbuddy">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".CustomFontApp"
         android:icon="@mipmap/ic_launcher"

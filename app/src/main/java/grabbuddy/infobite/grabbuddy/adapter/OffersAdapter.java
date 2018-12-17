@@ -12,14 +12,15 @@ import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 
 
 public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHolder> {
 
-    private List<Coupon> reviewModelList;
+    private List<Datum> reviewModelList;
     private Context context;
 
-    public OffersAdapter(List<Coupon> reviewModelList, Context context) {
+    public OffersAdapter(List<Datum> reviewModelList, Context context) {
         this.reviewModelList = reviewModelList;
         this.context = context;
     }
@@ -32,8 +33,10 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.textView.setText(reviewModelList.get(position).getName());
-        holder.offer_img.setImageResource(reviewModelList.get(position).getImage());
+        holder.textView.setText(reviewModelList.get(position).getCompanyName());
+       // holder.offer_img.setImageResource(reviewModelList.get(position).getCompanyUrl());
+
+
     }
 
     @Override

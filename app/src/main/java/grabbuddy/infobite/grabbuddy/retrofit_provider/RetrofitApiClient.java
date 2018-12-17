@@ -1,6 +1,7 @@
 package grabbuddy.infobite.grabbuddy.retrofit_provider;
 
 import grabbuddy.infobite.grabbuddy.constant.Constant;
+import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -52,14 +53,12 @@ public interface RetrofitApiClient {
                                    @Field("state") String state,
                                    @Field("city") String city);
 
-    @GET(Constant.OFFER_LIST)
-    Call<ResponseBody> getOfferList();
+    @GET(Constant.ALL_STORE)
+    Call<StoreMainModel> getStore();
 
     @GET(Constant.NOTIFICATION_LIST)
     Call<ResponseBody> getNotificationList();
 
-    @GET(Constant.APP_VERSION)
-    Call<ResponseBody> getVersion();
 
 
 
