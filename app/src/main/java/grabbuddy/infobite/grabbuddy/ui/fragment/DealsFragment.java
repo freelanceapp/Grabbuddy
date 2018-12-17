@@ -43,7 +43,7 @@ public class DealsFragment extends BaseFragment implements View.OnClickListener 
         mCardView = rootView.findViewById(R.id.view);
         mAdapter2 = new CardViewAdapter(resId);
         mCardView.setAdapter(mAdapter2);
-        mCardView.setCardSizeRatio(1.2f);
+        mCardView.setCardSizeRatio(1.0f);
         mCardView.setCardAnimationListener(new InfiniteCardView.CardAnimationListener() {
             @Override
             public void onAnimationStart() {
