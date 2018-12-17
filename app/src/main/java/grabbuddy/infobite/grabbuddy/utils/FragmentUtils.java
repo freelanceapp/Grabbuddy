@@ -20,6 +20,7 @@ import grabbuddy.infobite.grabbuddy.ui.fragment.FeedbackFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.HomeFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.PrivacyFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.ShareAppFragment;
+import grabbuddy.infobite.grabbuddy.ui.fragment.StealDealFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.TermConditionFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.TopStoresFragment;
 
@@ -76,7 +77,7 @@ public class FragmentUtils implements FragmentService {
                     new HomeFragment(),
                     new TopStoresFragment(),
                     new AllCategoriesFragment(),
-                    new DealsFragment(),
+                    new StealDealFragment(),
                     new FeedbackFragment(),
                     new PrivacyFragment(),
                     new TermConditionFragment(),
