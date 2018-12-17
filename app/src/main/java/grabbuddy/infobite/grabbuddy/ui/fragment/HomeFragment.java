@@ -1,8 +1,14 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +18,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,21 +36,16 @@ import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.ui.activities.MainActivity;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
+import grabbuddy.infobite.grabbuddy.utils.FragmentUtils;
 
 public class HomeFragment extends BaseFragment implements FragmentChangeListener, View.OnClickListener {
-    CirclePageIndicator indicator;
-    private static ViewPager mPager;
-    private static int currentPage = 0;
-    private static int NUM_PAGES = 0;
-    private static final Integer[] IMAGES= {R.drawable.img_a,R.drawable.img_b,R.drawable.img_c,R.drawable.img_d};
-    private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
+
     private View rootView;
-    private RecyclerView recyclerViewPopularStore, recyclerViewTopOffer;
-    private TodaysOfferAdapter todaysOfferAdapter;
-    private PopularStoresAdapter popularStoresAdapter;
-    private List<Coupon> todaysOfferArrayList = new ArrayList<>();
-    private List<Coupon> popularStoresArrayList = new ArrayList<>();
+    private FragmentManager fragmentManager;
+    private Activity activity;
+    private int fragmentId = 0;
 
     @Nullable
     @Override
@@ -50,110 +53,69 @@ public class HomeFragment extends BaseFragment implements FragmentChangeListener
         super.onCreateView(inflater, container, savedInstanceState);
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         mContext = getActivity();
-        init((new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)),
-                (new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)));
+        activity = getActivity();
 
-        mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        indicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
-        init1();
-
+        init();
         return rootView;
     }
 
-    private void init1() {
-        for(int i=0;i<IMAGES.length;i++)
-            ImagesArray.add(IMAGES[i]);
+    private void init() {
+        fragmentManager = (getActivity()).getSupportFragmentManager();
+        rootView.findViewById(R.id.llCoupon).setOnClickListener(this);
+        rootView.findViewById(R.id.llDeals).setOnClickListener(this);
+        rootView.findViewById(R.id.llStylesStudio).setOnClickListener(this);
 
-        mPager.setAdapter(new SlidingImage_Adapter(getActivity(),ImagesArray));
-        indicator.setViewPager(mPager);
-        final float density = getResources().getDisplayMetrics().density;
-        //Set circle indicator radius
-        indicator.setRadius(5 * density);
-
-        NUM_PAGES =IMAGES.length;
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
-
-        // Pager listener over indicator
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPage = position;
-            }
-            @Override
-            public void onPageScrolled(int pos, float arg1, int arg2) {
-            }
-            @Override
-            public void onPageScrollStateChanged(int pos) {
-
-            }
-        });
-
-    }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-    }
-
-    private void init(RecyclerView.LayoutManager layout, RecyclerView.LayoutManager layoutB) {
-        recyclerViewPopularStore = rootView.findViewById(R.id.recyclerViewPopularStore);
-        recyclerViewTopOffer = rootView.findViewById(R.id.recyclerViewTopOffer);
-
-        String[] desc = {mContext.getString(R.string.desc_a), mContext.getString(R.string.desc_b),
-                mContext.getString(R.string.desc_c), mContext.getString(R.string.desc_d),
-                mContext.getString(R.string.desc_a),
-                mContext.getString(R.string.desc_b)};
-
-        for (int i = 0; i < desc.length; i++) {
-            todaysOfferArrayList.add(new Coupon(desc[i], Constant.images[i], Constant.exclusiveImage[i]));
-        }
-
-        for (int i = 0; i < desc.length; i++) {
-            popularStoresArrayList.add(new Coupon(Constant.images[i]));
-        }
-
-        todaysOfferAdapter = new TodaysOfferAdapter(todaysOfferArrayList, mContext);
-        recyclerViewTopOffer.setLayoutManager(layout);
-        recyclerViewTopOffer.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewTopOffer.setAdapter(todaysOfferAdapter);
-        todaysOfferAdapter.notifyDataSetChanged();
-
-        popularStoresAdapter = new PopularStoresAdapter(popularStoresArrayList, mContext);
-        recyclerViewPopularStore.setLayoutManager(layoutB);
-        recyclerViewPopularStore.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewPopularStore.setAdapter(popularStoresAdapter);
-        popularStoresAdapter.notifyDataSetChanged();
+        changeFragment(new CouponsFragment(), Constant.CouponFragment);
     }
 
     @Override
     public void onFragmentVisible(String fragmentTag) {
-
+        if (fragmentManager != null)
+            init();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.llCoupon:
+                if (fragmentId != 0) {
+                    changeFragment(new CouponsFragment(), Constant.CouponFragment);
+                }
+                fragmentId = 0;
+                rootView.findViewById(R.id.viewCoupon).setVisibility(View.VISIBLE);
+                rootView.findViewById(R.id.viewDeals).setVisibility(View.GONE);
+                rootView.findViewById(R.id.viewStylesStudio).setVisibility(View.GONE);
+                break;
+            case R.id.llDeals:
+                if (fragmentId != 1) {
+                    changeFragment(new DealsFragment(), Constant.DealsFragment);
+                }
+                fragmentId = 1;
+                rootView.findViewById(R.id.viewCoupon).setVisibility(View.GONE);
+                rootView.findViewById(R.id.viewDeals).setVisibility(View.VISIBLE);
+                rootView.findViewById(R.id.viewStylesStudio).setVisibility(View.GONE);
+                break;
+            case R.id.llStylesStudio:
+                if (fragmentId != 2) {
+                    changeFragment(new StylesStudioFragment(), Constant.StylesStudioFragment);
+                }
+                fragmentId = 2;
+                rootView.findViewById(R.id.viewCoupon).setVisibility(View.GONE);
+                rootView.findViewById(R.id.viewDeals).setVisibility(View.GONE);
+                rootView.findViewById(R.id.viewStylesStudio).setVisibility(View.VISIBLE);
+                break;
         }
+    }
 
+    private void changeFragment(Fragment fragment, String strTag) {
+        /*fragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_home_items, fragment,
+                        strTag).commit();*/
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.right_enter, R.anim.left_out);
+        transaction.replace(R.id.frame_home_items, fragment, strTag);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

@@ -1,6 +1,5 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +19,10 @@ import com.bakerj.infinitecards.transformer.DefaultZIndexTransformerCommon;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.CardViewAdapter;
-import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
+import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 
-public class DealsFragment extends BaseFragment implements FragmentChangeListener, View.OnClickListener {
+public class DealsFragment extends BaseFragment implements View.OnClickListener {
 
     private View rootView;
     private InfiniteCardView mCardView;
@@ -48,12 +47,12 @@ public class DealsFragment extends BaseFragment implements FragmentChangeListene
         mCardView.setCardAnimationListener(new InfiniteCardView.CardAnimationListener() {
             @Override
             public void onAnimationStart() {
-                //Toast.makeText(DealsFragment.this, "Animation Start", Toast.LENGTH_SHORT).show();
+                Alerts.show(mContext,"Animation Start");
             }
 
             @Override
             public void onAnimationEnd() {
-                //Toast.makeText(DealsFragment.this, "Animation End", Toast.LENGTH_SHORT).show();
+                Alerts.show(mContext,"Animation End");
             }
         });
 
@@ -78,7 +77,7 @@ public class DealsFragment extends BaseFragment implements FragmentChangeListene
                 mCardView.bringCardToFront(1);
                 break;
             case R.id.close:
-                startActivity(new Intent(mContext, TopStoresFragment.class));
+                //startActivity(new Intent(mContext, TopStoresFragment.class));
                 break;
         }
     }
@@ -136,10 +135,5 @@ public class DealsFragment extends BaseFragment implements FragmentChangeListene
 
             }
         });
-    }
-
-    @Override
-    public void onFragmentVisible(String fragmentTag) {
-
     }
 }

@@ -12,24 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
-import grabbuddy.infobite.grabbuddy.adapter.AllCategoryAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.StylesStudioAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
-import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 
-public class AllCategoriesFragment extends BaseFragment implements FragmentChangeListener {
+public class StylesStudioFragment extends BaseFragment {
 
     private View rootView;
-    private RecyclerView recyclerViewAllCategory;
+    private RecyclerView recyclerViewStylesStudio;
     private List<Coupon> stylesList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        rootView = inflater.inflate(R.layout.fragment_all_categories, container, false);
+        rootView = inflater.inflate(R.layout.fragment_styles_studio, container, false);
         mContext = getActivity();
         init();
         return rootView;
@@ -41,16 +39,11 @@ public class AllCategoriesFragment extends BaseFragment implements FragmentChang
             stylesList.add(new Coupon(Constant.images[i]));
         }
 
-        recyclerViewAllCategory = rootView.findViewById(R.id.recyclerViewAllCategory);
-        recyclerViewAllCategory.setLayoutManager((new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)));
-        recyclerViewAllCategory.setItemAnimator(new DefaultItemAnimator());
-        AllCategoryAdapter mAdapter = new AllCategoryAdapter(stylesList, mContext);
-        recyclerViewAllCategory.setAdapter(mAdapter);
+        recyclerViewStylesStudio = rootView.findViewById(R.id.recyclerViewStylesStudio);
+        recyclerViewStylesStudio.setLayoutManager((new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)));
+        recyclerViewStylesStudio.setItemAnimator(new DefaultItemAnimator());
+        StylesStudioAdapter mAdapter = new StylesStudioAdapter(stylesList, mContext);
+        recyclerViewStylesStudio.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onFragmentVisible(String fragmentTag) {
-
     }
 }

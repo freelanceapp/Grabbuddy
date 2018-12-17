@@ -23,6 +23,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activities.WelcomeActivity"/>
         <activity android:name=".ui.activities.LoginActivity"/>
+        <activity android:name=".ui.activities.CouponDetailActivity" />
     </application>
 
 </manifest>
