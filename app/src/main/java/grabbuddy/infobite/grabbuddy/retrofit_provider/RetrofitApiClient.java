@@ -1,6 +1,7 @@
 package grabbuddy.infobite.grabbuddy.retrofit_provider;
 
 import grabbuddy.infobite.grabbuddy.constant.Constant;
+import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryMainModal;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -11,21 +12,11 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Url;
-import rx.Observable;
 
 public interface RetrofitApiClient {
 
-    @Multipart
-    @POST(Constant.USER_REGISTRATION)
-    Call<ResponseBody> userRegistration(@Part("name") RequestBody name, @Part MultipartBody.Part file,
-                                      @Part("email") RequestBody email, @Part("password") RequestBody password,
-                                      @Part("mobile_number") RequestBody mobile_number);
-
-    @FormUrlEncoded
-    @POST(Constant.USER_LOGIN)
-    Call<ResponseBody> userLogin(@Field("username") String username,
-                               @Field("password") String password);
+    @GET(Constant.ALL_CATEGORY)
+    Call<CategoryMainModal> allCategory();
 
     @FormUrlEncoded
     @POST(Constant.USER_PROFILE)
@@ -34,7 +25,7 @@ public interface RetrofitApiClient {
     @FormUrlEncoded
     @POST(Constant.VERIFICATION)
     Call<ResponseBody> userVerification(@Field("mobile_number") String mobile_number,
-                                      @Field("otp_number") String otp_number);
+                                        @Field("otp_number") String otp_number);
 
     @FormUrlEncoded
     @POST(Constant.VENDOR_DETAIL)
@@ -43,7 +34,7 @@ public interface RetrofitApiClient {
     @FormUrlEncoded
     @POST(Constant.VENDOR_LIST)
     Call<ResponseBody> vendorList(@Field("latitude") double latitude, @Field("longitude") double longitude,
-                                         @Field("radius") String radius);
+                                  @Field("radius") String radius);
 
     @FormUrlEncoded
     @POST(Constant.FOROGOT_PASSWORD)
@@ -52,7 +43,7 @@ public interface RetrofitApiClient {
                                    @Field("state") String state,
                                    @Field("city") String city);
 
-    @GET(Constant.OFFER_LIST)
+    @GET(Constant.IMAGE)
     Call<ResponseBody> getOfferList();
 
     @GET(Constant.NOTIFICATION_LIST)
@@ -60,25 +51,4 @@ public interface RetrofitApiClient {
 
     @GET(Constant.APP_VERSION)
     Call<ResponseBody> getVersion();
-
-
-
-    @FormUrlEncoded
-    @POST(Constant.FOROGOT_PASSWORD)
-    Call<ResponseBody> getAllLikes(@Field("id") String id);
-
-    @FormUrlEncoded
-    @POST(Constant.FOROGOT_PASSWORD)
-    Observable<ResponseBody> addShortedList(@Field("id") String id,
-                                            @Field("like_id") String like_id);
-
-    @FormUrlEncoded
-    @POST(Constant.FOROGOT_PASSWORD)
-    Call<ResponseBody> getShortedList(@Field("user_id") String user_id);
-
-    /*
-     * Download image
-     * */
-    @GET
-    Call<ResponseBody> getImageDetails(@Url String fileUrl);
 }

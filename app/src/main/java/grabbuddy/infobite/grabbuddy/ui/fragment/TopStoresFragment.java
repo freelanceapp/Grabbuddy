@@ -19,9 +19,10 @@ import grabbuddy.infobite.grabbuddy.adapter.OffersAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 
-public class TopStoresFragment extends BaseFragment implements FragmentChangeListener,  View.OnClickListener {
+public class TopStoresFragment extends BaseFragment implements FragmentChangeListener, View.OnClickListener {
 
     private View rootView;
     RecyclerView recyclerView;
@@ -39,14 +40,14 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
 
     private void init(RecyclerView.LayoutManager layout) {
 
-        ((TextView) rootView.findViewById(R.id.tvAllStores)).setOnClickListener(this);
+        rootView.findViewById(R.id.tvAllStores).setOnClickListener(this);
 
         for (int i = 0; i < Constant.nameArray.length; i++) {
             offersModelArrayList.add(new Coupon(Constant.nameArray[i], Constant.drawableArray[i]));
         }
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-        offersAdapter = new OffersAdapter(offersModelArrayList, mContext);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        offersAdapter = new OffersAdapter(offersModelArrayList, mContext, this);
         recyclerView.setLayoutManager(layout);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(offersAdapter);
@@ -55,7 +56,13 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
 
     @Override
     public void onClick(View v) {
-        startActivity(new Intent(mContext, ShareAppFragment.class));
+        switch (v.getId()) {
+            case R.id.tvAllStores:
+                break;
+            case R.id.cardView:
+                startActivity(new Intent(mContext, CouponDetailActivity.class));
+                break;
+        }
     }
 
     @Override

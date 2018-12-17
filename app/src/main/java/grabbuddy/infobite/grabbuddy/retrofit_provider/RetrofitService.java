@@ -3,6 +3,7 @@ package grabbuddy.infobite.grabbuddy.retrofit_provider;
 import android.app.Dialog;
 
 import grabbuddy.infobite.grabbuddy.constant.Constant;
+import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryMainModal;
 import grabbuddy.infobite.grabbuddy.utils.AppProgressDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,6 +55,27 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getAllCategory(final Dialog dialog, final Call<CategoryMainModal> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<CategoryMainModal>() {
+            @Override
+            public void onResponse(Call<CategoryMainModal> call, Response<CategoryMainModal> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<CategoryMainModal> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());

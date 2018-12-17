@@ -9,8 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitApiClient;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
+
 public class BaseFragment extends Fragment {
 
+    public RetrofitApiClient retrofitApiClient;
+    public ConnectionDetector cd;
     public Context mContext;
 
     public BaseFragment() {
@@ -22,6 +27,8 @@ public class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mContext = getActivity();
+        cd = new ConnectionDetector(mContext);
+        retrofitApiClient = RetrofitService.getRetrofit();
         return null;
     }
 }

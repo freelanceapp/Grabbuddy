@@ -1,5 +1,6 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -24,9 +25,11 @@ import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
+import grabbuddy.infobite.grabbuddy.ui.activities.StoreDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 
-public class CouponsFragment extends BaseFragment {
+public class CouponsFragment extends BaseFragment implements View.OnClickListener {
 
     private View rootView;
     private CirclePageIndicator indicator;
@@ -122,16 +125,28 @@ public class CouponsFragment extends BaseFragment {
             popularStoresArrayList.add(new Coupon(Constant.images[i]));
         }
 
-        todaysOfferAdapter = new TodaysOfferAdapter(todaysOfferArrayList, mContext);
+        todaysOfferAdapter = new TodaysOfferAdapter(todaysOfferArrayList, mContext, this);
         recyclerViewTopOffer.setLayoutManager(layout);
         recyclerViewTopOffer.setItemAnimator(new DefaultItemAnimator());
         recyclerViewTopOffer.setAdapter(todaysOfferAdapter);
         todaysOfferAdapter.notifyDataSetChanged();
 
-        popularStoresAdapter = new PopularStoresAdapter(popularStoresArrayList, mContext);
+        popularStoresAdapter = new PopularStoresAdapter(popularStoresArrayList, mContext, this);
         recyclerViewPopularStore.setLayoutManager(layoutB);
         recyclerViewPopularStore.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPopularStore.setAdapter(popularStoresAdapter);
         popularStoresAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.cardViewPopular:
+                startActivity(new Intent(mContext, StoreDetailActivity.class));
+                break;
+            case R.id.cardView:
+                startActivity(new Intent(mContext, CouponDetailActivity.class));
+                break;
+        }
     }
 }
