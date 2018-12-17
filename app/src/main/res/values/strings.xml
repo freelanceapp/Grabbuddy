@@ -23,4 +23,41 @@
     <string name="record_lebel">-Record Label Projects (Official Original and Covers)</string>
     <string name="opportunities">-Opportunities fo Playback Singing.</string>
     <string name="brand_secognition">-Brand Recognition through Stage throughout India</string>
+
+
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">REWARDING</string>
+    <string name="slide_1_desc">Browse, shop and Earn \n Make Online Shopping!</string>
+
+    <string name="slide_2_title">Do not Pay Full </string>
+    <string name="slide_2_desc"> discount off a particular \n Product</string>
+
+    <string name="slide_3_title">Exclusive Coupons</string>
+    <string name="slide_3_desc">Get Notification for \n Premium Deals</string>
+
+    <string name="slide_4_title">World Travel</string>
+    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="hide_pwd">Hide Password</string>
+    <string name="show_pwd">Show Password</string>
+    <string name="registered_emailid">Enter Registered Email Id</string>
+    <string name="email">Email id</string>
+    <string name="back">Back</string>
+    <string name="submit">Submit</string>
+    <string name="login">Login</string>
+    <string name="passowrd">Password</string>
+    <string name="forgot">Forgot Password</string>
+    <string name="newUser">Do not have an account? Sign In</string>
+    <string name="signUp">Sign Up</string>
+    <string name="mobileNumber">Mobile Number</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="terms_conditions">Terms And Conditions</string>
+    <string name="already_user">Have an account? Login </string>
 </resources>
