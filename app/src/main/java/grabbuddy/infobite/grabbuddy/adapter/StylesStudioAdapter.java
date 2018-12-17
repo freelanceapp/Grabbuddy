@@ -32,7 +32,7 @@ public class StylesStudioAdapter extends RecyclerView.Adapter<StylesStudioAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.offer_img.setImageResource(reviewModelList.get(position).getImage());
+        holder.offer_img.setImageResource(reviewModelList.get(position).getImagePopular());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package grabbuddy.infobite.grabbuddy.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,12 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
 
     private List<Coupon> reviewModelList;
     private Context context;
+    private View.OnClickListener onClickListener;
 
-    public TodaysOfferAdapter(List<Coupon> reviewModelList, Context context) {
+    public TodaysOfferAdapter(List<Coupon> reviewModelList, Context context, View.OnClickListener onClickListener) {
         this.reviewModelList = reviewModelList;
         this.context = context;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -35,6 +38,9 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
         holder.tvDescription.setText(reviewModelList.get(position).getName());
         holder.offer_img.setImageResource(reviewModelList.get(position).getImagePopular());
         holder.imgExclusive.setImageResource(reviewModelList.get(position).getImageOffers());
+
+        holder.cardView.setTag(position);
+        holder.cardView.setOnClickListener(onClickListener);
     }
 
     @Override
@@ -46,9 +52,11 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
 
         public ImageView offer_img, imgExclusive;
         private TextView tvDescription;
+        private CardView cardView;
 
         public MyViewHolder(View view) {
             super(view);
+            cardView = view.findViewById(R.id.cardView);
             imgExclusive = view.findViewById(R.id.imgExclusive);
             offer_img = view.findViewById(R.id.img);
             tvDescription = view.findViewById(R.id.tvDescription);

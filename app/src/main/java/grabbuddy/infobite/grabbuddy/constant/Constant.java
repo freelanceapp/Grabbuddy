@@ -7,6 +7,7 @@ public class Constant {
 
     public static final String BASE_URL = " http://grabbuddy.in/";
     public static final String USER_REGISTRATION = "api/user-signup.php";
+    public static final String ALL_CATEGORY = "androidapi/all-cat.php";
     public static final String USER_PROFILE = "api/user-profile.php";
     public static final String USER_LOGIN = "api/user-login.php";
     public static final String VERIFICATION = "api/user-verification.php";
@@ -16,6 +17,8 @@ public class Constant {
     public static final String NOTIFICATION_LIST = "api/select-notification.php";
     public static final String OFFER_LIST = "api/coupon_list.php";
     public static final String ALL_STORE = "androidapi/all-store.php";
+    public static final String IMAGE = "https://www.grabbuddy.in/admin/images/company_picture/";
+    public static final String APP_VERSION = "api/check-version.php";
 
     public static final String[] nameArray = {"Snapdeal", "Jumia", "Amazon Prime", "Amazon",
             "Snapdeal", "Jumia", "Amazon Prime", "Amazon", "Snapdeal", "Jumia", "Amazon Prime", "Amazon"};

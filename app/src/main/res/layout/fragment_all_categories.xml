@@ -9,4 +9,13 @@
         android:id="@+id/recyclerViewAllCategory"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Empty Category"
+        android:textColor="@color/red"
+        android:visibility="gone" />
 </LinearLayout>

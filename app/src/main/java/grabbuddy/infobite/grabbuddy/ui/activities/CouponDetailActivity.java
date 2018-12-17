@@ -15,23 +15,7 @@ public class CouponDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+        setContentView(R.layout.activity_coupon_detail);
         mContext = this;
-
-        mContext = CouponDetailActivity.this;
-
-        checkPermission();
-    }
-
-    protected void checkPermission() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i = new Intent(CouponDetailActivity.this, MainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        }, 3000);
-
     }
 }

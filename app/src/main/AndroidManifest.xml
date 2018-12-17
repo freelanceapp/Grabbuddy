@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="grabbuddy.infobite.grabbuddy">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".CustomFontApp"
         android:icon="@mipmap/ic_launcher"
@@ -22,9 +24,10 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activities.WelcomeActivity"/>
-        <activity android:name=".ui.activities.LoginActivity"/>
+        <activity android:name=".ui.activities.WelcomeActivity" />
+        <activity android:name=".ui.activities.LoginActivity" />
         <activity android:name=".ui.activities.CouponDetailActivity" />
+        <activity android:name=".ui.activities.StoreDetailActivity" />
     </application>
 
 </manifest>

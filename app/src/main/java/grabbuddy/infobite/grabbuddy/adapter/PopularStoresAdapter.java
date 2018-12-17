@@ -1,6 +1,7 @@
 package grabbuddy.infobite.grabbuddy.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,12 @@ public class PopularStoresAdapter extends RecyclerView.Adapter<PopularStoresAdap
 
     private List<Coupon> reviewModelList;
     private Context context;
+    private View.OnClickListener onClickListener;
 
-    public PopularStoresAdapter(List<Coupon> reviewModelList, Context context) {
+    public PopularStoresAdapter(List<Coupon> reviewModelList, Context context, View.OnClickListener onClickListener) {
         this.reviewModelList = reviewModelList;
         this.context = context;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -32,6 +35,8 @@ public class PopularStoresAdapter extends RecyclerView.Adapter<PopularStoresAdap
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.offer_img.setImageResource(reviewModelList.get(position).getImagePopular());
+        holder.cardView.setTag(position);
+        holder.cardView.setOnClickListener(onClickListener);
     }
 
     @Override
@@ -42,10 +47,12 @@ public class PopularStoresAdapter extends RecyclerView.Adapter<PopularStoresAdap
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView offer_img;
+        private CardView cardView;
 
         public MyViewHolder(View view) {
             super(view);
             offer_img = view.findViewById(R.id.img);
+            cardView = view.findViewById(R.id.cardViewPopular);
         }
 
         @Override
