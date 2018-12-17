@@ -1,6 +1,7 @@
 package grabbuddy.infobite.grabbuddy.retrofit_provider;
 
 import grabbuddy.infobite.grabbuddy.constant.Constant;
+import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
 import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryMainModal;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -43,12 +44,26 @@ public interface RetrofitApiClient {
                                    @Field("state") String state,
                                    @Field("city") String city);
 
+    @GET(Constant.ALL_STORE)
+    Call<StoreMainModel> getStore();
     @GET(Constant.IMAGE)
     Call<ResponseBody> getOfferList();
 
     @GET(Constant.NOTIFICATION_LIST)
     Call<ResponseBody> getNotificationList();
 
-    @GET(Constant.APP_VERSION)
-    Call<ResponseBody> getVersion();
+
+
+
+    @FormUrlEncoded
+    @POST(Constant.FOROGOT_PASSWORD)
+    Call<ResponseBody> getAllLikes(@Field("id") String id);
+
+
+
+    @FormUrlEncoded
+    @POST(Constant.FOROGOT_PASSWORD)
+    Call<ResponseBody> getShortedList(@Field("user_id") String user_id);
+
+
 }
