@@ -44,7 +44,10 @@ public class AllCategoryAdapter extends RecyclerView.Adapter<AllCategoryAdapter.
         holder.llStore.setTag(position);
         holder.llStore.setOnClickListener(onClickListener);
 
-        Picasso.with(context).load(Constant.IMAGE + itemLists.get(position).getCatLogo()).into(holder.offer_img);
+        Picasso.with(context)
+                .load(Constant.IMAGE + itemLists.get(position).getCatLogo())
+                .placeholder(R.drawable.app_logo_b)
+                .into(holder.offer_img);
     }
 
     @Override
