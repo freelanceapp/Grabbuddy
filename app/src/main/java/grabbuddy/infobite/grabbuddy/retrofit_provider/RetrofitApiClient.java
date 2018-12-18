@@ -48,10 +48,7 @@ public interface RetrofitApiClient {
 
     @FormUrlEncoded
     @POST(Constant.FOROGOT_PASSWORD)
-    Call<ResponseBody> getUserList(@Field("user") String user,
-                                   @Field("age") String age,
-                                   @Field("state") String state,
-                                   @Field("city") String city);
+    Call<SignUpModel> getForgotPassword(@Query("useremail") String useremail);
 
     @GET(Constant.ALL_STORE)
     Call<StoreMainModel> getStore();

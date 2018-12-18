@@ -48,27 +48,26 @@ public class RetrofitService {
         return client;
     }
 
-  /*  public static void getResponse(final Dialog dialog, final Call<ResponseBody> method, final WebResponse webResponse) {
+    public static void getForgotPassword(final Dialog dialog, final Call<SignUpModel> method, final WebResponse webResponse) {
         if (dialog != null)
             AppProgressDialog.show(dialog);
 
-        method.enqueue(new Callback<ResponseBody>() {
+        method.enqueue(new Callback<SignUpModel>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<SignUpModel> call, Response<SignUpModel> response) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 WebServiceResponse.handleResponse(response, webResponse);
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+            public void onFailure(Call<SignUpModel> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());
             }
         });
     }
-*/
 
     // All Store
     public static void getStore(final Dialog dialog, final Call<StoreMainModel> method, final WebResponse webResponse) {

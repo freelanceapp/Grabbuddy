@@ -17,7 +17,7 @@ public class Constant {
     public static final String VERIFICATION = "api/user-verification.php";
     public static final String VENDOR_DETAIL = "api/vendor-details.php";
     public static final String VENDOR_LIST = "api/vendor-list.php";
-    public static final String FOROGOT_PASSWORD = "jain/api/forgot.php";
+    public static final String FOROGOT_PASSWORD = "androidapi/forgot.php";
     public static final String NOTIFICATION_LIST = "api/select-notification.php";
     public static final String OFFER_LIST = "api/coupon_list.php";
     public static final String ALL_STORE = "androidapi/all-store.php";
