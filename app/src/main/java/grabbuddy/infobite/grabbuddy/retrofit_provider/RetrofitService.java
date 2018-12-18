@@ -5,6 +5,7 @@ import android.app.Dialog;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
 import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryMainModal;
+import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseMainModal;
 import grabbuddy.infobite.grabbuddy.utils.AppProgressDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -73,7 +74,7 @@ public class RetrofitService {
             @Override
             public void onResponse(Call<StoreMainModel> call, Response<StoreMainModel> response) {
                 if (dialog != null)
-                   AppProgressDialog.hide(dialog);
+                    AppProgressDialog.hide(dialog);
                 WebServiceResponse.handleResponse(response, webResponse);
             }
 
@@ -100,6 +101,27 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<CategoryMainModal> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getCategoryWiseData(final Dialog dialog, final Call<CategoryWiseMainModal> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<CategoryWiseMainModal>() {
+            @Override
+            public void onResponse(Call<CategoryWiseMainModal> call, Response<CategoryWiseMainModal> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<CategoryWiseMainModal> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());

@@ -26,8 +26,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activities.WelcomeActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
-        <activity android:name=".ui.activities.CouponDetailActivity" />
-        <activity android:name=".ui.activities.StoreDetailActivity" />
+        <activity
+            android:name=".ui.activities.CouponDetailActivity"
+            android:label="Coupon" />
+        <activity
+            android:name=".ui.activities.StoreDetailActivity"
+            android:label="Coupon" />
+        <activity
+            android:name=".ui.activities.CategoryDetailActivity"
+            android:label="" />
     </application>
 
 </manifest>

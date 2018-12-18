@@ -49,7 +49,8 @@
                     android:layout_centerVertical="true"
                     android:padding="10dp"
                     android:src="@drawable/ic_search"
-                    android:tint="@color/white" />
+                    android:tint="@color/white"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -91,6 +92,7 @@
                         android:text="Snapdeal.com"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
+
                 </LinearLayout>
 
                 <android.support.design.widget.TabLayout
@@ -101,6 +103,7 @@
                     app:tabIndicatorColor="@color/lightBlue"
                     app:tabMode="fixed"
                     app:tabTextColor="@color/white" />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -116,5 +119,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
     </LinearLayout>
 </RelativeLayout>

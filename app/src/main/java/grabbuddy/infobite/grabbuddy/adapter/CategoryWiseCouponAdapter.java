@@ -8,23 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
-import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
-import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
+import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseDatum;
 
 
-public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHolder> {
+public class CategoryWiseCouponAdapter extends RecyclerView.Adapter<CategoryWiseCouponAdapter.MyViewHolder> {
 
-    private List<Datum> reviewModelList;
+    private List<CategoryWiseDatum> reviewModelList;
     private Context context;
     private View.OnClickListener onClickListener;
 
-    public OffersAdapter(List<Datum> reviewModelList, Context context, View.OnClickListener onClickListener) {
+    public CategoryWiseCouponAdapter(List<CategoryWiseDatum> reviewModelList, Context context, View.OnClickListener onClickListener) {
         this.reviewModelList = reviewModelList;
         this.context = context;
         this.onClickListener = onClickListener;
@@ -32,14 +30,15 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_top_stores, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_category_wise_coupon, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.textView.setText(reviewModelList.get(position).getCompanyName());
-        Picasso.with(context).load(Constant.IMAGE + reviewModelList.get(position).getCompanyLogo()).into(holder.offer_img);
+        holder.tvDescription.setText(reviewModelList.get(position).getCouponOffer());
+        holder.tvExpires.setText("Expires" + " " + reviewModelList.get(position).getEndDate());
+
         holder.cardView.setTag(position);
         holder.cardView.setOnClickListener(onClickListener);
     }
@@ -51,15 +50,17 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        public ImageView offer_img, imgExclusive;
+        private TextView tvDescription, tvExpires;
         private CardView cardView;
-        public ImageView offer_img;
-        private TextView textView;
 
         public MyViewHolder(View view) {
             super(view);
             cardView = view.findViewById(R.id.cardView);
+            imgExclusive = view.findViewById(R.id.imgExclusive);
             offer_img = view.findViewById(R.id.img);
-            textView = view.findViewById(R.id.tvName);
+            tvDescription = view.findViewById(R.id.tvDescription);
+            tvExpires = view.findViewById(R.id.tvExpires);
 
         }
 
