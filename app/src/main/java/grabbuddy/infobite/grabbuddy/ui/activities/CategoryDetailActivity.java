@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
-import grabbuddy.infobite.grabbuddy.adapter.StoreWiseCouponAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
@@ -40,8 +38,9 @@ import grabbuddy.infobite.grabbuddy.utils.AppPreference;
 import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
-public class StoreDetailActivity extends BaseActivity implements View.OnClickListener {
+public class CategoryDetailActivity extends BaseActivity implements View.OnClickListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -159,7 +158,7 @@ public class StoreDetailActivity extends BaseActivity implements View.OnClickLis
 
     private void categoryWiseCouponApi() {
         if (cd.isNetworkAvailable()) {
-            RetrofitService.getCategoryWiseData(new Dialog(mContext), retrofitApiClient.companyWiseData(strId), new WebResponse() {
+            RetrofitService.getCategoryWiseData(new Dialog(mContext), retrofitApiClient.categoryWiseData(strId), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
                     CategoryWiseMainModal mainModal = (CategoryWiseMainModal) result.body();

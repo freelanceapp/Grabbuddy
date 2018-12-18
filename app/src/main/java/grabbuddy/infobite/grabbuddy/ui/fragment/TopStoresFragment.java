@@ -22,11 +22,14 @@ import grabbuddy.infobite.grabbuddy.adapter.OffersAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryItemList;
 import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitApiClient;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
+import grabbuddy.infobite.grabbuddy.ui.activities.CategoryDetailActivity;
+import grabbuddy.infobite.grabbuddy.ui.activities.StoreDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
@@ -77,7 +80,13 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
             case R.id.tvAllStores:
                 break;
             case R.id.cardView:
-                startActivity(new Intent(mContext, CouponDetailActivity.class));
+                int pos = Integer.parseInt(v.getTag().toString());
+                Datum categoryItem = offersModelArrayList.get(pos);
+                Intent intent = new Intent(mContext, StoreDetailActivity.class);
+                intent.putExtra("id", categoryItem.getCId());
+                intent.putExtra("name", categoryItem.getCompanyName());
+                intent.putExtra("logo", categoryItem.getCompanyLogo());
+                startActivity(intent);
                 break;
         }
     }
@@ -91,33 +100,33 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
     private void allStoreApi() {
         if (cd.isNetworkAvailable()) {
 
-            RetrofitService.getStore(new Dialog(mContext), retrofitApiClient.getStore(), new WebResponse() {
-                @Override
-                public void onResponseSuccess(Response<?> result) {
-                    StoreMainModel storeMainModel = (StoreMainModel) result.body();
-                    assert storeMainModel != null;
-                    offersModelArrayList.clear();
+        RetrofitService.getStore(new Dialog(mContext), retrofitApiClient.getStore(), new WebResponse() {
+            @Override
+            public void onResponseSuccess(Response<?> result) {
+                StoreMainModel storeMainModel = (StoreMainModel) result.body();
+                assert storeMainModel != null;
+                offersModelArrayList.clear();
 
 
-                        offersModelArrayList.addAll(storeMainModel.getData());
+                offersModelArrayList.addAll(storeMainModel.getData());
 
-                        offersAdapter.notifyDataSetChanged();
+                offersAdapter.notifyDataSetChanged();
 
-                        for (int i = 0 ; i < storeMainModel.getData().size() ; i++) {
-                            Log.e("Store Name", ".." + storeMainModel.getData().get(i).getCompanyName());
-                        }
+                for (int i = 0; i < storeMainModel.getData().size(); i++) {
+                    Log.e("Store Name", ".." + storeMainModel.getData().get(i).getCompanyName());
+                }
                             /*if (offerMainModal.getMessage().equals("User is Not Verified")) {
                                // startFragment(Constant.Verification_Fragment, new VerificationFragment(), loginModal.getUser().getPhone());
                                 //activity.finish();
                             }*/
 
-                }
+            }
 
-                @Override
-                public void onResponseFailed(String error) {
-                    Alerts.show(mContext, error);
-                }
-            });
+            @Override
+            public void onResponseFailed(String error) {
+                Alerts.show(mContext, error);
+            }
+        });
 
         } else {
             cd.show(mContext);

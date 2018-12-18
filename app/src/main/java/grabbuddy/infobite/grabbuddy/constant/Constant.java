@@ -5,9 +5,13 @@ import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 
 public class Constant {
     public static final String MY_PREFS_NAME = "Grabbuddy";
+    /*http://grabbuddy.in/androidapi/category-wise-product.php?category_id=1*/
     public static final String BASE_URL = " http://grabbuddy.in/";
     public static final String SIGNUP = "androidapi/register.php?";
     public static final String ALL_CATEGORY = "androidapi/all-cat.php";
+    public static final String CATEGORY_WISE = "androidapi/category-wise-product.php?";
+    public static final String COMPANY_WISE = "androidapi/company-wise-product.php?";
+
     public static final String USER_PROFILE = "api/user-profile.php";
     public static final String LOGIN = "androidapi/login.php";
     public static final String VERIFICATION = "api/user-verification.php";
@@ -43,4 +47,7 @@ public class Constant {
     public static final String CouponFragment = "CouponFragment";
     public static final String DealsFragment = "DealsFragment";
     public static final String StylesStudioFragment = "StylesStudioFragment";
+
+    //Preference
+    public static final String IMAGE_PREF = "img_pref";
 }

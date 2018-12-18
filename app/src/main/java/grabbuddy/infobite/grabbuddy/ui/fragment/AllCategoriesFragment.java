@@ -16,16 +16,12 @@ import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.AllCategoryAdapter;
-import grabbuddy.infobite.grabbuddy.adapter.StylesStudioAdapter;
-import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
-import grabbuddy.infobite.grabbuddy.modal.Coupon;
 import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryItemList;
 import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryMainModal;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
-import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
-import grabbuddy.infobite.grabbuddy.ui.activities.StoreDetailActivity;
+import grabbuddy.infobite.grabbuddy.ui.activities.CategoryDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
@@ -68,7 +64,13 @@ public class AllCategoriesFragment extends BaseFragment implements FragmentChang
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llStore:
-                startActivity(new Intent(mContext, StoreDetailActivity.class));
+                int pos = Integer.parseInt(v.getTag().toString());
+                CategoryItemList categoryItem = itemLists.get(pos);
+                Intent intent = new Intent(mContext, CategoryDetailActivity.class);
+                intent.putExtra("id", categoryItem.getCatId());
+                intent.putExtra("name", categoryItem.getCatName());
+                intent.putExtra("logo", categoryItem.getCatLogo());
+                startActivity(intent);
                 break;
         }
     }
