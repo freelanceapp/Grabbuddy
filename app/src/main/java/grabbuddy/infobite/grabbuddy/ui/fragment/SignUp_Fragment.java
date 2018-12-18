@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,146 +40,132 @@ import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
 import retrofit2.Response;
 
 public class SignUp_Fragment extends BaseFragment implements OnClickListener {
-	private static View view;
-	private static EditText firstName, lastName, emailId, mobileNumber, location,
-			password, confirmPassword;
-	private static TextView login;
-	private static Button signUpButton;
-	private static CheckBox terms_conditions;
-	private ProgressBar progressBar;
-	String getFirstName, getLastName, getUserName, getEmailId, getPassword, getMobileNumber, getConfirmPassword;
+    private static View view;
+    private static EditText firstName, lastName, emailId, mobileNumber, location,
+            password, confirmPassword;
+    private static TextView login;
+    private static Button signUpButton;
+    private static CheckBox terms_conditions;
+    private ProgressBar progressBar;
+    String getFirstName, getLastName, getUserName, getEmailId, getPassword, getMobileNumber, getConfirmPassword;
 
-	public SignUp_Fragment() {
+    public SignUp_Fragment() {
 
-	}
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.signup_layout, container, false);
-		initViews();
-		setListeners();
-		return view;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.signup_layout, container, false);
+        initViews();
+        setListeners();
+        return view;
+    }
 
-	// Initialize all views
-	private void initViews() {
-		mContext = getActivity();
-		retrofitRxClient = RetrofitService.getRxClient();
-		retrofitApiClient = RetrofitService.getRetrofit();
-		cd = new ConnectionDetector(mContext);
-		progressBar = (ProgressBar) view.findViewById(R.id.progress);
+    // Initialize all views
+    private void initViews() {
+        mContext = getActivity();
+        retrofitRxClient = RetrofitService.getRxClient();
+        retrofitApiClient = RetrofitService.getRetrofit();
+        cd = new ConnectionDetector(mContext);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
-		firstName = (EditText) view.findViewById(R.id.firstName);
-		lastName = (EditText) view.findViewById(R.id.lastName);
-		emailId = (EditText) view.findViewById(R.id.userEmailId);
-		mobileNumber = (EditText) view.findViewById(R.id.mobileNumber);
-		password = (EditText) view.findViewById(R.id.password);
-		confirmPassword = (EditText) view.findViewById(R.id.confirmPassword);
-		signUpButton = (Button) view.findViewById(R.id.signUpBtn);
-		login = (TextView) view.findViewById(R.id.already_user);
-		terms_conditions = (CheckBox) view.findViewById(R.id.terms_conditions);
+        firstName = (EditText) view.findViewById(R.id.firstName);
+        lastName = (EditText) view.findViewById(R.id.lastName);
+        emailId = (EditText) view.findViewById(R.id.userEmailId);
+        mobileNumber = (EditText) view.findViewById(R.id.mobileNumber);
+        password = (EditText) view.findViewById(R.id.password);
+        confirmPassword = (EditText) view.findViewById(R.id.confirmPassword);
+        signUpButton = (Button) view.findViewById(R.id.signUpBtn);
+        login = (TextView) view.findViewById(R.id.already_user);
+        terms_conditions = (CheckBox) view.findViewById(R.id.terms_conditions);
 
-		// Setting text selector over textviews
-		@SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
-		try {
-			ColorStateList csl = ColorStateList.createFromXml(getResources(),
-					xrp);
+        // Setting text selector over textviews
+        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        try {
+            ColorStateList csl = ColorStateList.createFromXml(getResources(),
+                    xrp);
 
-			login.setTextColor(csl);
-			terms_conditions.setTextColor(csl);
-		} catch (Exception e) {
-		}
-	}
+            login.setTextColor(csl);
+            terms_conditions.setTextColor(csl);
+        } catch (Exception e) {
+        }
+    }
 
-	// Set Listeners
-	private void setListeners() {
-		signUpButton.setOnClickListener(this);
-		login.setOnClickListener(this);
-	}
+    // Set Listeners
+    private void setListeners() {
+        signUpButton.setOnClickListener(this);
+        login.setOnClickListener(this);
+    }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.signUpBtn:
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.signUpBtn:
 
-				// Call checkValidation method
-				checkValidation();
-				break;
+                // Call checkValidation method
+                checkValidation();
+                break;
 
-			case R.id.already_user:
+            case R.id.already_user:
 
-				// Replace login fragment
-				new LoginActivity().replaceLoginFragment();
-				break;
-		}
+                // Replace login fragment
+                new LoginActivity().replaceLoginFragment();
+                break;
+        }
 
-	}
+    }
 
-	// Check Validation Method
-	private void checkValidation() {
+    // Check Validation Method
+    private void checkValidation() {
+        // Get all edittext texts
+        getFirstName = firstName.getText().toString();
+        getLastName = lastName.getText().toString();
+        getEmailId = emailId.getText().toString();
+        getMobileNumber = mobileNumber.getText().toString();
+        getPassword = password.getText().toString();
+        getConfirmPassword = confirmPassword.getText().toString();
 
-		// Get all edittext texts
-		getFirstName = firstName.getText().toString();
-		getLastName = lastName.getText().toString();
-		getEmailId = emailId.getText().toString();
-		getMobileNumber = mobileNumber.getText().toString();
-		getPassword = password.getText().toString();
-		getConfirmPassword = confirmPassword.getText().toString();
+        // Pattern match for email id
+        Pattern p = Pattern.compile(Utils.regEx);
+        Matcher m = p.matcher(getEmailId);
 
-		// Pattern match for email id
-		Pattern p = Pattern.compile(Utils.regEx);
-		Matcher m = p.matcher(getEmailId);
+        // Check if all strings are null or not
+        if (getFirstName.equals("") || getFirstName.length() == 0
+                || getLastName.equals("") || getLastName.length() == 0
+                || getEmailId.equals("") || getEmailId.length() == 0
+                || getMobileNumber.equals("") || getMobileNumber.length() == 0
+                || getPassword.equals("") || getPassword.length() == 0
+                || getConfirmPassword.equals("")
+                || getConfirmPassword.length() == 0)
 
-		// Check if all strings are null or not
-		if (getFirstName.equals("") || getFirstName.length() == 0
-				|| getLastName.equals("") || getLastName.length() == 0
-				|| getEmailId.equals("") || getEmailId.length() == 0
-				|| getMobileNumber.equals("") || getMobileNumber.length() == 0
-				|| getPassword.equals("") || getPassword.length() == 0
-				|| getConfirmPassword.equals("")
-				|| getConfirmPassword.length() == 0)
-
-			new CustomToast().Show_Toast(getActivity(), view,
-					"All fields are required.");
-
-			// Check if email id valid or not
-		else if (!m.find())
-			new CustomToast().Show_Toast(getActivity(), view,
-					"Your Email Id is Invalid.");
-
-			// Check if both password should be equal
-		else if (!getConfirmPassword.equals(getPassword))
-			new CustomToast().Show_Toast(getActivity(), view,
-					"Both password doesn't match.");
-
-			// Make sure user should check Terms and Conditions checkbox
-		/*else if (!terms_conditions.isChecked())
-			new CustomToast().Show_Toast(getActivity(), view,
-					"Please select Terms and Conditions.");*/
-
-			// Else do signup or do your stuff
-		else {
-			Toast.makeText(getActivity(), "Do SignUp.", Toast.LENGTH_SHORT).show();
-			signupApi();
-		}
-	}
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "All fields are required.");
+        else if (!m.find())
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Your Email Id is Invalid.");
+        else if (!getConfirmPassword.equals(getPassword))
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Both password doesn't match.");
+        else {
+            signupApi();
+        }
+    }
 
 
-	private void signupApi() {
-		if (cd.isNetworkAvailable()) {
+    private void signupApi() {
+        if (cd.isNetworkAvailable()) {
 
-			RetrofitService.getSignUp(new Dialog(mContext), retrofitApiClient.getSignUp(getFirstName+" "+getLastName,getEmailId,getMobileNumber,getConfirmPassword), new WebResponse() {
-				@Override
-				public void onResponseSuccess(Response<?> result) {
-					SignUpModel sign = (SignUpModel) result.body();
-					assert sign != null;
+            RetrofitService.getSignUp(new Dialog(mContext), retrofitApiClient.getSignUp(getFirstName + " " + getLastName, getEmailId, getMobileNumber, getConfirmPassword), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    SignUpModel sign = (SignUpModel) result.body();
+                    assert sign != null;
 
-					if (sign.getMessage().equals("Successfully Sign Up"))
-                    {
+                    if (sign.getMessage().equals("Successfully Sign Up")) {
                         new LoginActivity().replaceLoginFragment();
 
-                    }else {
+                    } else {
                         Alerts.show(mContext, sign.getMessage());
 
                     }
@@ -189,17 +174,17 @@ public class SignUp_Fragment extends BaseFragment implements OnClickListener {
                                 //activity.finish();
                             }*/
 
-				}
+                }
 
-				@Override
-				public void onResponseFailed(String error) {
-					Alerts.show(mContext, error);
-				}
-			});
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
 
-		} else {
-			cd.show(mContext);
-		}
-	}
+        } else {
+            cd.show(mContext);
+        }
+    }
 
 }

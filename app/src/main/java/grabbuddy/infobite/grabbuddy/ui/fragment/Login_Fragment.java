@@ -56,187 +56,176 @@ import static android.content.Context.MODE_PRIVATE;
 import static grabbuddy.infobite.grabbuddy.constant.Constant.MY_PREFS_NAME;
 
 public class Login_Fragment extends BaseFragment implements OnClickListener {
-	private static View view;
-	private static EditText emailid, password;
-	private static Button loginButton;
-	private static TextView forgotPassword, signUp;
-	private static CheckBox show_hide_password;
-	private static LinearLayout loginLayout;
-	private static Animation shakeAnimation;
-	private static FragmentManager fragmentManager;
-	ProgressBar loginProgress;
-	String getEmailId,getPassword;
-	public Login_Fragment() {
+    private static View view;
+    private static EditText emailid, password;
+    private static Button loginButton;
+    private static TextView forgotPassword, signUp;
+    private static CheckBox show_hide_password;
+    private static LinearLayout loginLayout;
+    private static Animation shakeAnimation;
+    private static FragmentManager fragmentManager;
+    ProgressBar loginProgress;
+    String getEmailId, getPassword;
 
-	}
+    public Login_Fragment() {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.login_layout, container, false);
-		initViews();
-		setListeners();
-		return view;
-	}
+    }
 
-	// Initiate Views
-	private void initViews() {
-		mContext = getActivity();
-		retrofitRxClient = RetrofitService.getRxClient();
-		retrofitApiClient = RetrofitService.getRetrofit();
-		cd = new ConnectionDetector(mContext);
-		fragmentManager = getActivity().getSupportFragmentManager();
-		loginProgress = (ProgressBar)view.findViewById(R.id.loginProgress);
-		emailid = (EditText) view.findViewById(R.id.login_emailid);
-		password = (EditText) view.findViewById(R.id.login_password);
-		loginButton = (Button) view.findViewById(R.id.loginBtn);
-		forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
-		signUp = (TextView) view.findViewById(R.id.createAccount);
-		show_hide_password = (CheckBox) view.findViewById(R.id.show_hide_password);
-		loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.login_layout, container, false);
+        initViews();
+        setListeners();
+        return view;
+    }
 
-		// Load ShakeAnimation
-		shakeAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
+    // Initiate Views
+    private void initViews() {
+        mContext = getActivity();
+        retrofitRxClient = RetrofitService.getRxClient();
+        retrofitApiClient = RetrofitService.getRetrofit();
+        cd = new ConnectionDetector(mContext);
+        fragmentManager = getActivity().getSupportFragmentManager();
+        loginProgress = (ProgressBar) view.findViewById(R.id.loginProgress);
+        emailid = (EditText) view.findViewById(R.id.login_emailid);
+        password = (EditText) view.findViewById(R.id.login_password);
+        loginButton = (Button) view.findViewById(R.id.loginBtn);
+        forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
+        signUp = (TextView) view.findViewById(R.id.createAccount);
+        show_hide_password = (CheckBox) view.findViewById(R.id.show_hide_password);
+        loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
 
-		// Setting text selector over textviews
-		@SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
-		try {
-			ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
-			forgotPassword.setTextColor(csl);
-			show_hide_password.setTextColor(csl);
-			signUp.setTextColor(csl);
-		} catch (Exception e) {
-		}
-	}
+        // Load ShakeAnimation
+        shakeAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
 
-	// Set Listeners
-	private void setListeners() {
-		loginButton.setOnClickListener(this);
-		forgotPassword.setOnClickListener(this);
-		signUp.setOnClickListener(this);
+        // Setting text selector over textviews
+        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        try {
+            ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
+            forgotPassword.setTextColor(csl);
+            show_hide_password.setTextColor(csl);
+            signUp.setTextColor(csl);
+        } catch (Exception e) {
+        }
+    }
 
-		// Set check listener over checkbox for showing and hiding password
-		show_hide_password
-				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+    // Set Listeners
+    private void setListeners() {
+        loginButton.setOnClickListener(this);
+        forgotPassword.setOnClickListener(this);
+        signUp.setOnClickListener(this);
 
-					@Override
-					public void onCheckedChanged(CompoundButton button,
-							boolean isChecked) {
+        // Set check listener over checkbox for showing and hiding password
+        show_hide_password
+                .setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-						// If it is checkec then show password else hide
-						// password
-						if (isChecked) {
+                    @Override
+                    public void onCheckedChanged(CompoundButton button,
+                                                 boolean isChecked) {
 
-							show_hide_password.setText(R.string.hide_pwd);// change checkbox text
-							password.setInputType(InputType.TYPE_CLASS_TEXT);
-							password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());// show password
-						} else {
-							show_hide_password.setText(R.string.show_pwd);// change checkbox text
-							password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-							password.setTransformationMethod(PasswordTransformationMethod.getInstance());// hide password
+                        // If it is checkec then show password else hide
+                        // password
+                        if (isChecked) {
 
-						}
+                            show_hide_password.setText(R.string.hide_pwd);// change checkbox text
+                            password.setInputType(InputType.TYPE_CLASS_TEXT);
+                            password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());// show password
+                        } else {
+                            show_hide_password.setText(R.string.show_pwd);// change checkbox text
+                            password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            password.setTransformationMethod(PasswordTransformationMethod.getInstance());// hide password
 
-					}
-				});
-	}
+                        }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.loginBtn:
-			checkValidation();
+                    }
+                });
+    }
 
-			break;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginBtn:
+                checkValidation();
 
-		case R.id.forgot_password:
+                break;
 
-			// Replace forgot password fragment with animation
-			fragmentManager
-					.beginTransaction()
-					.setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-					.replace(R.id.frameContainer,
-							new ForgotPassword_Fragment(),
-							Utils.ForgotPassword_Fragment).commit();
-			break;
-		case R.id.createAccount:
+            case R.id.forgot_password:
 
-			// Replace signup frgament with animation
-			fragmentManager
-					.beginTransaction()
-					.setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-					.replace(R.id.frameContainer, new SignUp_Fragment(),
-							Utils.SignUp_Fragment).commit();
-			break;
-		}
+                // Replace forgot password fragment with animation
+                fragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        .replace(R.id.frameContainer,
+                                new ForgotPassword_Fragment(),
+                                Utils.ForgotPassword_Fragment).commit();
+                break;
+            case R.id.createAccount:
 
-	}
+                // Replace signup frgament with animation
+                fragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        .replace(R.id.frameContainer, new SignUp_Fragment(),
+                                Utils.SignUp_Fragment).commit();
+                break;
+        }
 
-	// Check Validation before login
-	private void checkValidation() {
-		// Get email id and password
-		getEmailId = emailid.getText().toString();
-		getPassword = password.getText().toString();
-		// Check patter for email id
-		Pattern p = Pattern.compile(Utils.regEx);
-		Matcher m = p.matcher(getEmailId);
-		// Check for both field is empty or not
-		if (getEmailId.equals("") || getEmailId.length() == 0
-				|| getPassword.equals("") || getPassword.length() == 0) {
-			loginLayout.startAnimation(shakeAnimation);
-			new CustomToast().Show_Toast(getActivity(), view, "Enter both credentials.");
-		}
-		// Check if email id is valid or not
-		else if (!m.find())
-			new CustomToast().Show_Toast(getActivity(), view, "Your Email Id is Invalid.");
-		// Else do login and do your stuff
-		else {
-			Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT).show();
-			loginApi();
+    }
 
-		}
-	}
+    // Check Validation before login
+    private void checkValidation() {
+        // Get email id and password
+        getEmailId = emailid.getText().toString();
+        getPassword = password.getText().toString();
+        // Check patter for email id
+        Pattern p = Pattern.compile(Utils.regEx);
+        Matcher m = p.matcher(getEmailId);
+        // Check for both field is empty or not
+        if (getEmailId.equals("") || getEmailId.length() == 0
+                || getPassword.equals("") || getPassword.length() == 0) {
+            loginLayout.startAnimation(shakeAnimation);
+            new CustomToast().Show_Toast(getActivity(), view, "Enter both credentials.");
+        } else if (!m.find())
+            new CustomToast().Show_Toast(getActivity(), view, "Your Email Id is Invalid.");
+        else {
+            loginApi();
+        }
+    }
 
-	private void loginApi() {
-		if (cd.isNetworkAvailable()) {
+    private void loginApi() {
+        if (cd.isNetworkAvailable()) {
 
-			RetrofitService.getLogin(new Dialog(mContext), retrofitApiClient.getLogin(getEmailId,getPassword), new WebResponse() {
-				@Override
-				public void onResponseSuccess(Response<?> result) {
-					LoginModel storeMainModel = (LoginModel) result.body();
-					assert storeMainModel != null;
+            RetrofitService.getLogin(new Dialog(mContext), retrofitApiClient.getLogin(getEmailId, getPassword), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    LoginModel storeMainModel = (LoginModel) result.body();
+                    assert storeMainModel != null;
 
-					if (storeMainModel.getMessage().equals("Login Success"))
-					{
+                    if (storeMainModel.getMessage().equals("Login Success")) {
 
-						SharedPreferences.Editor editor = mContext.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-						editor.putString("user_id", storeMainModel.getRegId());
-						editor.putString("name", storeMainModel.getUserName());
-						editor.putString("email", storeMainModel.getUserEmail());
-						editor.putString("number", storeMainModel.getUserMobile());
-						editor.apply();
-						startActivity(new Intent(getActivity(), MainActivity.class));
-						getActivity().finish();
+                        SharedPreferences.Editor editor = mContext.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                        editor.putString("user_id", storeMainModel.getRegId());
+                        editor.putString("name", storeMainModel.getUserName());
+                        editor.putString("email", storeMainModel.getUserEmail());
+                        editor.putString("number", storeMainModel.getUserMobile());
+                        editor.apply();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
 
-					}else {
-						Alerts.show(mContext,storeMainModel.getMessage());
-					}
-                            /*if (offerMainModal.getMessage().equals("User is Not Verified")) {
-                               // startFragment(Constant.Verification_Fragment, new VerificationFragment(), loginModal.getUser().getPhone());
-                                //activity.finish();
-                            }*/
+                    } else {
+                        Alerts.show(mContext, storeMainModel.getMessage());
+                    }
+                }
 
-				}
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
 
-				@Override
-				public void onResponseFailed(String error) {
-					Alerts.show(mContext, error);
-				}
-			});
-
-		} else {
-			cd.show(mContext);
-		}
-	}
-
+        } else {
+            cd.show(mContext);
+        }
+    }
 }

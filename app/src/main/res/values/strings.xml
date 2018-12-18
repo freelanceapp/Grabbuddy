@@ -53,7 +53,7 @@
     <string name="login">Login</string>
     <string name="passowrd">Password</string>
     <string name="forgot">Forgot Password</string>
-    <string name="newUser">Do not have an account? Sign In</string>
+    <string name="newUser">Do not have an account? Sign Up</string>
     <string name="signUp">Sign Up</string>
     <string name="mobileNumber">Mobile Number</string>
     <string name="confirmPassword">Confirm Password</string>

@@ -9,18 +9,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
+import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 
 public class PopularStoresAdapter extends RecyclerView.Adapter<PopularStoresAdapter.MyViewHolder> {
 
-    private List<Coupon> reviewModelList;
+    private List<Datum> reviewModelList;
     private Context context;
     private View.OnClickListener onClickListener;
 
-    public PopularStoresAdapter(List<Coupon> reviewModelList, Context context, View.OnClickListener onClickListener) {
+    public PopularStoresAdapter(List<Datum> reviewModelList, Context context, View.OnClickListener onClickListener) {
         this.reviewModelList = reviewModelList;
         this.context = context;
         this.onClickListener = onClickListener;
@@ -34,7 +38,10 @@ public class PopularStoresAdapter extends RecyclerView.Adapter<PopularStoresAdap
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.offer_img.setImageResource(reviewModelList.get(position).getImagePopular());
+        Picasso.with(context)
+                .load(Constant.IMAGE + reviewModelList.get(position).getCompanyLogo())
+                .placeholder(R.drawable.app_logo_b)
+                .into(holder.offer_img);
         holder.cardView.setTag(position);
         holder.cardView.setOnClickListener(onClickListener);
     }
