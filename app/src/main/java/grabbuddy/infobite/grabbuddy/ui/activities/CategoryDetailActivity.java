@@ -45,9 +45,6 @@ public class CategoryDetailActivity extends BaseActivity implements View.OnClick
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Context mContext;
-    private RecyclerView recyclerViewTopOffer;
-    private List<Coupon> todaysOfferArrayList = new ArrayList<>();
-    private TodaysOfferAdapter todaysOfferAdapter;
     private String strId = "", strName = "", strLogo = "";
     private List<CategoryWiseDatum> categoryWiseList = new ArrayList<>();
     private List<CategoryWiseDatum> categoryWiseCodeList = new ArrayList<>();
@@ -67,6 +64,8 @@ public class CategoryDetailActivity extends BaseActivity implements View.OnClick
         if (getIntent() == null)
             return;
 
+        ((ImageView) findViewById(R.id.imgBack)).setOnClickListener(this);
+
         strId = getIntent().getStringExtra("id");
         strName = getIntent().getStringExtra("name");
         strLogo = getIntent().getStringExtra("logo");
@@ -84,21 +83,13 @@ public class CategoryDetailActivity extends BaseActivity implements View.OnClick
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        recyclerViewTopOffer = findViewById(R.id.recyclerViewTopOffer);
-
-        todaysOfferAdapter = new TodaysOfferAdapter(todaysOfferArrayList, mContext, this);
-        recyclerViewTopOffer.setLayoutManager((new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)));
-        recyclerViewTopOffer.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewTopOffer.setAdapter(todaysOfferAdapter);
-        todaysOfferAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.cardView:
-                //startActivity(new Intent(mContext, CouponDetailActivity.class));
+            case R.id.imgBack:
+                finish();
                 break;
         }
     }

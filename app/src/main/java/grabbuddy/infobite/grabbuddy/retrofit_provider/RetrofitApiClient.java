@@ -9,6 +9,8 @@ import grabbuddy.infobite.grabbuddy.modal.api_model.about_model.AboutModel;
 import grabbuddy.infobite.grabbuddy.modal.api_model.faq_model.FAQModel;
 import grabbuddy.infobite.grabbuddy.modal.api_model.privacy_model.PrivacyModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseMainModal;
+import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
+import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -87,5 +89,10 @@ public interface RetrofitApiClient {
     @POST(Constant.FOROGOT_PASSWORD)
     Call<ResponseBody> getShortedList(@Field("user_id") String user_id);
 
+    @GET(Constant.TODAY_DEAL)
+    Call<TodayDealMainModal> todayDealData();
+
+    @GET(Constant.STYLE_STUDIO)
+    Call<StyleStudioMainModal> styleStudio();
 
 }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,12 +24,16 @@ import java.util.TimerTask;
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.PopularStoresAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.SlidingImage_Adapter;
+import grabbuddy.infobite.grabbuddy.adapter.StylesStudioAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
 import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
+import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseDatum;
+import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioDatum;
+import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
@@ -50,8 +55,9 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView recyclerViewPopularStore, recyclerViewTopOffer;
     private TodaysOfferAdapter todaysOfferAdapter;
     private PopularStoresAdapter popularStoresAdapter;
-    private List<Coupon> todaysOfferArrayList = new ArrayList<>();
     private List<Datum> popularStoresArrayList = new ArrayList<>();
+    private List<StyleStudioDatum> stylesList = new ArrayList<>();
+    private StylesStudioAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,23 +122,13 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
 
             }
         });
-
     }
 
     private void init(RecyclerView.LayoutManager layout, RecyclerView.LayoutManager layoutB) {
         recyclerViewPopularStore = rootView.findViewById(R.id.recyclerViewPopularStore);
         recyclerViewTopOffer = rootView.findViewById(R.id.recyclerViewTopOffer);
 
-        String[] desc = {mContext.getString(R.string.desc_a), mContext.getString(R.string.desc_b),
-                mContext.getString(R.string.desc_c), mContext.getString(R.string.desc_d),
-                mContext.getString(R.string.desc_a),
-                mContext.getString(R.string.desc_b)};
-
-        for (int i = 0; i < desc.length; i++) {
-            todaysOfferArrayList.add(new Coupon(desc[i], Constant.images[i], Constant.exclusiveImage[i]));
-        }
-
-        todaysOfferAdapter = new TodaysOfferAdapter(todaysOfferArrayList, mContext, this);
+        todaysOfferAdapter = new TodaysOfferAdapter(stylesList, mContext, this);
         recyclerViewTopOffer.setLayoutManager(layout);
         recyclerViewTopOffer.setItemAnimator(new DefaultItemAnimator());
         recyclerViewTopOffer.setAdapter(todaysOfferAdapter);
@@ -143,6 +139,7 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         recyclerViewPopularStore.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPopularStore.setAdapter(popularStoresAdapter);
         popularStoreApi();
+        styleStudioApi();
     }
 
     @Override
@@ -158,7 +155,15 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.cardView:
-                startActivity(new Intent(mContext, CouponDetailActivity.class));
+                /*int posA = Integer.parseInt(v.getTag().toString());
+                StyleStudioDatum studioDatum = stylesList.get(posA);
+                CategoryWiseDatum wiseDatum= new CategoryWiseDatum();
+                wiseDatum.setCouponName();
+                Intent intentA = new Intent(mContext, CouponDetailActivity.class);
+                intentA.putExtra("coupon_detail", (Parcelable) studioDatum);
+                startActivity(intentA);*/
+
+                Alerts.show(mContext, "...in progress");
                 break;
         }
     }
@@ -186,4 +191,25 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
+    private void styleStudioApi() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.getStyleStudio(new Dialog(mContext), retrofitApiClient.styleStudio(), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    StyleStudioMainModal mainModal = (StyleStudioMainModal) result.body();
+                    if (mainModal == null)
+                        return;
+                    stylesList.addAll(mainModal.getData());
+                    todaysOfferAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
+        } else {
+            cd.show(mContext);
+        }
+    }
 }

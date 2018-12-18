@@ -40,12 +40,14 @@
                 android:paddingRight="16dp">
 
                 <TextView
+                    android:id="@+id/tvCredit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="dit : JUGDETV46BS8"
                     android:textStyle="normal" />
 
                 <TextView
+                    android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -57,7 +59,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvGetIt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/green"

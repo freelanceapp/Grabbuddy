@@ -1,5 +1,8 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bakerj.infinitecards.AnimationTransformer;
 import com.bakerj.infinitecards.CardItem;
@@ -17,46 +22,45 @@ import com.bakerj.infinitecards.transformer.DefaultTransformerToBack;
 import com.bakerj.infinitecards.transformer.DefaultTransformerToFront;
 import com.bakerj.infinitecards.transformer.DefaultZIndexTransformerCommon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.CardViewAdapter;
+import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealDataList;
+import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
+import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
+import retrofit2.Response;
 
 public class DealsFragment extends BaseFragment implements View.OnClickListener {
 
     private View rootView;
     private InfiniteCardView mCardView;
-    private BaseAdapter mAdapter2;
-    private int[] resId = {R.mipmap.pic1, R.mipmap.pic2, R.mipmap.pic3, R.mipmap
-            .pic4, R.mipmap.pic5};
+    private CardViewAdapter mAdapter2;
+    private List<TodayDealDataList> dealDataLists = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rootView = inflater.inflate(R.layout.fragment_deals, container, false);
         mContext = getActivity();
+        cd = new ConnectionDetector(mContext);
+        retrofitApiClient = RetrofitService.getRetrofit();
         init();
         return rootView;
     }
 
     private void init() {
-        mCardView = rootView.findViewById(R.id.view);
-        mAdapter2 = new CardViewAdapter(resId);
-        mCardView.setAdapter(mAdapter2);
-        mCardView.setCardSizeRatio(1.0f);
-        mCardView.setCardAnimationListener(new InfiniteCardView.CardAnimationListener() {
-            @Override
-            public void onAnimationStart() {
-                Alerts.show(mContext,"Animation Start");
-            }
+        mCardView = rootView.findViewById(R.id.viewInfinite);
 
-            @Override
-            public void onAnimationEnd() {
-                Alerts.show(mContext,"Animation End");
-            }
-        });
-
-        initButton();
+        if (getArguments() == null)
+            return;
+        dealDataLists = getArguments().getParcelableArrayList("deals_list");
+        setCardItems(dealDataLists);
     }
 
     private void initButton() {
@@ -76,8 +80,14 @@ public class DealsFragment extends BaseFragment implements View.OnClickListener 
                 setStyle3();
                 mCardView.bringCardToFront(1);
                 break;
-            case R.id.close:
-                //startActivity(new Intent(mContext, TopStoresFragment.class));
+            case R.id.cardViewDeal:
+                int pos = Integer.parseInt(v.getTag().toString());
+                TodayDealDataList dealData = dealDataLists.get(pos);
+                String strUrl = dealData.getPrdctLink();
+                if (!strUrl.startsWith("http://") && !strUrl.startsWith("https://"))
+                    strUrl = "http://" + strUrl;
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUrl));
+                startActivity(browserIntent);
                 break;
         }
     }
@@ -135,5 +145,23 @@ public class DealsFragment extends BaseFragment implements View.OnClickListener 
 
             }
         });
+    }
+
+    private void setCardItems(List<TodayDealDataList> dataLists) {
+        mAdapter2 = new CardViewAdapter(mContext, dataLists, this);
+        mCardView.setAdapter(mAdapter2);
+        mCardView.setCardSizeRatio(1.1f);
+        mCardView.setCardAnimationListener(new InfiniteCardView.CardAnimationListener() {
+            @Override
+            public void onAnimationStart() {
+                //Alerts.show(mContext, "Animation Start");
+            }
+
+            @Override
+            public void onAnimationEnd() {
+                //Alerts.show(mContext, "Animation End");
+            }
+        });
+        initButton();
     }
 }

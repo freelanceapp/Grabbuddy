@@ -1,9 +1,11 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -36,9 +39,16 @@ import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealDataList;
+import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.MainActivity;
+import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
+import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
 import grabbuddy.infobite.grabbuddy.utils.FragmentUtils;
+import retrofit2.Response;
 
 public class HomeFragment extends BaseFragment implements FragmentChangeListener, View.OnClickListener {
 
@@ -46,14 +56,17 @@ public class HomeFragment extends BaseFragment implements FragmentChangeListener
     private FragmentManager fragmentManager;
     private Activity activity;
     private int fragmentId = 0;
+    private List<TodayDealDataList> dealDataLists = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        mContext = getActivity();
         activity = getActivity();
+        mContext = getActivity();
+        cd = new ConnectionDetector(mContext);
+        retrofitApiClient = RetrofitService.getRetrofit();
 
         init();
         return rootView;
@@ -66,6 +79,8 @@ public class HomeFragment extends BaseFragment implements FragmentChangeListener
         rootView.findViewById(R.id.llStylesStudio).setOnClickListener(this);
 
         changeFragment(new CouponsFragment(), Constant.CouponFragment);
+
+        todayDealApi();
     }
 
     @Override
@@ -88,7 +103,11 @@ public class HomeFragment extends BaseFragment implements FragmentChangeListener
                 break;
             case R.id.llDeals:
                 if (fragmentId != 1) {
-                    changeFragment(new DealsFragment(), Constant.DealsFragment);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("deals_list", (ArrayList<? extends Parcelable>) dealDataLists);
+                    DealsFragment dealsFragment = new DealsFragment();
+                    dealsFragment.setArguments(bundle);
+                    changeFragment(dealsFragment, Constant.DealsFragment);
                 }
                 fragmentId = 1;
                 rootView.findViewById(R.id.viewCoupon).setVisibility(View.GONE);
@@ -108,14 +127,33 @@ public class HomeFragment extends BaseFragment implements FragmentChangeListener
     }
 
     private void changeFragment(Fragment fragment, String strTag) {
-        /*fragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_home_items, fragment,
-                        strTag).commit();*/
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.right_enter, R.anim.left_out);
         transaction.replace(R.id.frame_home_items, fragment, strTag);
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    private void todayDealApi() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.getTodayDeal(new Dialog(mContext), retrofitApiClient.todayDealData(), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    TodayDealMainModal dealMainModal = (TodayDealMainModal) result.body();
+                    dealDataLists.clear();
+                    if (dealMainModal == null)
+                        return;
+                    dealDataLists.addAll(dealMainModal.getData());
+                }
+
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
+        } else {
+            cd.show(mContext);
+        }
+    }
+
 }

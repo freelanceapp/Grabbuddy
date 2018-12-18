@@ -19,6 +19,7 @@
             app:cardCornerRadius="6dp">
 
             <TextView
+                android:id="@+id/tvOff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -35,6 +36,7 @@
             android:src="@mipmap/pic1" />
 
         <TextView
+            android:id="@+id/tvCompanyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Flipkart"
@@ -42,6 +44,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -57,17 +60,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:padding="6dp"
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/tvOfferPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Rs.4000"
+                android:text="Rs.50000"
                 android:textColor="#000"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -75,16 +80,20 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:id="@+id/tvRealPrice"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:text="Rs.5000"
-                    android:textColor="#ae2323" />
+                    android:text="Rs.50000"
+                    android:textColor="#ae2323"
+                    android:textSize="16sp" />
 
                 <View
-                    android:layout_width="60dp"
-                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/tvRealPrice"
+                    android:layout_alignRight="@+id/tvRealPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:background="#ae2323" />
@@ -93,13 +102,16 @@
         </LinearLayout>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cardViewDeal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="18dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="18dp"
             android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:textSize="16sp"
             app:cardBackgroundColor="@color/lightBlue"
             app:cardCornerRadius="20dp"
             app:cardElevation="2dp">
