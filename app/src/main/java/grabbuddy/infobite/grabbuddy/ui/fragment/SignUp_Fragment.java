@@ -1,6 +1,7 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
@@ -29,9 +30,17 @@ import java.util.regex.Pattern;
 import grabbuddy.infobite.grabbuddy.CustomToast;
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.Utils;
+import grabbuddy.infobite.grabbuddy.modal.api_model.SignUpModel;
+import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.LoginActivity;
+import grabbuddy.infobite.grabbuddy.utils.Alerts;
+import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
+import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
+import retrofit2.Response;
 
-public class SignUp_Fragment extends Fragment implements OnClickListener {
+public class SignUp_Fragment extends BaseFragment implements OnClickListener {
 	private static View view;
 	private static EditText firstName, lastName, emailId, mobileNumber, location,
 			password, confirmPassword;
@@ -56,6 +65,10 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 
 	// Initialize all views
 	private void initViews() {
+		mContext = getActivity();
+		retrofitRxClient = RetrofitService.getRxClient();
+		retrofitApiClient = RetrofitService.getRetrofit();
+		cd = new ConnectionDetector(mContext);
 		progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
 		firstName = (EditText) view.findViewById(R.id.firstName);
@@ -142,14 +155,50 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 					"Both password doesn't match.");
 
 			// Make sure user should check Terms and Conditions checkbox
-		else if (!terms_conditions.isChecked())
+		/*else if (!terms_conditions.isChecked())
 			new CustomToast().Show_Toast(getActivity(), view,
-					"Please select Terms and Conditions.");
+					"Please select Terms and Conditions.");*/
 
 			// Else do signup or do your stuff
 		else {
 			Toast.makeText(getActivity(), "Do SignUp.", Toast.LENGTH_SHORT).show();
+			signupApi();
+		}
+	}
 
+
+	private void signupApi() {
+		if (cd.isNetworkAvailable()) {
+
+			RetrofitService.getSignUp(new Dialog(mContext), retrofitApiClient.getSignUp(getFirstName+" "+getLastName,getEmailId,getMobileNumber,getConfirmPassword), new WebResponse() {
+				@Override
+				public void onResponseSuccess(Response<?> result) {
+					SignUpModel sign = (SignUpModel) result.body();
+					assert sign != null;
+
+					if (sign.getMessage().equals("Successfully Sign Up"))
+                    {
+                        new LoginActivity().replaceLoginFragment();
+
+                    }else {
+                        Alerts.show(mContext, sign.getMessage());
+
+                    }
+                            /*if (offerMainModal.getMessage().equals("User is Not Verified")) {
+                               // startFragment(Constant.Verification_Fragment, new VerificationFragment(), loginModal.getUser().getPhone());
+                                //activity.finish();
+                            }*/
+
+				}
+
+				@Override
+				public void onResponseFailed(String error) {
+					Alerts.show(mContext, error);
+				}
+			});
+
+		} else {
+			cd.show(mContext);
 		}
 	}
 

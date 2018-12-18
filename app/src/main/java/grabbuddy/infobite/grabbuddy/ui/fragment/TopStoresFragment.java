@@ -30,6 +30,7 @@ import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
+import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
 import retrofit2.Response;
 
 public class TopStoresFragment extends BaseFragment implements FragmentChangeListener, View.OnClickListener {
@@ -46,6 +47,8 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
         mContext = getActivity();
         retrofitRxClient = RetrofitService.getRxClient();
         retrofitApiClient = RetrofitService.getRetrofit();
+        cd = new ConnectionDetector(mContext);
+
         init((new GridLayoutManager(mContext, 2)));
         return rootView;
     }
@@ -86,7 +89,7 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
 
 
     private void allStoreApi() {
-        //if (cd.isNetworkAvailable()) {
+        if (cd.isNetworkAvailable()) {
 
             RetrofitService.getStore(new Dialog(mContext), retrofitApiClient.getStore(), new WebResponse() {
                 @Override
@@ -116,9 +119,9 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
                 }
             });
 
-       /* } else {
+        } else {
             cd.show(mContext);
-        }*/
+        }
     }
 
 

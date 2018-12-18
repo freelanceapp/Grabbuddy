@@ -1,5 +1,6 @@
 package grabbuddy.infobite.grabbuddy.ui.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,11 @@ import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 import grabbuddy.infobite.grabbuddy.utils.FragmentUtils;
 
+import static grabbuddy.infobite.grabbuddy.constant.Constant.MY_PREFS_NAME;
+import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_EMAIL;
+import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_ID;
+import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_MOBILE;
+import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_NAME;
 import static grabbuddy.infobite.grabbuddy.utils.FragmentUtils.HOME_FRAGMENT;
 import static grabbuddy.infobite.grabbuddy.utils.FragmentUtils.HOME_ID;
 
@@ -29,6 +35,7 @@ public class MainActivity extends BaseActivity
     private FragmentUtils fragmentUtils;
     private int currentPos = 0;
     private NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,13 @@ public class MainActivity extends BaseActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        USER_ID = prefs.getString("user_id", "0");//"No name defined" is the default value.
+        USER_NAME = prefs.getString("name", "abc"); //0 is the default value.
+        USER_MOBILE = prefs.getString("number","123");
+        USER_EMAIL = prefs.getString("email","abc@gmail.com");
+
     }
 
     @Override
@@ -129,7 +143,7 @@ public class MainActivity extends BaseActivity
                 return true;
             item.setChecked(true);
             currentPos = 4;
-            setTitle("Feedback");
+            setTitle("FAQ");
             fragmentUtils.inflateFragment(null, FragmentUtils.FEEDBACK,
                     FragmentUtils.FEEDBACK_FRAGMENT, false);
         } else if (id == R.id.privacy) {
@@ -156,15 +170,15 @@ public class MainActivity extends BaseActivity
             setTitle("About Us");
             fragmentUtils.inflateFragment(null, FragmentUtils.ABOUT,
                     FragmentUtils.ABOUT_FRAGMENT, false);
-        } else if (id == R.id.contact_us) {
+        }/* else if (id == R.id.contact_us) {
             if (currentPos == 8)
                 return true;
             item.setChecked(true);
             currentPos = 8;
             setTitle("Contact Us");
             fragmentUtils.inflateFragment(null, FragmentUtils.CONTACT_US,
-                    FragmentUtils.CONTACT_US_FRAGMENT, false);
-        } else if (id == R.id.share) {
+                    FragmentUtils.CONTACT_US_FRAGMENT, false);*/
+         else if (id == R.id.share) {
             if (currentPos == 9)
                 return true;
             item.setChecked(true);

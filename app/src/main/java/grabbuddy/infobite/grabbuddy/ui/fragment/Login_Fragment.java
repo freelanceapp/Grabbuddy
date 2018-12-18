@@ -1,6 +1,7 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -40,12 +41,21 @@ import java.util.regex.Pattern;
 import grabbuddy.infobite.grabbuddy.CustomToast;
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.Utils;
+import grabbuddy.infobite.grabbuddy.modal.api_model.LoginModel;
+import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.MainActivity;
 import grabbuddy.infobite.grabbuddy.ui.activities.WelcomeActivity;
+import grabbuddy.infobite.grabbuddy.utils.Alerts;
+import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
+import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static grabbuddy.infobite.grabbuddy.constant.Constant.MY_PREFS_NAME;
 
-public class Login_Fragment extends Fragment implements OnClickListener {
+public class Login_Fragment extends BaseFragment implements OnClickListener {
 	private static View view;
 	private static EditText emailid, password;
 	private static Button loginButton;
@@ -71,6 +81,10 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 	// Initiate Views
 	private void initViews() {
+		mContext = getActivity();
+		retrofitRxClient = RetrofitService.getRxClient();
+		retrofitApiClient = RetrofitService.getRetrofit();
+		cd = new ConnectionDetector(mContext);
 		fragmentManager = getActivity().getSupportFragmentManager();
 		loginProgress = (ProgressBar)view.findViewById(R.id.loginProgress);
 		emailid = (EditText) view.findViewById(R.id.login_emailid);
@@ -78,20 +92,16 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		loginButton = (Button) view.findViewById(R.id.loginBtn);
 		forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
 		signUp = (TextView) view.findViewById(R.id.createAccount);
-		show_hide_password = (CheckBox) view
-				.findViewById(R.id.show_hide_password);
+		show_hide_password = (CheckBox) view.findViewById(R.id.show_hide_password);
 		loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
 
 		// Load ShakeAnimation
-		shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
-				R.anim.shake);
+		shakeAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
 
 		// Setting text selector over textviews
 		@SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
 		try {
-			ColorStateList csl = ColorStateList.createFromXml(getResources(),
-					xrp);
-
+			ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
 			forgotPassword.setTextColor(csl);
 			show_hide_password.setTextColor(csl);
 			signUp.setTextColor(csl);
@@ -117,22 +127,13 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						// password
 						if (isChecked) {
 
-							show_hide_password.setText(R.string.hide_pwd);// change
-																			// checkbox
-																			// text
-
+							show_hide_password.setText(R.string.hide_pwd);// change checkbox text
 							password.setInputType(InputType.TYPE_CLASS_TEXT);
-							password.setTransformationMethod(HideReturnsTransformationMethod
-									.getInstance());// show password
+							password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());// show password
 						} else {
-							show_hide_password.setText(R.string.show_pwd);// change
-																			// checkbox
-																			// text
-
-							password.setInputType(InputType.TYPE_CLASS_TEXT
-									| InputType.TYPE_TEXT_VARIATION_PASSWORD);
-							password.setTransformationMethod(PasswordTransformationMethod
-									.getInstance());// hide password
+							show_hide_password.setText(R.string.show_pwd);// change checkbox text
+							password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+							password.setTransformationMethod(PasswordTransformationMethod.getInstance());// hide password
 
 						}
 
@@ -176,33 +177,66 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		// Get email id and password
 		getEmailId = emailid.getText().toString();
 		getPassword = password.getText().toString();
-
 		// Check patter for email id
 		Pattern p = Pattern.compile(Utils.regEx);
-
 		Matcher m = p.matcher(getEmailId);
-
 		// Check for both field is empty or not
 		if (getEmailId.equals("") || getEmailId.length() == 0
 				|| getPassword.equals("") || getPassword.length() == 0) {
 			loginLayout.startAnimation(shakeAnimation);
-			new CustomToast().Show_Toast(getActivity(), view,
-					"Enter both credentials.");
-
+			new CustomToast().Show_Toast(getActivity(), view, "Enter both credentials.");
 		}
 		// Check if email id is valid or not
 		else if (!m.find())
-			new CustomToast().Show_Toast(getActivity(), view,
-					"Your Email Id is Invalid.");
+			new CustomToast().Show_Toast(getActivity(), view, "Your Email Id is Invalid.");
 		// Else do login and do your stuff
 		else {
 			Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT).show();
+			loginApi();
 
-			startActivity(new Intent(getActivity(), MainActivity.class));
-			getActivity().finish();
 		}
 	}
 
+	private void loginApi() {
+		if (cd.isNetworkAvailable()) {
 
+			RetrofitService.getLogin(new Dialog(mContext), retrofitApiClient.getLogin(getEmailId,getPassword), new WebResponse() {
+				@Override
+				public void onResponseSuccess(Response<?> result) {
+					LoginModel storeMainModel = (LoginModel) result.body();
+					assert storeMainModel != null;
+
+					if (storeMainModel.getMessage().equals("Login Success"))
+					{
+
+						SharedPreferences.Editor editor = mContext.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+						editor.putString("user_id", storeMainModel.getRegId());
+						editor.putString("name", storeMainModel.getUserName());
+						editor.putString("email", storeMainModel.getUserEmail());
+						editor.putString("number", storeMainModel.getUserMobile());
+						editor.apply();
+						startActivity(new Intent(getActivity(), MainActivity.class));
+						getActivity().finish();
+
+					}else {
+						Alerts.show(mContext,storeMainModel.getMessage());
+					}
+                            /*if (offerMainModal.getMessage().equals("User is Not Verified")) {
+                               // startFragment(Constant.Verification_Fragment, new VerificationFragment(), loginModal.getUser().getPhone());
+                                //activity.finish();
+                            }*/
+
+				}
+
+				@Override
+				public void onResponseFailed(String error) {
+					Alerts.show(mContext, error);
+				}
+			});
+
+		} else {
+			cd.show(mContext);
+		}
+	}
 
 }

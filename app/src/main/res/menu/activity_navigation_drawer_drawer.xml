@@ -18,10 +18,7 @@
             android:title="Steal Deal" />
         <item
             android:id="@+id/feedback"
-            android:title="Feedback" />
-        <item
-            android:id="@+id/contact_us"
-            android:title="Contact Us" />
+            android:title="FAQ" />
         <item
             android:id="@+id/share"
             android:title="Share the App" />

@@ -1,8 +1,13 @@
 package grabbuddy.infobite.grabbuddy.retrofit_provider;
 
 import grabbuddy.infobite.grabbuddy.constant.Constant;
+import grabbuddy.infobite.grabbuddy.modal.api_model.LoginModel;
+import grabbuddy.infobite.grabbuddy.modal.api_model.SignUpModel;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
 import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryMainModal;
+import grabbuddy.infobite.grabbuddy.modal.api_model.about_model.AboutModel;
+import grabbuddy.infobite.grabbuddy.modal.api_model.faq_model.FAQModel;
+import grabbuddy.infobite.grabbuddy.modal.api_model.privacy_model.PrivacyModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -13,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface RetrofitApiClient {
 
@@ -49,9 +55,24 @@ public interface RetrofitApiClient {
     @GET(Constant.IMAGE)
     Call<ResponseBody> getOfferList();
 
-    @GET(Constant.NOTIFICATION_LIST)
-    Call<ResponseBody> getNotificationList();
+    @GET(Constant.POLICY)
+    Call<PrivacyModel> getPolicy();
 
+    @GET(Constant.ABOUT_US)
+    Call<AboutModel> getAbout();
+
+    @GET(Constant.FAQ)
+    Call<FAQModel> getFaq();
+
+    @GET(Constant.SIGNUP)
+    Call<SignUpModel> getSignUp(@Query("user_name") String user_name,
+                                @Query("user_email") String user_email,
+                                @Query("user_mobile") String user_mobile,
+                                @Query("user_password") String user_password);
+
+    @GET(Constant.LOGIN)
+    Call<LoginModel> getLogin(@Query("email") String email,
+                              @Query("password") String password);
 
 
 
