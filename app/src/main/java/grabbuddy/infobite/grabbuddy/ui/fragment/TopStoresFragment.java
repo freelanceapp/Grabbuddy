@@ -60,10 +60,6 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
 
         rootView.findViewById(R.id.tvAllStores).setOnClickListener(this);
 
-       /* for (int i = 0; i < Constant.nameArray.length; i++) {
-            offersModelArrayList.add(new Coupon(Constant.nameArray[i], Constant.drawableArray[i]));
-        }*/
-
         allStoreApi();
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
@@ -99,27 +95,17 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
 
     private void allStoreApi() {
         if (cd.isNetworkAvailable()) {
-
         RetrofitService.getStore(new Dialog(mContext), retrofitApiClient.getStore(), new WebResponse() {
             @Override
             public void onResponseSuccess(Response<?> result) {
                 StoreMainModel storeMainModel = (StoreMainModel) result.body();
                 assert storeMainModel != null;
                 offersModelArrayList.clear();
-
-
                 offersModelArrayList.addAll(storeMainModel.getData());
-
                 offersAdapter.notifyDataSetChanged();
-
                 for (int i = 0; i < storeMainModel.getData().size(); i++) {
                     Log.e("Store Name", ".." + storeMainModel.getData().get(i).getCompanyName());
                 }
-                            /*if (offerMainModal.getMessage().equals("User is Not Verified")) {
-                               // startFragment(Constant.Verification_Fragment, new VerificationFragment(), loginModal.getUser().getPhone());
-                                //activity.finish();
-                            }*/
-
             }
 
             @Override

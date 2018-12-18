@@ -1,5 +1,6 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +27,16 @@ import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
+import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
 import grabbuddy.infobite.grabbuddy.ui.activities.StoreDetailActivity;
+import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
+import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
+import retrofit2.Response;
 
 public class CouponsFragment extends BaseFragment implements View.OnClickListener {
 
@@ -42,13 +51,15 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
     private TodaysOfferAdapter todaysOfferAdapter;
     private PopularStoresAdapter popularStoresAdapter;
     private List<Coupon> todaysOfferArrayList = new ArrayList<>();
-    private List<Coupon> popularStoresArrayList = new ArrayList<>();
+    private List<Datum> popularStoresArrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rootView = inflater.inflate(R.layout.fragment_coupons, container, false);
         mContext = getActivity();
+        retrofitApiClient = RetrofitService.getRetrofit();
+        cd = new ConnectionDetector(mContext);
         init((new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)),
                 (new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)));
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
@@ -121,10 +132,6 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
             todaysOfferArrayList.add(new Coupon(desc[i], Constant.images[i], Constant.exclusiveImage[i]));
         }
 
-        for (int i = 0; i < desc.length; i++) {
-            popularStoresArrayList.add(new Coupon(Constant.images[i]));
-        }
-
         todaysOfferAdapter = new TodaysOfferAdapter(todaysOfferArrayList, mContext, this);
         recyclerViewTopOffer.setLayoutManager(layout);
         recyclerViewTopOffer.setItemAnimator(new DefaultItemAnimator());
@@ -135,18 +142,48 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         recyclerViewPopularStore.setLayoutManager(layoutB);
         recyclerViewPopularStore.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPopularStore.setAdapter(popularStoresAdapter);
-        popularStoresAdapter.notifyDataSetChanged();
+        popularStoreApi();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cardViewPopular:
-                startActivity(new Intent(mContext, StoreDetailActivity.class));
+                int pos = Integer.parseInt(v.getTag().toString());
+                Datum categoryItem = popularStoresArrayList.get(pos);
+                Intent intent = new Intent(mContext, StoreDetailActivity.class);
+                intent.putExtra("id", categoryItem.getCId());
+                intent.putExtra("name", categoryItem.getCompanyName());
+                intent.putExtra("logo", categoryItem.getCompanyLogo());
+                startActivity(intent);
                 break;
             case R.id.cardView:
                 startActivity(new Intent(mContext, CouponDetailActivity.class));
                 break;
         }
     }
+
+    private void popularStoreApi() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.getStore(new Dialog(mContext), retrofitApiClient.getStore(), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    StoreMainModel storeMainModel = (StoreMainModel) result.body();
+                    assert storeMainModel != null;
+                    popularStoresArrayList.clear();
+                    popularStoresArrayList.addAll(storeMainModel.getData());
+                    popularStoresAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
+
+        } else {
+            cd.show(mContext);
+        }
+    }
+
 }
