@@ -36,6 +36,8 @@ import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseDatum;
+import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponDatum;
+import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponModel;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioDatum;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
@@ -61,11 +63,10 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
     private Runnable runnable, imageRunnable;
     private ViewPager mViewPager, pagerSuccess;
     private List<grabbuddy.infobite.grabbuddy.modal.banner_model.Datum> imagesDatumList = new ArrayList<>();
-
     private PopularStoresAdapter popularStoresAdapter;
     private List<Datum> popularStoresArrayList = new ArrayList<>();
     private SlideShowPagerAdapter mSlideShowPagerAdapter;
-    private List<StyleStudioDatum> stylesList = new ArrayList<>();
+    private List<CouponDatum> stylesList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -134,24 +135,21 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         }*/
     }
 
-
-
     private void init(RecyclerView.LayoutManager layout, RecyclerView.LayoutManager layoutB) {
         recyclerViewPopularStore = rootView.findViewById(R.id.recyclerViewPopularStore);
         recyclerViewTopOffer = rootView.findViewById(R.id.recyclerViewTopOffer);
-
         todaysOfferAdapter = new TodaysOfferAdapter(stylesList, mContext, this);
         recyclerViewTopOffer.setLayoutManager(layout);
         recyclerViewTopOffer.setItemAnimator(new DefaultItemAnimator());
         recyclerViewTopOffer.setAdapter(todaysOfferAdapter);
         todaysOfferAdapter.notifyDataSetChanged();
-
         popularStoresAdapter = new PopularStoresAdapter(popularStoresArrayList, mContext, this);
         recyclerViewPopularStore.setLayoutManager(layoutB);
         recyclerViewPopularStore.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPopularStore.setAdapter(popularStoresAdapter);
         popularStoreApi();
-        styleStudioApi();
+        getCoupon1();
+        //styleStudioApi();
     }
 
     @Override
@@ -168,13 +166,13 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.cardView:
                 int posA = Integer.parseInt(v.getTag().toString());
-                StyleStudioDatum studioDatum = stylesList.get(posA);
+                CouponDatum studioDatum = stylesList.get(posA);
                 CategoryWiseDatum wiseDatum = new CategoryWiseDatum();
                 wiseDatum.setCouponOffer("15");
-                wiseDatum.setCouponName(studioDatum.getPrdctName());
+                wiseDatum.setCouponName(studioDatum.getCouponName());
                 wiseDatum.setCouponCode("THE23WJKD");
                 wiseDatum.setCouponDesc("");
-                wiseDatum.setCouponLink(studioDatum.getPrdctLink());
+                wiseDatum.setCouponLink(studioDatum.getCouponLink());
                 Intent intentA = new Intent(mContext, CouponDetailActivity.class);
                 intentA.putExtra("coupon_detail", (Parcelable) wiseDatum);
                 startActivity(intentA);
@@ -212,14 +210,16 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                 public void onResponseSuccess(Response<?> result) {
                     Response<BannerModel> response = (Response<BannerModel>) result;
                     BannerModel imagesModal = response.body();
-                    imagesDatumList.clear();
-                        imagesDatumList.addAll(imagesModal.getData());
+                    //imagesDatumList.clear();
+
+                    imagesDatumList.addAll(imagesModal.getData());
                         //AppAlerts.show(mContext, imagesModal.getMsg());
 
+                    Log.e("Size",".."+imagesModal.getData().size());
+                    Log.e("Size 11",".."+imagesDatumList.get(0).getOfferPicture());
 
-
-                    /*pagerSuccess = (ViewPager) rootView.findViewById(R.id.pagerSuccess);
-                    pagerSuccess.setAdapter(mSlideShowPagerAdapter);*/
+                    pagerSuccess = (ViewPager) rootView.findViewById(R.id.pager);
+                    pagerSuccess.setAdapter(mSlideShowPagerAdapter);
                     mSlideShowPagerAdapter.notifyDataSetChanged();
                 }
 
@@ -234,12 +234,35 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
 
 
 
-    private void styleStudioApi() {
+   /* private void styleStudioApi() {
         if (cd.isNetworkAvailable()) {
             RetrofitService.getStyleStudio(new Dialog(mContext), retrofitApiClient.styleStudio(), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
                     StyleStudioMainModal mainModal = (StyleStudioMainModal) result.body();
+                    if (mainModal == null)
+                        return;
+                    stylesList.addAll(mainModal.getData());
+                    todaysOfferAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
+        } else {
+            cd.show(mContext);
+        }
+    }*/
+
+
+    private void getCoupon1() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.getCoupon(new Dialog(mContext), retrofitApiClient.getCoupon(), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    CouponModel mainModal = (CouponModel) result.body();
                     if (mainModal == null)
                         return;
                     stylesList.addAll(mainModal.getData());

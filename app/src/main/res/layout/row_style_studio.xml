@@ -71,7 +71,8 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             app:cardBackgroundColor="@color/green"
-            app:cardCornerRadius="20dp">
+            app:cardCornerRadius="20dp"
+            android:id="@+id/getBtn">
 
             <TextView
                 android:id="@+id/tvGetIt"

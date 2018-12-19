@@ -36,7 +36,7 @@ public class CategoryWiseCouponAdapter extends RecyclerView.Adapter<CategoryWise
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.tvDescription.setText(reviewModelList.get(position).getCouponOffer());
+        holder.tvDescription.setText(reviewModelList.get(position).getCouponName());
         holder.tvExpires.setText("Expires" + " " + reviewModelList.get(position).getEndDate());
 
         holder.cardView.setTag(position);

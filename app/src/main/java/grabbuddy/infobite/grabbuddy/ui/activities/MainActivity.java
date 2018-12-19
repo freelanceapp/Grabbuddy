@@ -1,5 +1,8 @@
 package grabbuddy.infobite.grabbuddy.ui.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import grabbuddy.infobite.grabbuddy.R;
+import grabbuddy.infobite.grabbuddy.utils.AppPreference;
 import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 import grabbuddy.infobite.grabbuddy.utils.FragmentUtils;
 
@@ -64,36 +68,6 @@ public class MainActivity extends BaseActivity
 
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            /*if (currentPos == 0) {
-                if (isPressedExit) {
-                    super.onBackPressed();
-                } else {
-                    isPressedExit = true;
-                    Toast.makeText(mContext, "Press again to exit.", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            isPressedExit = false;
-                        }
-                    }, 2000);
-                }
-            } else {
-                int backStackCount = fragmentUtils.manager.getBackStackEntryCount();
-                if (backStackCount > 0) {
-                    fragmentUtils.manager.popBackStack();
-                } else {
-                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.home));
-                }
-            }*/
-            finish();
-        }
-    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -184,8 +158,25 @@ public class MainActivity extends BaseActivity
             item.setChecked(true);
             currentPos = 9;
             setTitle("Share the App");
-            fragmentUtils.inflateFragment(null, FragmentUtils.SHARE_APP,
-                    FragmentUtils.SHARE_APP_FRAGMENT, false);
+           /* fragmentUtils.inflateFragment(null, FragmentUtils.SHARE_APP,
+                    FragmentUtils.SHARE_APP_FRAGMENT, false);*/
+            try {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Grab Buddy");
+                String sAux = "\nLet me recommend you this application\n\n";
+                sAux = sAux + "https://play.google.com/store/apps/details?id=the.package.id \n\n";
+                i.putExtra(Intent.EXTRA_TEXT, sAux);
+                startActivity(Intent.createChooser(i, "choose one"));
+            } catch (Exception e) {
+                //e.toString();
+            }
+        }else if (id == R.id.logout) {
+            if (currentPos == 10)
+                return true;
+            item.setChecked(true);
+            currentPos = 10;
+           logout();
         }
 
 
@@ -193,4 +184,56 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    private void logout() {
+        new AlertDialog.Builder(mContext)
+                .setTitle("Logout")
+                .setMessage("Are you sure want to logout ?")
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences.Editor editor = mContext.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                        editor.putString("user_id","0");
+                        editor.apply();
+                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("NO", null)
+                .create()
+                .show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (currentPos == 0) {
+                if (isPressedExit) {
+                    super.onBackPressed();
+                } else {
+                    isPressedExit = true;
+                    Toast.makeText(mContext, "Press again to exit.", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            isPressedExit = false;
+                        }
+                    }, 2000);
+                }
+            } else {
+                int backStackCount = fragmentUtils.manager.getBackStackEntryCount();
+                if (backStackCount > 0) {
+                    fragmentUtils.manager.popBackStack();
+                } else {
+                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.home));
+                }
+            }
+        }
+    }
+
 }

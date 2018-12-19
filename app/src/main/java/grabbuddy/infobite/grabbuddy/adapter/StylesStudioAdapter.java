@@ -1,6 +1,9 @@
 package grabbuddy.infobite.grabbuddy.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,13 +38,24 @@ public class StylesStudioAdapter extends RecyclerView.Adapter<StylesStudioAdapte
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tvName.setText(reviewModelList.get(position).getPrdctName());
         holder.tvCredit.setText("Credit:" + " " + reviewModelList.get(position).getPrdctCredit());
         Picasso.with(context)
                 .load(Constant.IMAGE + reviewModelList.get(position).getPrdctPic())
                 .placeholder(R.drawable.default_img)
                 .into(holder.offer_img);
+
+        holder.getBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String strUrl = reviewModelList.get(position).getPrdctLink();
+                if (!strUrl.startsWith("http://") && !strUrl.startsWith("https://"))
+                    strUrl = "http://" + strUrl;
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUrl));
+                context.startActivity(browserIntent);
+            }
+        });
     }
 
     @Override
@@ -53,12 +67,14 @@ public class StylesStudioAdapter extends RecyclerView.Adapter<StylesStudioAdapte
 
         public ImageView offer_img;
         private TextView tvName, tvCredit;
+        private CardView getBtn;
 
         public MyViewHolder(View view) {
             super(view);
             offer_img = view.findViewById(R.id.img);
             tvName = view.findViewById(R.id.tvName);
             tvCredit = view.findViewById(R.id.tvCredit);
+            getBtn = view.findViewById(R.id.getBtn);
         }
 
         @Override

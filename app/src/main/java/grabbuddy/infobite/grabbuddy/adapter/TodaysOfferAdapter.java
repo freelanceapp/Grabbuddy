@@ -16,16 +16,17 @@ import java.util.List;
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponDatum;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioDatum;
 
 
 public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.MyViewHolder> {
 
-    private List<StyleStudioDatum> reviewModelList;
+    private List<CouponDatum> reviewModelList;
     private Context context;
     private View.OnClickListener onClickListener;
 
-    public TodaysOfferAdapter(List<StyleStudioDatum> reviewModelList, Context context, View.OnClickListener onClickListener) {
+    public TodaysOfferAdapter(List<CouponDatum> reviewModelList, Context context, View.OnClickListener onClickListener) {
         this.reviewModelList = reviewModelList;
         this.context = context;
         this.onClickListener = onClickListener;
@@ -39,7 +40,7 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.tvDescription.setText(reviewModelList.get(position).getPrdctName());
+        holder.tvDescription.setText(reviewModelList.get(position).getCouponName());
 
         String strDate = reviewModelList.get(position).getDateTime();
         holder.tvDateTime.setText(strDate);
@@ -48,7 +49,7 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
         holder.cardView.setOnClickListener(onClickListener);
 
         Picasso.with(context)
-                .load(Constant.IMAGE + reviewModelList.get(position).getPrdctPic())
+                .load(Constant.IMAGE + reviewModelList.get(position).getEditorPick())
                 .placeholder(R.drawable.default_img)
                 .into(holder.offer_img);
     }

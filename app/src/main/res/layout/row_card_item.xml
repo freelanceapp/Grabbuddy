@@ -41,7 +41,9 @@
             android:layout_height="wrap_content"
             android:text="Flipkart"
             android:textColor="@color/darkBlue"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:lines="1"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/tvDescription"
@@ -120,6 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:padding="5dp"
                 android:gravity="center"
                 android:text="SHOP NOW"
                 android:textColor="@color/white" />

@@ -3,6 +3,7 @@ package grabbuddy.infobite.grabbuddy.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-
-
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
-
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.UserImagesDatum;
@@ -48,11 +45,8 @@ public class SlideShowPagerAdapter extends PagerAdapter {
 
         //final ProgressBar progressImage = (ProgressBar) itemView.findViewById(R.id.progressImage);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.image);
-
-        Picasso.with(mContext)
-                .load(Constant.IMAGE + searchArrayList.get(position).getOfferPicture())
-                .placeholder(R.drawable.app_logo_b)
-                .into(imageView);
+        Log.e("Image","..."+searchArrayList.get(position).getOfferPicture());
+        Picasso.with(mContext).load(Constant.IMAGE + searchArrayList.get(position).getOfferPicture()).placeholder(R.drawable.app_logo_b).into(imageView);
         return itemView;
     }
 

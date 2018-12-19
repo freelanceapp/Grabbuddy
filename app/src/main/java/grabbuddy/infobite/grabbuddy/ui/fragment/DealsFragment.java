@@ -150,7 +150,7 @@ public class DealsFragment extends BaseFragment implements View.OnClickListener 
     private void setCardItems(List<TodayDealDataList> dataLists) {
         mAdapter2 = new CardViewAdapter(mContext, dataLists, this);
         mCardView.setAdapter(mAdapter2);
-        mCardView.setCardSizeRatio(1.1f);
+        mCardView.setCardSizeRatio(1.0f);
         mCardView.setCardAnimationListener(new InfiniteCardView.CardAnimationListener() {
             @Override
             public void onAnimationStart() {
