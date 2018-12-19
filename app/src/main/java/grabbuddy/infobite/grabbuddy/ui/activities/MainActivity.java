@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (currentPos == 0) {
+            /*if (currentPos == 0) {
                 if (isPressedExit) {
                     super.onBackPressed();
                 } else {
@@ -90,7 +90,8 @@ public class MainActivity extends BaseActivity
                 } else {
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.home));
                 }
-            }
+            }*/
+            finish();
         }
     }
 

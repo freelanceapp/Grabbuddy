@@ -22,13 +22,17 @@ import java.util.TimerTask;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.PopularStoresAdapter;
+import grabbuddy.infobite.grabbuddy.adapter.SlideShowPagerAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.SlidingImage_Adapter;
 import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.UserImagesDatum;
+import grabbuddy.infobite.grabbuddy.modal.UserImagesModal;
 import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
+import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
@@ -42,17 +46,21 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
 
     private View rootView;
     private CirclePageIndicator indicator;
-    private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private static final Integer[] IMAGES = {R.drawable.img_a, R.drawable.img_b, R.drawable.img_c, R.drawable.img_d};
     private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
     private RecyclerView recyclerViewPopularStore, recyclerViewTopOffer;
     private TodaysOfferAdapter todaysOfferAdapter;
+    private Handler handler, imageHandler;
+    private Runnable runnable, imageRunnable;
+    private ViewPager mViewPager, pagerSuccess;
+    private List<grabbuddy.infobite.grabbuddy.modal.banner_model.Datum> imagesDatumList = new ArrayList<>();
+
     private PopularStoresAdapter popularStoresAdapter;
     private List<Coupon> todaysOfferArrayList = new ArrayList<>();
     private List<Datum> popularStoresArrayList = new ArrayList<>();
-
+    private SlideShowPagerAdapter mSlideShowPagerAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,62 +70,66 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         cd = new ConnectionDetector(mContext);
         init((new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)),
                 (new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)));
-        mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        indicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
-        init1();
 
+        sliderHandler();
+        userImagesApi();
+         mSlideShowPagerAdapter = new SlideShowPagerAdapter(mContext, imagesDatumList);
+        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+        mViewPager.setAdapter(mSlideShowPagerAdapter);
         return rootView;
     }
 
-    private void init1() {
+    /*
+     *  User Image Slider Handler
+     * */
+    private void sliderHandler() {
+        handler = new Handler();
+        imageHandler = new Handler();
 
-        for (int i = 0; i < IMAGES.length; i++)
-            ImagesArray.add(IMAGES[i]);
-
-        mPager.setAdapter(new SlidingImage_Adapter(getActivity(), ImagesArray));
-        indicator.setViewPager(mPager);
-        final float density = getResources().getDisplayMetrics().density;
-        //Set circle indicator radius
-        indicator.setRadius(5 * density);
-
-        NUM_PAGES = IMAGES.length;
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
+        // User images slider
+        runnable = new Runnable() {
+            @Override
             public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
+                slideGalleryPic();
             }
         };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
+        handler.postDelayed(runnable, 5000);
+
+        // Successful marriage user slider
+        imageRunnable = new Runnable() {
             @Override
             public void run() {
-                handler.post(Update);
+                marriageSlide();
             }
-        }, 3000, 3000);
-
-        // Pager listener over indicator
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPage = position;
-            }
-
-            @Override
-            public void onPageScrolled(int pos, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int pos) {
-
-            }
-        });
-
+        };
+        imageHandler.postDelayed(imageRunnable, 5000);
     }
+
+
+    public void slideGalleryPic() {
+        if (mViewPager == null)
+            return;
+        int currentPos = mViewPager.getCurrentItem();
+        currentPos++;
+        if (currentPos != imagesDatumList.size()) {
+            mViewPager.setCurrentItem(currentPos);
+            handler.postDelayed(runnable, 5000);
+        }
+    }
+
+    public void marriageSlide() {
+        if (pagerSuccess == null)
+            return;
+        int successPos = pagerSuccess.getCurrentItem();
+        successPos++;
+        /*if (successPos != successImagesList.size()) {
+            pagerSuccess.setCurrentItem(successPos);
+            imageHandler.postDelayed(imageRunnable, 5000);
+        }*/
+    }
+
+
+
 
     private void init(RecyclerView.LayoutManager layout, RecyclerView.LayoutManager layoutB) {
         recyclerViewPopularStore = rootView.findViewById(R.id.recyclerViewPopularStore);
@@ -185,5 +197,34 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
             cd.show(mContext);
         }
     }
+    /* User images list */
+    private void userImagesApi() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.getBanner(new Dialog(mContext), retrofitApiClient.getBanner(), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    Response<BannerModel> response = (Response<BannerModel>) result;
+                    BannerModel imagesModal = response.body();
+                    imagesDatumList.clear();
+                        imagesDatumList.addAll(imagesModal.getData());
+                        //AppAlerts.show(mContext, imagesModal.getMsg());
+
+
+
+                    /*pagerSuccess = (ViewPager) rootView.findViewById(R.id.pagerSuccess);
+                    pagerSuccess.setAdapter(mSlideShowPagerAdapter);*/
+                    mSlideShowPagerAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
+        }
+
+    }
+
+
 
 }

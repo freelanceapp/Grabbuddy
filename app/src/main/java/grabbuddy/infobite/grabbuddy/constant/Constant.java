@@ -25,6 +25,7 @@ public class Constant {
     public static final String POLICY = "androidapi/privacy.php";
     public static final String ABOUT_US = "androidapi/about.php";
     public static final String FAQ = "androidapi/faq.php";
+    public static final String BANNER = "androidapi/offer-banner.php";
     public static String USER_NAME = "";
     public static String USER_ID = "";
     public static String USER_EMAIL = "";

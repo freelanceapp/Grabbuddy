@@ -20,8 +20,10 @@ import android.widget.TextView;
 
 import grabbuddy.infobite.grabbuddy.PrefManager;
 import grabbuddy.infobite.grabbuddy.R;
+import grabbuddy.infobite.grabbuddy.utils.AppPreference;
+import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -30,17 +32,21 @@ public class WelcomeActivity extends AppCompatActivity {
     private int[] layouts;
     private Button btnSkip, btnNext;
     private PrefManager prefManager;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Checking for first time launch - before calling setContentView()
-        prefManager = new PrefManager(this);
+       /* prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
-        }
+        }*/
+
+        context = this;
+        AppPreference.setBooleanPreference(context,"Welcome",true);
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -119,7 +125,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        prefManager.setFirstTimeLaunch(false);
+        //prefManager.setFirstTimeLaunch(false);
         startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
         finish();
     }

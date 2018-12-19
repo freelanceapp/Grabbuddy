@@ -8,6 +8,7 @@ import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryMainModal;
 import grabbuddy.infobite.grabbuddy.modal.api_model.about_model.AboutModel;
 import grabbuddy.infobite.grabbuddy.modal.api_model.faq_model.FAQModel;
 import grabbuddy.infobite.grabbuddy.modal.api_model.privacy_model.PrivacyModel;
+import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseMainModal;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -64,6 +65,9 @@ public interface RetrofitApiClient {
 
     @GET(Constant.FAQ)
     Call<FAQModel> getFaq();
+
+    @GET(Constant.BANNER)
+    Call<BannerModel> getBanner();
 
     @GET(Constant.SIGNUP)
     Call<SignUpModel> getSignUp(@Query("user_name") String user_name,

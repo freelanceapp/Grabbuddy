@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.ui.fragment.DealsFragment;
+import grabbuddy.infobite.grabbuddy.utils.AppPreference;
 
 import static grabbuddy.infobite.grabbuddy.constant.Constant.MY_PREFS_NAME;
 import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_EMAIL;
@@ -38,9 +39,15 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (USER_ID.equals("0")) {
-                    Intent i = new Intent(SplashScreenActivity.this, WelcomeActivity.class);
-                    startActivity(i);
-                    finish();
+                    if (!AppPreference.getBooleanPreference(mContext,"Welcome")) {
+                        Intent i = new Intent(SplashScreenActivity.this, WelcomeActivity.class);
+                        startActivity(i);
+                        finish();
+                    }else {
+                        Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
                 }else {
                     Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
                     startActivity(i);
