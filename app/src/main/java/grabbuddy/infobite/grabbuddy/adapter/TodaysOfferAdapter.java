@@ -9,19 +9,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
+import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioDatum;
 
 
 public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.MyViewHolder> {
 
-    private List<Coupon> reviewModelList;
+    private List<StyleStudioDatum> reviewModelList;
     private Context context;
     private View.OnClickListener onClickListener;
 
-    public TodaysOfferAdapter(List<Coupon> reviewModelList, Context context, View.OnClickListener onClickListener) {
+    public TodaysOfferAdapter(List<StyleStudioDatum> reviewModelList, Context context, View.OnClickListener onClickListener) {
         this.reviewModelList = reviewModelList;
         this.context = context;
         this.onClickListener = onClickListener;
@@ -35,12 +39,18 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.tvDescription.setText(reviewModelList.get(position).getName());
-        holder.offer_img.setImageResource(reviewModelList.get(position).getImagePopular());
-        holder.imgExclusive.setImageResource(reviewModelList.get(position).getImageOffers());
+        holder.tvDescription.setText(reviewModelList.get(position).getPrdctName());
+
+        String strDate = reviewModelList.get(position).getDateTime();
+        holder.tvDateTime.setText(strDate);
 
         holder.cardView.setTag(position);
         holder.cardView.setOnClickListener(onClickListener);
+
+        Picasso.with(context)
+                .load(Constant.IMAGE + reviewModelList.get(position).getPrdctPic())
+                .placeholder(R.drawable.default_img)
+                .into(holder.offer_img);
     }
 
     @Override
@@ -51,7 +61,7 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView offer_img, imgExclusive;
-        private TextView tvDescription;
+        private TextView tvDescription, tvDateTime;
         private CardView cardView;
 
         public MyViewHolder(View view) {
@@ -60,6 +70,7 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
             imgExclusive = view.findViewById(R.id.imgExclusive);
             offer_img = view.findViewById(R.id.img);
             tvDescription = view.findViewById(R.id.tvDescription);
+            tvDateTime = view.findViewById(R.id.tvDateTime);
 
         }
 

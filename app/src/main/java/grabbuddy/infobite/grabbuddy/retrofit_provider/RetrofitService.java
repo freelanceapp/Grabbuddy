@@ -12,6 +12,8 @@ import grabbuddy.infobite.grabbuddy.modal.api_model.faq_model.FAQModel;
 import grabbuddy.infobite.grabbuddy.modal.api_model.privacy_model.PrivacyModel;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseMainModal;
+import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
+import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
 import grabbuddy.infobite.grabbuddy.utils.AppProgressDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -244,6 +246,26 @@ public class RetrofitService {
         });
     }
 
+    public static void getTodayDeal(final Dialog dialog, final Call<TodayDealMainModal> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<TodayDealMainModal>() {
+            @Override
+            public void onResponse(Call<TodayDealMainModal> call, Response<TodayDealMainModal> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<TodayDealMainModal> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
 
     public static void getBanner(final Dialog dialog, final Call<BannerModel> method, final WebResponse webResponse) {
         if (dialog != null)
@@ -267,6 +289,24 @@ public class RetrofitService {
     }
 
 
+    public static void getStyleStudio(final Dialog dialog, final Call<StyleStudioMainModal> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
 
+        method.enqueue(new Callback<StyleStudioMainModal>() {
+            @Override
+            public void onResponse(Call<StyleStudioMainModal> call, Response<StyleStudioMainModal> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
 
+            @Override
+            public void onFailure(Call<StyleStudioMainModal> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
 }

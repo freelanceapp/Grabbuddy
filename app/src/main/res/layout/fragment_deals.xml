@@ -9,7 +9,7 @@
     tools:context=".ui.fragment.DealsFragment">
 
     <com.bakerj.infinitecards.InfiniteCardView
-        android:id="@+id/view"
+        android:id="@+id/viewInfinite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         infiniteCard:animDuration="1000"
@@ -46,5 +46,14 @@
             android:background="@color/white"
             android:text="next" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Empty data"
+        android:textColor="@color/red"
+        android:visibility="gone" />
 
 </FrameLayout>

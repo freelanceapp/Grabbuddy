@@ -8,7 +8,8 @@
     android:layout_marginRight="28dp"
     android:layout_marginBottom="8dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,12 +23,13 @@
             android:layout_marginTop="24dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="110dp"
-                android:layout_height="110dp"
+                android:layout_height="150dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_d" />
@@ -36,37 +38,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:paddingRight="16dp">
 
                 <TextView
+                    android:id="@+id/tvCredit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="dit : JUGDETV46BS8"
-                    android:textStyle="normal" />
+                    android:padding="8dp"
+                    android:textColor="@color/gray_d"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="Kodak 80cm (32 inches) 32HDXSMARTTV (Black color)"
-                    android:textStyle="normal" />
+                    android:textColor="@color/gray_a"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/green"
-            android:gravity="center"
-            android:padding="14dp"
-            android:text="Get It Now"
-            android:textColor="@color/white"
-            android:textSize="16dp"
-            android:textStyle="normal" />
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardBackgroundColor="@color/green"
+            app:cardCornerRadius="20dp">
+
+            <TextView
+                android:id="@+id/tvGetIt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="28dp"
+                android:paddingTop="8dp"
+                android:paddingRight="28dp"
+                android:paddingBottom="8dp"
+                android:text="Get It Now!"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
