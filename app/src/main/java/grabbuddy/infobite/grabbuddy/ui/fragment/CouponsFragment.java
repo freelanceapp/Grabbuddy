@@ -57,7 +57,6 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
     private PopularStoresAdapter popularStoresAdapter;
     private List<Datum> popularStoresArrayList = new ArrayList<>();
     private List<StyleStudioDatum> stylesList = new ArrayList<>();
-    private StylesStudioAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -155,15 +154,17 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.cardView:
-                /*int posA = Integer.parseInt(v.getTag().toString());
+                int posA = Integer.parseInt(v.getTag().toString());
                 StyleStudioDatum studioDatum = stylesList.get(posA);
-                CategoryWiseDatum wiseDatum= new CategoryWiseDatum();
-                wiseDatum.setCouponName();
+                CategoryWiseDatum wiseDatum = new CategoryWiseDatum();
+                wiseDatum.setCouponOffer("15");
+                wiseDatum.setCouponName(studioDatum.getPrdctName());
+                wiseDatum.setCouponCode("THE23WJKD");
+                wiseDatum.setCouponDesc("");
+                wiseDatum.setCouponLink(studioDatum.getPrdctLink());
                 Intent intentA = new Intent(mContext, CouponDetailActivity.class);
-                intentA.putExtra("coupon_detail", (Parcelable) studioDatum);
-                startActivity(intentA);*/
-
-                Alerts.show(mContext, "...in progress");
+                intentA.putExtra("coupon_detail", (Parcelable) wiseDatum);
+                startActivity(intentA);
                 break;
         }
     }

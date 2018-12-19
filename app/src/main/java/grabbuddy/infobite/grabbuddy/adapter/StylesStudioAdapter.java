@@ -37,7 +37,7 @@ public class StylesStudioAdapter extends RecyclerView.Adapter<StylesStudioAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.tvName.setText(reviewModelList.get(position).getPrdctName());
-        holder.tvCredit.setText(reviewModelList.get(position).getPrdctCredit());
+        holder.tvCredit.setText("Credit:" + " " + reviewModelList.get(position).getPrdctCredit());
         Picasso.with(context)
                 .load(Constant.IMAGE + reviewModelList.get(position).getPrdctPic())
                 .placeholder(R.drawable.default_img)

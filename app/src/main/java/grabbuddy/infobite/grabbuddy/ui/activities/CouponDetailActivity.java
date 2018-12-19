@@ -38,7 +38,6 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
         ((ImageView) findViewById(R.id.imgBack)).setOnClickListener(this);
 
         final CategoryWiseDatum wiseDatum = getIntent().getParcelableExtra("coupon_detail");
-        StyleStudioDatum studioDatum = getIntent().getParcelableExtra("coupon_detail");
 
         String strOffer = wiseDatum.getCouponOffer();
         ((TextView) findViewById(R.id.tvName)).setText(wiseDatum.getCouponName());
