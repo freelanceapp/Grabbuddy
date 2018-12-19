@@ -53,4 +53,6 @@ public class Constant {
 
     //Preference
     public static final String IMAGE_PREF = "img_pref";
+
+    public static final String MARRIAGE_SUCCESS = "slider.php";
 }

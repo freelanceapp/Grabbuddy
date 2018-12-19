@@ -3,11 +3,11 @@ package grabbuddy.infobite.grabbuddy.modal.banner_model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum implements Parcelable
+public class BannerDatum implements Parcelable
 {
 
     @SerializedName("id")
@@ -28,24 +28,24 @@ public class Datum implements Parcelable
     @SerializedName("date_time")
     @Expose
     private String dateTime;
-    public final static Creator<Datum> CREATOR = new Creator<Datum>() {
+    public final static Creator<BannerDatum> CREATOR = new Creator<BannerDatum>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Datum createFromParcel(Parcel in) {
-            return new Datum(in);
+        public BannerDatum createFromParcel(Parcel in) {
+            return new BannerDatum(in);
         }
 
-        public Datum[] newArray(int size) {
-            return (new Datum[size]);
+        public BannerDatum[] newArray(int size) {
+            return (new BannerDatum[size]);
         }
 
     }
     ;
 
-    protected Datum(Parcel in) {
+    protected BannerDatum(Parcel in) {
         this.id = ((String) in.readValue((String.class.getClassLoader())));
         this.offerName = ((String) in.readValue((String.class.getClassLoader())));
         this.offerLink = ((String) in.readValue((String.class.getClassLoader())));
@@ -54,7 +54,7 @@ public class Datum implements Parcelable
         this.dateTime = ((String) in.readValue((String.class.getClassLoader())));
     }
 
-    public Datum() {
+    public BannerDatum() {
     }
 
     public String getId() {
@@ -65,7 +65,7 @@ public class Datum implements Parcelable
         this.id = id;
     }
 
-    public Datum withId(String id) {
+    public BannerDatum withId(String id) {
         this.id = id;
         return this;
     }
@@ -78,7 +78,7 @@ public class Datum implements Parcelable
         this.offerName = offerName;
     }
 
-    public Datum withOfferName(String offerName) {
+    public BannerDatum withOfferName(String offerName) {
         this.offerName = offerName;
         return this;
     }
@@ -91,7 +91,7 @@ public class Datum implements Parcelable
         this.offerLink = offerLink;
     }
 
-    public Datum withOfferLink(String offerLink) {
+    public BannerDatum withOfferLink(String offerLink) {
         this.offerLink = offerLink;
         return this;
     }
@@ -104,7 +104,7 @@ public class Datum implements Parcelable
         this.offerPicture = offerPicture;
     }
 
-    public Datum withOfferPicture(String offerPicture) {
+    public BannerDatum withOfferPicture(String offerPicture) {
         this.offerPicture = offerPicture;
         return this;
     }
@@ -117,7 +117,7 @@ public class Datum implements Parcelable
         this.status = status;
     }
 
-    public Datum withStatus(String status) {
+    public BannerDatum withStatus(String status) {
         this.status = status;
         return this;
     }
@@ -130,7 +130,7 @@ public class Datum implements Parcelable
         this.dateTime = dateTime;
     }
 
-    public Datum withDateTime(String dateTime) {
+    public BannerDatum withDateTime(String dateTime) {
         this.dateTime = dateTime;
         return this;
     }

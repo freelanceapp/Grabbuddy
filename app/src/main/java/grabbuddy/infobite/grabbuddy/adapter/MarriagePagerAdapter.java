@@ -8,24 +8,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
-import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerDatum;
 
-public class SlideShowPagerAdapter extends PagerAdapter {
+public class MarriagePagerAdapter extends PagerAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<BannerDatum> searchArrayList;
 
-    public SlideShowPagerAdapter(Context context, List<BannerDatum> searchArrayList) {
+    public MarriagePagerAdapter(Context context, List<BannerDatum> searchArrayList) {
         this.mContext = context;
         this.searchArrayList = searchArrayList;
-        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -35,20 +33,20 @@ public class SlideShowPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((RelativeLayout) object);
+        return view.equals(object);
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.slidingimages_layout, container, false);
+        View itemView = mLayoutInflater.inflate(R.layout.slide_show_pager_item, container, false);
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
 
-        //final ProgressBar progressImage = (ProgressBar) itemView.findViewById(R.id.progressImage);
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.image);
-
+        String strUrl = searchArrayList.get(position).getOfferPicture();
         Picasso.with(mContext)
-                .load(Constant.IMAGE + searchArrayList.get(position).getOfferPicture())
-                .placeholder(R.drawable.app_logo_b)
+                .load(strUrl)
+                .placeholder(R.drawable.default_img)
                 .into(imageView);
+        container.addView(itemView);
         return itemView;
     }
 

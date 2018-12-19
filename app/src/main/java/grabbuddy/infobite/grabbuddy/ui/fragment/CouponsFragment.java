@@ -9,35 +9,27 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.viewpagerindicator.CirclePageIndicator;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import grabbuddy.infobite.grabbuddy.R;
+import grabbuddy.infobite.grabbuddy.adapter.MarriagePagerAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.PopularStoresAdapter;
-import grabbuddy.infobite.grabbuddy.adapter.SlideShowPagerAdapter;
-import grabbuddy.infobite.grabbuddy.adapter.SlidingImage_Adapter;
-import grabbuddy.infobite.grabbuddy.adapter.StylesStudioAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
-import grabbuddy.infobite.grabbuddy.constant.Constant;
-import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
-import grabbuddy.infobite.grabbuddy.modal.Coupon;
-import grabbuddy.infobite.grabbuddy.modal.UserImagesDatum;
-import grabbuddy.infobite.grabbuddy.modal.UserImagesModal;
 import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
+import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerDatum;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseDatum;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioDatum;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
+import grabbuddy.infobite.grabbuddy.modal.success_modal.MarriageSuccessModal;
+import grabbuddy.infobite.grabbuddy.modal.success_modal.SuccessImage;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitImagesService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
@@ -50,22 +42,17 @@ import retrofit2.Response;
 public class CouponsFragment extends BaseFragment implements View.OnClickListener {
 
     private View rootView;
-    private CirclePageIndicator indicator;
-    private static int currentPage = 0;
-    private static int NUM_PAGES = 0;
-    private static final Integer[] IMAGES = {R.drawable.img_a, R.drawable.img_b, R.drawable.img_c, R.drawable.img_d};
-    private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
-    private RecyclerView recyclerViewPopularStore, recyclerViewTopOffer;
     private TodaysOfferAdapter todaysOfferAdapter;
-    private Handler handler, imageHandler;
-    private Runnable runnable, imageRunnable;
-    private ViewPager mViewPager, pagerSuccess;
-    private List<grabbuddy.infobite.grabbuddy.modal.banner_model.Datum> imagesDatumList = new ArrayList<>();
 
     private PopularStoresAdapter popularStoresAdapter;
     private List<Datum> popularStoresArrayList = new ArrayList<>();
-    private SlideShowPagerAdapter mSlideShowPagerAdapter;
     private List<StyleStudioDatum> stylesList = new ArrayList<>();
+
+    private MarriagePagerAdapter adapter;
+    private ViewPager pagerSuccess;
+    private Handler imageHandler;
+    private Runnable imageRunnable;
+    private List<BannerDatum> successImagesList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,72 +60,16 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         rootView = inflater.inflate(R.layout.fragment_coupons, container, false);
         mContext = getActivity();
         retrofitApiClient = RetrofitService.getRetrofit();
+        retrofitApiClientImages = RetrofitImagesService.getRetrofit();
         cd = new ConnectionDetector(mContext);
         init((new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)),
                 (new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)));
-
-        sliderHandler();
-        userImagesApi();
-         mSlideShowPagerAdapter = new SlideShowPagerAdapter(mContext, imagesDatumList);
-        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mViewPager.setAdapter(mSlideShowPagerAdapter);
         return rootView;
     }
 
-    /*
-     *  User Image Slider Handler
-     * */
-    private void sliderHandler() {
-        handler = new Handler();
-        imageHandler = new Handler();
-
-        // User images slider
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                slideGalleryPic();
-            }
-        };
-        handler.postDelayed(runnable, 5000);
-
-        // Successful marriage user slider
-        imageRunnable = new Runnable() {
-            @Override
-            public void run() {
-                marriageSlide();
-            }
-        };
-        imageHandler.postDelayed(imageRunnable, 5000);
-    }
-
-
-    public void slideGalleryPic() {
-        if (mViewPager == null)
-            return;
-        int currentPos = mViewPager.getCurrentItem();
-        currentPos++;
-        if (currentPos != imagesDatumList.size()) {
-            mViewPager.setCurrentItem(currentPos);
-            handler.postDelayed(runnable, 5000);
-        }
-    }
-
-    public void marriageSlide() {
-        if (pagerSuccess == null)
-            return;
-        int successPos = pagerSuccess.getCurrentItem();
-        successPos++;
-        /*if (successPos != successImagesList.size()) {
-            pagerSuccess.setCurrentItem(successPos);
-            imageHandler.postDelayed(imageRunnable, 5000);
-        }*/
-    }
-
-
-
     private void init(RecyclerView.LayoutManager layout, RecyclerView.LayoutManager layoutB) {
-        recyclerViewPopularStore = rootView.findViewById(R.id.recyclerViewPopularStore);
-        recyclerViewTopOffer = rootView.findViewById(R.id.recyclerViewTopOffer);
+        RecyclerView recyclerViewPopularStore = rootView.findViewById(R.id.recyclerViewPopularStore);
+        RecyclerView recyclerViewTopOffer = rootView.findViewById(R.id.recyclerViewTopOffer);
 
         todaysOfferAdapter = new TodaysOfferAdapter(stylesList, mContext, this);
         recyclerViewTopOffer.setLayoutManager(layout);
@@ -150,8 +81,36 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         recyclerViewPopularStore.setLayoutManager(layoutB);
         recyclerViewPopularStore.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPopularStore.setAdapter(popularStoresAdapter);
+
+        pagerSuccess = (ViewPager) rootView.findViewById(R.id.pagerSuccess);
+
         popularStoreApi();
         styleStudioApi();
+        initImages();
+    }
+
+    private void initImages() {
+        imagesApi();
+        imageHandler = new Handler();
+        imageRunnable = new Runnable() {
+            @Override
+            public void run() {
+                marriageSlide();
+            }
+        };
+        imageHandler.postDelayed(imageRunnable, 5000);
+    }
+
+    public void marriageSlide() {
+
+        if (pagerSuccess == null)
+            return;
+        int successPos = pagerSuccess.getCurrentItem();
+        successPos++;
+        if (successPos != successImagesList.size()) {
+            pagerSuccess.setCurrentItem(successPos);
+            imageHandler.postDelayed(imageRunnable, 5000);
+        }
     }
 
     @Override
@@ -204,35 +163,6 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
             cd.show(mContext);
         }
     }
-    /* User images list */
-    private void userImagesApi() {
-        if (cd.isNetworkAvailable()) {
-            RetrofitService.getBanner(new Dialog(mContext), retrofitApiClient.getBanner(), new WebResponse() {
-                @Override
-                public void onResponseSuccess(Response<?> result) {
-                    Response<BannerModel> response = (Response<BannerModel>) result;
-                    BannerModel imagesModal = response.body();
-                    imagesDatumList.clear();
-                        imagesDatumList.addAll(imagesModal.getData());
-                        //AppAlerts.show(mContext, imagesModal.getMsg());
-
-
-
-                    /*pagerSuccess = (ViewPager) rootView.findViewById(R.id.pagerSuccess);
-                    pagerSuccess.setAdapter(mSlideShowPagerAdapter);*/
-                    mSlideShowPagerAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onResponseFailed(String error) {
-                    Alerts.show(mContext, error);
-                }
-            });
-        }
-
-    }
-
-
 
     private void styleStudioApi() {
         if (cd.isNetworkAvailable()) {
@@ -253,6 +183,30 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
             });
         } else {
             cd.show(mContext);
+        }
+    }
+
+    private void imagesApi() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.getBanner(new Dialog(mContext), retrofitApiClient.getBanner(), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    BannerModel imagesModal = (BannerModel) result.body();
+                    successImagesList.clear();
+                    if (imagesModal == null)
+                        return;
+                    successImagesList.addAll(imagesModal.getData());
+
+                    adapter = new MarriagePagerAdapter(mContext, successImagesList);
+                    pagerSuccess.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
         }
     }
 }

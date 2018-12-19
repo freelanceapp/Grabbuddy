@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitApiClient;
 
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitImagesService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 
 public class BaseFragment extends Fragment {
 
-    public RetrofitApiClient retrofitApiClient;
+    public RetrofitApiClient retrofitApiClient, retrofitApiClientImages;
     public RetrofitApiClient retrofitRxClient;
     public ConnectionDetector cd;
     public Context mContext;
@@ -33,6 +34,7 @@ public class BaseFragment extends Fragment {
         mContext = getActivity();
         cd = new ConnectionDetector(mContext);
         retrofitApiClient = RetrofitService.getRetrofit();
+        retrofitApiClientImages = RetrofitImagesService.getRetrofit();
         return null;
     }
 }
