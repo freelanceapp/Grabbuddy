@@ -12,6 +12,7 @@ import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseMainModal;
 import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponModel;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
+import grabbuddy.infobite.grabbuddy.modal.success_modal.MarriageSuccessModal;
 import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -99,5 +100,8 @@ public interface RetrofitApiClient {
 
     @GET(Constant.COUPON)
     Call<CouponModel> getCoupon();
+
+    @GET(Constant.MARRIAGE_SUCCESS)
+    Call<MarriageSuccessModal> userList();
 
 }

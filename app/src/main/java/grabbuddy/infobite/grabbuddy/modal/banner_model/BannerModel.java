@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,7 +14,7 @@ public class BannerModel implements Parcelable
 
     @SerializedName("data")
     @Expose
-    private List<Datum> data = new ArrayList<Datum>();
+    private List<BannerDatum> data = new ArrayList<BannerDatum>();
     public final static Creator<BannerModel> CREATOR = new Creator<BannerModel>() {
 
 
@@ -33,21 +33,21 @@ public class BannerModel implements Parcelable
     ;
 
     protected BannerModel(Parcel in) {
-        in.readList(this.data, (grabbuddy.infobite.grabbuddy.modal.banner_model.Datum.class.getClassLoader()));
+        in.readList(this.data, (BannerDatum.class.getClassLoader()));
     }
 
     public BannerModel() {
     }
 
-    public List<Datum> getData() {
+    public List<BannerDatum> getData() {
         return data;
     }
 
-    public void setData(List<Datum> data) {
+    public void setData(List<BannerDatum> data) {
         this.data = data;
     }
 
-    public BannerModel withData(List<Datum> data) {
+    public BannerModel withData(List<BannerDatum> data) {
         this.data = data;
         return this;
     }
