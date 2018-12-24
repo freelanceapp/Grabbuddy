@@ -27,7 +27,6 @@ public class AllCouponFragment extends BaseFragment implements FragmentChangeLis
     private RecyclerView recyclerViewCoupons;
     private List<CategoryWiseDatum> categoryWiseList = new ArrayList<>();
     private CategoryWiseCouponAdapter couponAdapter;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +67,7 @@ public class AllCouponFragment extends BaseFragment implements FragmentChangeLis
         CategoryWiseDatum wiseDatum = categoryWiseList.get(pos);
         Intent intent = new Intent(mContext, CouponDetailActivity.class);
         intent.putExtra("coupon_detail", (Parcelable) wiseDatum);
+        intent.putExtra("type","All");
         startActivity(intent);
     }
 }

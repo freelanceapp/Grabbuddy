@@ -228,4 +228,6 @@ public class Login_Fragment extends BaseFragment implements OnClickListener {
             cd.show(mContext);
         }
     }
+
+
 }

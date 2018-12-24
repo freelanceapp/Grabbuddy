@@ -33,6 +33,7 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:gravity="center"
+            android:textIsSelectable="true"
             android:layout_toEndOf="@+id/image"
             android:layout_toRightOf="@+id/image"
             android:text="Code: "

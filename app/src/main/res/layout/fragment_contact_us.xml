@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/layout_background">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="80sp"
+                android:src="@drawable/ic_app_logo"
+                android:layout_margin="20dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_back_a"
+                android:padding="7dp"
+                android:hint="Full Name"
+                android:layout_margin="3dp"
+                android:id="@+id/tvFullName"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_back_a"
+                android:padding="7dp"
+                android:hint="Email Id"
+                android:layout_margin="3dp"
+                android:id="@+id/tvEmailId"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_back_a"
+                android:padding="7dp"
+                android:hint="Business"
+                android:layout_margin="3dp"
+                android:id="@+id/tvBudiness"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_back_a"
+                android:padding="7dp"
+                android:hint="Contact Number"
+                android:layout_margin="3dp"
+                android:id="@+id/tvContact"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_back_a"
+                android:padding="7dp"
+                android:hint="Message"
+                android:lines="3"
+                android:id="@+id/tvMessage"
+                android:layout_margin="3dp"
+                android:gravity="start"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/btnSubmit1"
+                android:background="@drawable/loginbutton_selector"
+                android:layout_margin="5dp"
+                android:textColor="@color/white"
+                android:layout_gravity="end"/>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -20,6 +20,7 @@ import grabbuddy.infobite.grabbuddy.ui.fragment.FeedbackFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.HomeFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.PrivacyFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.ShareAppFragment;
+import grabbuddy.infobite.grabbuddy.ui.fragment.ShareAppFragment1;
 import grabbuddy.infobite.grabbuddy.ui.fragment.StealDealFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.TermConditionFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.TopStoresFragment;
@@ -35,7 +36,8 @@ public class FragmentUtils implements FragmentService {
     public static final int TERMS_CONDITIONS = 6;
     public static final int ABOUT = 7;
     public static final int CONTACT_US = 8;
-    public static final int SHARE_APP = 8;
+    public static final int SHARE_APP = 9;
+    public static final int SHARE_APP1 = 10;
 
     public static final String HOME_FRAGMENT = "home";
     public static final String ALL_STORES_FRAGMENT = "ALL_STORES_FRAGMENT";
@@ -47,6 +49,7 @@ public class FragmentUtils implements FragmentService {
     public static final String ABOUT_FRAGMENT = "ABOUT_FRAGMENT";
     public static final String CONTACT_US_FRAGMENT = "CONTACT_US_FRAGMENT";
     public static final String SHARE_APP_FRAGMENT = "SHARE_APP_FRAGMENT";
+    public static final String SHARE_APP_FRAGMENT1 = "SHARE_APP_FRAGMENT";
 
     public static FragmentUtils mInstance;
     private static MainActivity mainActivity;
@@ -56,7 +59,7 @@ public class FragmentUtils implements FragmentService {
     private Fragment fragmentArray[];
     private String[] tags = {HOME_FRAGMENT, ALL_STORES_FRAGMENT, ALL_CATEGORIES_FRAGMENT,
             STEAL_DEAL_FRAGMENT, FEEDBACK_FRAGMENT, PRIVACY_POLICY_FRAGMENT, TERMS_CONDITIONS_FRAGMENT,
-            ABOUT_FRAGMENT, CONTACT_US_FRAGMENT, SHARE_APP_FRAGMENT};
+            ABOUT_FRAGMENT, CONTACT_US_FRAGMENT, SHARE_APP_FRAGMENT,SHARE_APP_FRAGMENT1};
 
     public static FragmentUtils initFragments(MainActivity act) {
         mInstance = new FragmentUtils();
@@ -83,7 +86,8 @@ public class FragmentUtils implements FragmentService {
                     new TermConditionFragment(),
                     new AboutUsFragment(),
                     new ContactUsFragment(),
-                    new ShareAppFragment()
+                    new ShareAppFragment(),
+                    new ShareAppFragment1()
             };
 
             for (int i = 0; i < fragmentArray.length; i++) {

@@ -168,7 +168,26 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                     StoreMainModel storeMainModel = (StoreMainModel) result.body();
                     assert storeMainModel != null;
                     popularStoresArrayList.clear();
-                    popularStoresArrayList.addAll(storeMainModel.getData());
+
+                    for (int i = 0 ; i < storeMainModel.getData().size() ; i++)
+                    {
+                        if (storeMainModel.getData().get(i).getTopStoreStatus().equals("Y"))
+                        {
+                            Datum datum = new Datum();
+                            datum.setCId(storeMainModel.getData().get(i).getCId());
+                            datum.setCompanyLogo(storeMainModel.getData().get(i).getCompanyLogo());
+                            datum.setCompanyName(storeMainModel.getData().get(i).getCompanyName());
+                            datum.setCompanyUrl(storeMainModel.getData().get(i).getCompanyUrl());
+                            datum.setDateTime(storeMainModel.getData().get(i).getDateTime());
+                            datum.setStatus(storeMainModel.getData().get(i).getStatus());
+                            datum.setTopStoreStatus(storeMainModel.getData().get(i).getTopStoreStatus());
+
+                            popularStoresArrayList.add(datum);
+
+
+
+                        }
+                    }
                     popularStoresAdapter.notifyDataSetChanged();
                 }
 
@@ -217,6 +236,7 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                     CouponModel mainModal = (CouponModel) result.body();
                     if (mainModal == null)
                         return;
+
                     stylesList.addAll(mainModal.getData());
                     todaysOfferAdapter.notifyDataSetChanged();
                 }

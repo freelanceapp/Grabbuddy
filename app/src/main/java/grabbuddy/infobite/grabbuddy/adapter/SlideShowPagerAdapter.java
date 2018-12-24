@@ -42,7 +42,7 @@ public class SlideShowPagerAdapter extends PagerAdapter {
         //final ProgressBar progressImage = (ProgressBar) itemView.findViewById(R.id.progressImage);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.image);
         Log.e("Image","..."+searchArrayList.get(position).getOfferPicture());
-        Picasso.with(mContext).load(Constant.IMAGE + searchArrayList.get(position).getOfferPicture()).placeholder(R.drawable.app_logo_b).into(imageView);
+        Picasso.with(mContext).load(Constant.IMAGE4 + searchArrayList.get(position).getOfferPicture()).placeholder(R.drawable.app_logo_b).into(imageView);
         return itemView;
     }
 

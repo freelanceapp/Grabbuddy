@@ -15,6 +15,8 @@ import java.util.List;
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerDatum;
 
+import static grabbuddy.infobite.grabbuddy.constant.Constant.IMAGE4;
+
 public class MarriagePagerAdapter extends PagerAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
@@ -40,12 +42,8 @@ public class MarriagePagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = mLayoutInflater.inflate(R.layout.slide_show_pager_item, container, false);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-
         String strUrl = searchArrayList.get(position).getOfferPicture();
-        Picasso.with(mContext)
-                .load(strUrl)
-                .placeholder(R.drawable.default_img)
-                .into(imageView);
+        Picasso.with(mContext).load(IMAGE4+strUrl).placeholder(R.drawable.default_img).into(imageView);
         container.addView(itemView);
         return itemView;
     }

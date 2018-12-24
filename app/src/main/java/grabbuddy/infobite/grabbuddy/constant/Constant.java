@@ -13,6 +13,7 @@ public class Constant {
     public static final String COMPANY_WISE = "androidapi/company-wise-product.php?";
     public static final String TODAY_DEAL = "androidapi/today-deal.php";
     public static final String STYLE_STUDIO = "androidapi/style-studio.php";
+    public static final String SUBSCRIBE = "androidapi/subscribe.php";
 
     public static final String USER_PROFILE = "api/user-profile.php";
     public static final String LOGIN = "androidapi/login.php";
@@ -24,11 +25,17 @@ public class Constant {
     public static final String OFFER_LIST = "api/coupon_list.php";
     public static final String ALL_STORE = "androidapi/all-store.php";
     public static final String IMAGE = "https://www.grabbuddy.in/admin/images/company_picture/";
+    public static final String IMAGE1 = "https://www.grabbuddy.in/admin/images/style_studio_picture/";
+    public static final String IMAGE2 = "https://www.grabbuddy.in/admin/images/product_picture/";
+    public static final String IMAGE3 = "https://www.grabbuddy.in/admin/images/category_picture/";
+    public static final String IMAGE4 = "https://www.grabbuddy.in/admin/images/offer_bannar/";
+
     public static final String POLICY = "androidapi/privacy.php";
     public static final String ABOUT_US = "androidapi/about.php";
     public static final String FAQ = "androidapi/faq.php";
     public static final String BANNER = "androidapi/offer-banner.php";
     public static final String COUPON = "androidapi/coupon.php";
+    public static final String COUTACT = "androidapi/contact.php";
     public static String USER_NAME = "";
     public static String USER_ID = "";
     public static String USER_EMAIL = "";

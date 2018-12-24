@@ -68,6 +68,7 @@ public class CodesTypeFragment extends BaseFragment implements FragmentChangeLis
         CategoryWiseDatum wiseDatum = categoryWiseList.get(pos);
         Intent intent = new Intent(mContext, CouponDetailActivity.class);
         intent.putExtra("coupon_detail", (Parcelable) wiseDatum);
+        intent.putExtra("type","coupon");
         startActivity(intent);
     }
 }
