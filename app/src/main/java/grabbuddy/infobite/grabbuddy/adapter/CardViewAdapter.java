@@ -69,7 +69,7 @@ public class CardViewAdapter extends BaseAdapter {
 
         ImageView imageView = view.findViewById(R.id.imageView);
         Picasso.with(mContext)
-                .load(Constant.IMAGE + dealDataLists.get(position).getPrdctPic())
+                .load(Constant.IMAGE2 + dealDataLists.get(position).getPrdctPic())
                 .placeholder(R.drawable.img_a)
                 .into(imageView);
 

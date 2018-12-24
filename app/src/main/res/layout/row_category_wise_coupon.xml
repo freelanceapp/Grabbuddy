@@ -15,6 +15,25 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_a"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="16dp"
+                    android:text="Exclusive"
+                    android:id="@+id/tvDeals"
+                    android:textColor="#871919"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"

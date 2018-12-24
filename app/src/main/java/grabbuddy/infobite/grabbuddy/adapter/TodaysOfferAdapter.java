@@ -42,7 +42,7 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.tvDescription.setText(reviewModelList.get(position).getCouponName());
 
-        String strDate = reviewModelList.get(position).getDateTime();
+        String strDate = reviewModelList.get(position).getEndDate();
         holder.tvDateTime.setText(strDate);
 
         holder.cardView.setTag(position);

@@ -14,34 +14,43 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="20dp">
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Email Id"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:padding="4dp"/>
-        <EditText
+            android:layout_height="150dp"
+            android:src="@drawable/ic_social_media"
+            />
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:background="@drawable/edittext_back_a"
-            android:padding="7dp"
-            android:layout_marginTop="5dp"
-            android:id="@+id/tvEmail"/>
-
+            android:src="@drawable/ic_bottom_shadow"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Share the Love of sharing"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Help and let you Friends \n Save Money!"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:layout_margin="10dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
-            android:id="@+id/btnSubmit"
+            android:text="Share"
+            android:id="@+id/btnShare"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:background="@drawable/loginbutton_selector"
             android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:paddingLeft="30sp"
-            android:paddingRight="30sp"/>
+            android:layout_marginTop="20dp"
+            android:paddingLeft="55sp"
+            android:paddingRight="55sp"/>
     </LinearLayout>
 
 </RelativeLayout>

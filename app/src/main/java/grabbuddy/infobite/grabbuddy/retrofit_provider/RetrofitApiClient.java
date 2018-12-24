@@ -79,13 +79,25 @@ public interface RetrofitApiClient {
                                 @Query("user_mobile") String user_mobile,
                                 @Query("user_password") String user_password);
 
+    @GET(Constant.SUBSCRIBE)
+    Call<SignUpModel> getSubscribe(@Query("email") String email);
+
     @GET(Constant.LOGIN)
     Call<LoginModel> getLogin(@Query("email") String email,
                               @Query("password") String password);
 
     @FormUrlEncoded
-    @POST(Constant.FOROGOT_PASSWORD)
+    @POST(Constant.COUTACT)
     Call<ResponseBody> getAllLikes(@Field("id") String id);
+
+
+    @FormUrlEncoded
+    @POST(Constant.COUTACT)
+    Call<SignUpModel> getContact(@Field("full_name") String full_name,
+                                 @Field("email_id ") String email_id,
+                                 @Field("business ") String business,
+                                 @Field("contact_no ") String contact_no,
+                                 @Field("messege ") String messege);
 
 
     @FormUrlEncoded

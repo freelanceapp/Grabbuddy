@@ -42,7 +42,7 @@ public class StylesStudioAdapter extends RecyclerView.Adapter<StylesStudioAdapte
         holder.tvName.setText(reviewModelList.get(position).getPrdctName());
         holder.tvCredit.setText("Credit:" + " " + reviewModelList.get(position).getPrdctCredit());
         Picasso.with(context)
-                .load(Constant.IMAGE + reviewModelList.get(position).getPrdctPic())
+                .load(Constant.IMAGE1 + reviewModelList.get(position).getPrdctPic())
                 .placeholder(R.drawable.default_img)
                 .into(holder.offer_img);
 

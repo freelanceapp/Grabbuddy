@@ -44,7 +44,7 @@ public class FAQAdapter extends RecyclerView.Adapter<FAQAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.tvDate.setText(reviewModelList.get(position).getDateTime());
+        //holder.tvDate.setText(reviewModelList.get(position).getDateTime());
         holder.tvQus.setText(reviewModelList.get(position).getQuestion());
 
 

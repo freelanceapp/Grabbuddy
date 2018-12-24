@@ -144,39 +144,41 @@ public class MainActivity extends BaseActivity
             setTitle("About Us");
             fragmentUtils.inflateFragment(null, FragmentUtils.ABOUT,
                     FragmentUtils.ABOUT_FRAGMENT, false);
-        }/* else if (id == R.id.contact_us) {
+        } else if (id == R.id.contact_us) {
             if (currentPos == 8)
                 return true;
             item.setChecked(true);
             currentPos = 8;
             setTitle("Contact Us");
             fragmentUtils.inflateFragment(null, FragmentUtils.CONTACT_US,
-                    FragmentUtils.CONTACT_US_FRAGMENT, false);*/
+                    FragmentUtils.CONTACT_US_FRAGMENT, false);
+        }
          else if (id == R.id.share) {
-            if (currentPos == 9)
-                return true;
-            item.setChecked(true);
-            currentPos = 9;
-            setTitle("Share the App");
-           /* fragmentUtils.inflateFragment(null, FragmentUtils.SHARE_APP,
-                    FragmentUtils.SHARE_APP_FRAGMENT, false);*/
-            try {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_SUBJECT, "Grab Buddy");
-                String sAux = "\nLet me recommend you this application\n\n";
-                sAux = sAux + "https://play.google.com/store/apps/details?id=the.package.id \n\n";
-                i.putExtra(Intent.EXTRA_TEXT, sAux);
-                startActivity(Intent.createChooser(i, "choose one"));
-            } catch (Exception e) {
-                //e.toString();
-            }
-        }else if (id == R.id.logout) {
             if (currentPos == 10)
                 return true;
             item.setChecked(true);
             currentPos = 10;
+            setTitle("Share the App");
+
+            fragmentUtils.inflateFragment(null, FragmentUtils.SHARE_APP1,
+                    FragmentUtils.SHARE_APP_FRAGMENT1, false);
+
+        }else if (id == R.id.logout) {
+            if (currentPos == 11)
+                return true;
+            item.setChecked(true);
+            currentPos = 11;
            logout();
+        }
+        else if (id == R.id.subscribe) {
+            if (currentPos == 9)
+                return true;
+            item.setChecked(true);
+            currentPos = 9;
+             fragmentUtils.inflateFragment(null, FragmentUtils.SHARE_APP,
+                    FragmentUtils.SHARE_APP_FRAGMENT, false);
+            setTitle("Subscribe");
+
         }
 
 

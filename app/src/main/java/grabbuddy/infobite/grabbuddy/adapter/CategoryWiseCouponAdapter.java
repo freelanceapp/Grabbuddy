@@ -38,7 +38,7 @@ public class CategoryWiseCouponAdapter extends RecyclerView.Adapter<CategoryWise
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.tvDescription.setText(reviewModelList.get(position).getCouponName());
         holder.tvExpires.setText("Expires" + " " + reviewModelList.get(position).getEndDate());
-
+        holder.tvDeals.setText(reviewModelList.get(position).getCouponType());
         holder.cardView.setTag(position);
         holder.cardView.setOnClickListener(onClickListener);
     }
@@ -51,7 +51,7 @@ public class CategoryWiseCouponAdapter extends RecyclerView.Adapter<CategoryWise
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView offer_img, imgExclusive;
-        private TextView tvDescription, tvExpires;
+        private TextView tvDescription, tvExpires, tvDeals;
         private CardView cardView;
 
         public MyViewHolder(View view) {
@@ -61,6 +61,7 @@ public class CategoryWiseCouponAdapter extends RecyclerView.Adapter<CategoryWise
             offer_img = view.findViewById(R.id.img);
             tvDescription = view.findViewById(R.id.tvDescription);
             tvExpires = view.findViewById(R.id.tvExpires);
+            tvDeals = view.findViewById(R.id.tvDeals);
 
         }
 
