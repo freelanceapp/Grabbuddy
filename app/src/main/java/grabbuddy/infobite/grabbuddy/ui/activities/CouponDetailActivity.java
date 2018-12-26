@@ -27,10 +27,11 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
 
     private Context mContext;
     CategoryWiseDatum wiseDatum;
-    String strOffer ="";
+    String strOffer = "";
     String type = "";
     LinearLayout ll;
     ImageView shareBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +48,7 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
         wiseDatum = getIntent().getParcelableExtra("coupon_detail");
         type = getIntent().getStringExtra("type");
 
-        ll = (LinearLayout)findViewById(R.id.ll);
-        if (type.equals("deals"))
-        {
-            ll.setVisibility(View.GONE);
-        }
-
+        ll = (LinearLayout) findViewById(R.id.ll);
 
         strOffer = wiseDatum.getCouponOffer();
         ((TextView) findViewById(R.id.tvName)).setText(wiseDatum.getCouponName());
@@ -68,7 +64,6 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
                 .load(Constant.IMAGE + strLogo)
                 .placeholder(R.drawable.default_img)
                 .into(((ImageView) findViewById(R.id.img)));
-
 
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -87,7 +82,7 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
-        shareBtn = (ImageView)findViewById(R.id.shareBtn);
+        shareBtn = (ImageView) findViewById(R.id.shareBtn);
         shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,19 +110,18 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    public void showAlert(){
+    public void showAlert() {
         // custom dialog
         final Dialog dialog = new Dialog(mContext);
         dialog.setContentView(R.layout.custom_alertdialogbox);
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        TextView text = (TextView)dialog.findViewById(R.id.text);
-        ImageView image = (ImageView)dialog.findViewById(R.id.image);
-        if (wiseDatum.getCouponCode().equals(""))
-        {
+        TextView text = (TextView) dialog.findViewById(R.id.text);
+        ImageView image = (ImageView) dialog.findViewById(R.id.image);
+        if (wiseDatum.getCouponCode().equals("")) {
             text.setText("No Code is required! \n click below to Save Now");
-        }else {
-            text.setText("Code ''"+wiseDatum.getCouponCode()+"'' Copied \n paste this code at checkout");
-            }
+        } else {
+            text.setText("Code ''" + wiseDatum.getCouponCode() + "'' Copied \n paste this code at checkout");
+        }
         // if button is clicked, close the custom dialog
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override

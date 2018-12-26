@@ -11,39 +11,52 @@
         android:fillViewport="true"
         android:overScrollMode="never"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:text="Skip"
-                android:gravity="end"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:padding="5dp"
-                android:layout_gravity="end"
-                android:id="@+id/skip_btn"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="120sp"
                 android:background="@color/white">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="120sp"
-                    android:src="@drawable/app_logo"
-                    android:background="@color/white"
                     android:layout_marginLeft="30sp"
-                    android:layout_marginRight="30sp"
                     android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp"/>
+                    android:layout_marginRight="30sp"
+                    android:layout_marginBottom="10sp"
+                    android:background="@color/white"
+                    android:src="@drawable/app_logo" />
             </LinearLayout>
-            <FrameLayout
-                android:id="@+id/frameContainer"
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:id="@+id/frameContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <Button
+                    android:id="@+id/skip_btn"
+                    android:layout_width="75dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="16dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="Skip"
+                    android:textColor="@color/green1"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

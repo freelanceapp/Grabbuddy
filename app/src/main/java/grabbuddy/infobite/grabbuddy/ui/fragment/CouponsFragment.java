@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,6 @@ import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseDatum;
 import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponDatum;
 import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponModel;
-import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioDatum;
-import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
-import grabbuddy.infobite.grabbuddy.modal.success_modal.MarriageSuccessModal;
-import grabbuddy.infobite.grabbuddy.modal.success_modal.SuccessImage;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitImagesService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
@@ -46,13 +41,12 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
 
     private View rootView;
     private TodaysOfferAdapter todaysOfferAdapter;
-    private Handler handler, imageHandler;
-    private Runnable runnable, imageRunnable;
-    private ViewPager mViewPager, pagerSuccess;
+    private Handler imageHandler;
+    private Runnable imageRunnable;
+    private ViewPager pagerSuccess;
     private PopularStoresAdapter popularStoresAdapter;
     private List<Datum> popularStoresArrayList = new ArrayList<>();
     private List<CouponDatum> stylesList = new ArrayList<>();
-
 
     private MarriagePagerAdapter adapter;
     private List<BannerDatum> successImagesList = new ArrayList<>();
@@ -101,7 +95,7 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                 marriageSlide();
             }
         };
-        imageHandler.postDelayed(imageRunnable, 5000);
+        imageHandler.postDelayed(imageRunnable, 3000);
     }
 
     public void marriageSlide() {
@@ -111,26 +105,12 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         successPos++;
         if (successPos != successImagesList.size()) {
             pagerSuccess.setCurrentItem(successPos);
-            imageHandler.postDelayed(imageRunnable, 5000);
+            imageHandler.postDelayed(imageRunnable, 3000);
+        } else {
+            pagerSuccess.setCurrentItem(0);
+            imageHandler.postDelayed(imageRunnable, 3000);
         }
     }
-
-  /*  private void init(RecyclerView.LayoutManager layout, RecyclerView.LayoutManager layoutB) {
-        recyclerViewPopularStore = rootView.findViewById(R.id.recyclerViewPopularStore);
-        recyclerViewTopOffer = rootView.findViewById(R.id.recyclerViewTopOffer);
-        todaysOfferAdapter = new TodaysOfferAdapter(stylesList, mContext, this);
-        recyclerViewTopOffer.setLayoutManager(layout);
-        recyclerViewTopOffer.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewTopOffer.setAdapter(todaysOfferAdapter);
-        todaysOfferAdapter.notifyDataSetChanged();
-        popularStoresAdapter = new PopularStoresAdapter(popularStoresArrayList, mContext, this);
-        recyclerViewPopularStore.setLayoutManager(layoutB);
-        recyclerViewPopularStore.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewPopularStore.setAdapter(popularStoresAdapter);
-        popularStoreApi();
-        getCoupon1();
-        //styleStudioApi();
-    }*/
 
     @Override
     public void onClick(View v) {
@@ -169,10 +149,8 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                     assert storeMainModel != null;
                     popularStoresArrayList.clear();
 
-                    for (int i = 0 ; i < storeMainModel.getData().size() ; i++)
-                    {
-                        if (storeMainModel.getData().get(i).getTopStoreStatus().equals("Y"))
-                        {
+                    for (int i = 0; i < storeMainModel.getData().size(); i++) {
+                        if (storeMainModel.getData().get(i).getTopStoreStatus().equals("Y")) {
                             Datum datum = new Datum();
                             datum.setCId(storeMainModel.getData().get(i).getCId());
                             datum.setCompanyLogo(storeMainModel.getData().get(i).getCompanyLogo());
@@ -183,9 +161,6 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                             datum.setTopStoreStatus(storeMainModel.getData().get(i).getTopStoreStatus());
 
                             popularStoresArrayList.add(datum);
-
-
-
                         }
                     }
                     popularStoresAdapter.notifyDataSetChanged();
@@ -201,7 +176,6 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
             cd.show(mContext);
         }
     }
-
 
 
     private void imagesApi() {

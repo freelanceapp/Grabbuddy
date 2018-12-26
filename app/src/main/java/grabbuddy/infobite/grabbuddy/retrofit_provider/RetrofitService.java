@@ -13,6 +13,7 @@ import grabbuddy.infobite.grabbuddy.modal.api_model.privacy_model.PrivacyModel;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseMainModal;
 import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponModel;
+import grabbuddy.infobite.grabbuddy.modal.side_banner.SideBannerModal;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
 import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
 import grabbuddy.infobite.grabbuddy.utils.AppProgressDialog;
@@ -66,6 +67,27 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<SignUpModel> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getSideBanner(final Dialog dialog, final Call<SideBannerModal> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<SideBannerModal>() {
+            @Override
+            public void onResponse(Call<SideBannerModal> call, Response<SideBannerModal> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<SideBannerModal> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());

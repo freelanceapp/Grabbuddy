@@ -95,7 +95,8 @@ public class AllCategoriesFragment extends BaseFragment implements FragmentChang
 
                 @Override
                 public void onResponseFailed(String error) {
-                    Alerts.show(mContext, error);
+                    //Alerts.show(mContext, error);
+                    ((TextView) rootView.findViewById(R.id.tvEmpty)).setVisibility(View.VISIBLE);
                 }
             });
         } else {

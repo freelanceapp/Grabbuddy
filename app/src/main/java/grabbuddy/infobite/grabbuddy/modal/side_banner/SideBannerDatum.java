@@ -1,5 +1,4 @@
-
-package grabbuddy.infobite.grabbuddy.modal.banner_model;
+package grabbuddy.infobite.grabbuddy.modal.side_banner;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,18 +6,19 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BannerDatum implements Parcelable {
+public class SideBannerDatum implements Parcelable
+{
 
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("bannar_name")
+    @SerializedName("offer_name")
     @Expose
     private String offerName;
-    @SerializedName("banar_link")
+    @SerializedName("offer_link")
     @Expose
     private String offerLink;
-    @SerializedName("banar_picture")
+    @SerializedName("offer_picture")
     @Expose
     private String offerPicture;
     @SerializedName("status")
@@ -27,23 +27,24 @@ public class BannerDatum implements Parcelable {
     @SerializedName("date_time")
     @Expose
     private String dateTime;
-    public final static Creator<BannerDatum> CREATOR = new Creator<BannerDatum>() {
+    public final static Parcelable.Creator<SideBannerDatum> CREATOR = new Creator<SideBannerDatum>() {
 
 
         @SuppressWarnings({
                 "unchecked"
         })
-        public BannerDatum createFromParcel(Parcel in) {
-            return new BannerDatum(in);
+        public SideBannerDatum createFromParcel(Parcel in) {
+            return new SideBannerDatum(in);
         }
 
-        public BannerDatum[] newArray(int size) {
-            return (new BannerDatum[size]);
+        public SideBannerDatum[] newArray(int size) {
+            return (new SideBannerDatum[size]);
         }
 
-    };
+    }
+            ;
 
-    protected BannerDatum(Parcel in) {
+    protected SideBannerDatum(Parcel in) {
         this.id = ((String) in.readValue((String.class.getClassLoader())));
         this.offerName = ((String) in.readValue((String.class.getClassLoader())));
         this.offerLink = ((String) in.readValue((String.class.getClassLoader())));
@@ -52,7 +53,7 @@ public class BannerDatum implements Parcelable {
         this.dateTime = ((String) in.readValue((String.class.getClassLoader())));
     }
 
-    public BannerDatum() {
+    public SideBannerDatum() {
     }
 
     public String getId() {
@@ -63,22 +64,12 @@ public class BannerDatum implements Parcelable {
         this.id = id;
     }
 
-    public BannerDatum withId(String id) {
-        this.id = id;
-        return this;
-    }
-
     public String getOfferName() {
         return offerName;
     }
 
     public void setOfferName(String offerName) {
         this.offerName = offerName;
-    }
-
-    public BannerDatum withOfferName(String offerName) {
-        this.offerName = offerName;
-        return this;
     }
 
     public String getOfferLink() {
@@ -89,22 +80,12 @@ public class BannerDatum implements Parcelable {
         this.offerLink = offerLink;
     }
 
-    public BannerDatum withOfferLink(String offerLink) {
-        this.offerLink = offerLink;
-        return this;
-    }
-
     public String getOfferPicture() {
         return offerPicture;
     }
 
     public void setOfferPicture(String offerPicture) {
         this.offerPicture = offerPicture;
-    }
-
-    public BannerDatum withOfferPicture(String offerPicture) {
-        this.offerPicture = offerPicture;
-        return this;
     }
 
     public String getStatus() {
@@ -115,22 +96,12 @@ public class BannerDatum implements Parcelable {
         this.status = status;
     }
 
-    public BannerDatum withStatus(String status) {
-        this.status = status;
-        return this;
-    }
-
     public String getDateTime() {
         return dateTime;
     }
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
-    }
-
-    public BannerDatum withDateTime(String dateTime) {
-        this.dateTime = dateTime;
-        return this;
     }
 
     public void writeToParcel(Parcel dest, int flags) {

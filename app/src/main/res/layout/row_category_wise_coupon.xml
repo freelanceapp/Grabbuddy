@@ -15,27 +15,32 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/back_a"
                 android:orientation="horizontal"
                 android:padding="2dp">
 
                 <TextView
+                    android:id="@+id/tvDeals"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="16dp"
                     android:text="Exclusive"
-                    android:id="@+id/tvDeals"
                     android:textColor="#871919"
                     android:textSize="16dp" />
-            </LinearLayout>
-
+            </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/llExclusive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -47,19 +52,19 @@
 
                 <ImageView
                     android:id="@+id/imgExclusive"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_star" />
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/ic_bookmark" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginRight="16dp"
-                    android:text="Exclusive"
+                    android:layout_marginRight="8dp"
+                    android:text="Editors Pick"
                     android:textColor="#871919"
                     android:textSize="16dp" />
             </LinearLayout>
@@ -69,10 +74,10 @@
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:padding="16dp"
             android:text="@string/desc_a"
-            android:textColor="@color/black"
-            android:lines="1"/>
+            android:textColor="@color/black" />
 
         <LinearLayout
             android:layout_width="wrap_content"

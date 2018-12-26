@@ -11,6 +11,7 @@ import grabbuddy.infobite.grabbuddy.modal.api_model.privacy_model.PrivacyModel;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseMainModal;
 import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponModel;
+import grabbuddy.infobite.grabbuddy.modal.side_banner.SideBannerModal;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
 import grabbuddy.infobite.grabbuddy.modal.success_modal.MarriageSuccessModal;
 import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
@@ -88,21 +89,12 @@ public interface RetrofitApiClient {
 
     @FormUrlEncoded
     @POST(Constant.COUTACT)
-    Call<ResponseBody> getAllLikes(@Field("id") String id);
-
-
-    @FormUrlEncoded
-    @POST(Constant.COUTACT)
     Call<SignUpModel> getContact(@Field("full_name") String full_name,
                                  @Field("email_id ") String email_id,
                                  @Field("business ") String business,
                                  @Field("contact_no ") String contact_no,
                                  @Field("messege ") String messege);
 
-
-    @FormUrlEncoded
-    @POST(Constant.FOROGOT_PASSWORD)
-    Call<ResponseBody> getShortedList(@Field("user_id") String user_id);
 
     @GET(Constant.TODAY_DEAL)
     Call<TodayDealMainModal> todayDealData();
@@ -113,7 +105,7 @@ public interface RetrofitApiClient {
     @GET(Constant.COUPON)
     Call<CouponModel> getCoupon();
 
-    @GET(Constant.MARRIAGE_SUCCESS)
-    Call<MarriageSuccessModal> userList();
+    @GET(Constant.SIDE_BANNER)
+    Call<SideBannerModal> sideBanner();
 
 }

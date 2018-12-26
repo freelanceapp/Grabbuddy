@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -38,7 +39,18 @@ public class CategoryWiseCouponAdapter extends RecyclerView.Adapter<CategoryWise
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.tvDescription.setText(reviewModelList.get(position).getCouponName());
         holder.tvExpires.setText("Expires" + " " + reviewModelList.get(position).getEndDate());
-        holder.tvDeals.setText(reviewModelList.get(position).getCouponType());
+
+        if (reviewModelList.get(position).getCouponType().equalsIgnoreCase("Deals")) {
+            holder.tvDeals.setText("Activate" + " " + reviewModelList.get(position).getCouponType());
+        } else if (reviewModelList.get(position).getCouponType().equalsIgnoreCase("Coupon")) {
+            holder.tvDeals.setText("Show" + " " + reviewModelList.get(position).getCouponType());
+        }
+
+        if (reviewModelList.get(position).getEditorPick().equalsIgnoreCase("y")) {
+            holder.llExclusive.setVisibility(View.VISIBLE);
+        } else {
+            holder.llExclusive.setVisibility(View.GONE);
+        }
         holder.cardView.setTag(position);
         holder.cardView.setOnClickListener(onClickListener);
     }
@@ -53,9 +65,11 @@ public class CategoryWiseCouponAdapter extends RecyclerView.Adapter<CategoryWise
         public ImageView offer_img, imgExclusive;
         private TextView tvDescription, tvExpires, tvDeals;
         private CardView cardView;
+        private LinearLayout llExclusive;
 
         public MyViewHolder(View view) {
             super(view);
+            llExclusive = view.findViewById(R.id.llExclusive);
             cardView = view.findViewById(R.id.cardView);
             imgExclusive = view.findViewById(R.id.imgExclusive);
             offer_img = view.findViewById(R.id.img);

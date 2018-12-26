@@ -32,11 +32,12 @@ public class CardViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (dealDataLists.size() > 7) {
+        /*if (dealDataLists.size() > 7) {
             return 7;
         } else {
             return dealDataLists.size();
-        }
+        }*/
+        return dealDataLists.size();
     }
 
     @Override

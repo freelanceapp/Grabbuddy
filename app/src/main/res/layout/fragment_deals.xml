@@ -27,6 +27,7 @@
             android:id="@+id/pre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:background="@color/white"
             android:text="prev"
             android:textStyle="normal" />
@@ -37,12 +38,14 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:text="close"
-            android:textStyle="normal" />
+            android:textStyle="normal"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:background="@color/white"
             android:text="next" />
     </LinearLayout>

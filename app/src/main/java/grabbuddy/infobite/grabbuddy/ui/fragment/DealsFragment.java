@@ -1,6 +1,5 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,9 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bakerj.infinitecards.AnimationTransformer;
 import com.bakerj.infinitecards.CardItem;
@@ -28,13 +24,9 @@ import java.util.List;
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.CardViewAdapter;
 import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealDataList;
-import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
-import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
-import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
-import retrofit2.Response;
 
 public class DealsFragment extends BaseFragment implements View.OnClickListener {
 
