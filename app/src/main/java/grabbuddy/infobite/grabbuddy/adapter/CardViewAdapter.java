@@ -32,11 +32,6 @@ public class CardViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        /*if (dealDataLists.size() > 7) {
-            return 7;
-        } else {
-            return dealDataLists.size();
-        }*/
         return dealDataLists.size();
     }
 
@@ -77,8 +72,20 @@ public class CardViewAdapter extends BaseAdapter {
         cardViewDeal.setTag(position);
         cardViewDeal.setOnClickListener(onClickListener);
 
+        String strCompanyName = dealDataLists.get(position).getPrdctLink();
+        if (strCompanyName.contains(".")) {
+            String strArray[] = strCompanyName.split("\\.");
+            if (strArray.length > 1) {
+                tvCompanyName.setText(strArray[1]);
+            } else {
+                //tvCompanyName.setText(strArray[0]);
+            }
+        } else {
+            tvCompanyName.setText(strCompanyName);
+        }
+
         tvOff.setText(dealDataLists.get(position).getPrdctDiscount() + "%" + " " + "Off");
-        tvCompanyName.setText(dealDataLists.get(position).getPrdctLink());
+
         tvDescription.setText(dealDataLists.get(position).getPrdctName());
         tvRealPrice.setText("Rs." + dealDataLists.get(position).getPrdctPrice());
 

@@ -1,9 +1,7 @@
 package grabbuddy.infobite.grabbuddy.ui.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,26 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.OffersAdapter;
-import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
-import grabbuddy.infobite.grabbuddy.modal.Coupon;
-import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryItemList;
 import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
-import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitApiClient;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
-import grabbuddy.infobite.grabbuddy.ui.activities.CategoryDetailActivity;
 import grabbuddy.infobite.grabbuddy.ui.activities.StoreDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
-import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
 import retrofit2.Response;
@@ -95,24 +86,24 @@ public class TopStoresFragment extends BaseFragment implements FragmentChangeLis
 
     private void allStoreApi() {
         if (cd.isNetworkAvailable()) {
-        RetrofitService.getStore(new Dialog(mContext), retrofitApiClient.getStore(), new WebResponse() {
-            @Override
-            public void onResponseSuccess(Response<?> result) {
-                StoreMainModel storeMainModel = (StoreMainModel) result.body();
-                assert storeMainModel != null;
-                offersModelArrayList.clear();
-                offersModelArrayList.addAll(storeMainModel.getData());
-                offersAdapter.notifyDataSetChanged();
-                for (int i = 0; i < storeMainModel.getData().size(); i++) {
-                    Log.e("Store Name", ".." + storeMainModel.getData().get(i).getCompanyName());
+            RetrofitService.getStore(new Dialog(mContext), retrofitApiClient.getStore(), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    StoreMainModel storeMainModel = (StoreMainModel) result.body();
+                    assert storeMainModel != null;
+                    offersModelArrayList.clear();
+                    offersModelArrayList.addAll(storeMainModel.getData());
+                    offersAdapter.notifyDataSetChanged();
+                    for (int i = 0; i < storeMainModel.getData().size(); i++) {
+                        Log.e("Store Name", ".." + storeMainModel.getData().get(i).getCompanyName());
+                    }
                 }
-            }
 
-            @Override
-            public void onResponseFailed(String error) {
-                Alerts.show(mContext, error);
-            }
-        });
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
 
         } else {
             cd.show(mContext);

@@ -22,7 +22,6 @@ import grabbuddy.infobite.grabbuddy.modal.all_category_modal.CategoryMainModal;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.CategoryDetailActivity;
-import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
 import retrofit2.Response;

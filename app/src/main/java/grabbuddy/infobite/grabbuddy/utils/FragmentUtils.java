@@ -15,7 +15,6 @@ import grabbuddy.infobite.grabbuddy.ui.activities.MainActivity;
 import grabbuddy.infobite.grabbuddy.ui.fragment.AboutUsFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.AllCategoriesFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.ContactUsFragment;
-import grabbuddy.infobite.grabbuddy.ui.fragment.DealsFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.FeedbackFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.HomeFragment;
 import grabbuddy.infobite.grabbuddy.ui.fragment.PrivacyFragment;
@@ -59,7 +58,7 @@ public class FragmentUtils implements FragmentService {
     private Fragment fragmentArray[];
     private String[] tags = {HOME_FRAGMENT, ALL_STORES_FRAGMENT, ALL_CATEGORIES_FRAGMENT,
             STEAL_DEAL_FRAGMENT, FEEDBACK_FRAGMENT, PRIVACY_POLICY_FRAGMENT, TERMS_CONDITIONS_FRAGMENT,
-            ABOUT_FRAGMENT, CONTACT_US_FRAGMENT, SHARE_APP_FRAGMENT,SHARE_APP_FRAGMENT1};
+            ABOUT_FRAGMENT, CONTACT_US_FRAGMENT, SHARE_APP_FRAGMENT, SHARE_APP_FRAGMENT1};
 
     public static FragmentUtils initFragments(MainActivity act) {
         mInstance = new FragmentUtils();

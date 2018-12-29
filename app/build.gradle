@@ -40,4 +40,6 @@ dependencies {
     //Loading bar
     implementation 'com.wang.avi:library:2.1.3'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.github.AhmMhd:SeeMoreTextView-Android:1.0.0'
+
 }
