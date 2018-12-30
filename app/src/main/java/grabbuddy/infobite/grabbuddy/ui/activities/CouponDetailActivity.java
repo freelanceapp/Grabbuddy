@@ -11,14 +11,17 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import at.blogc.android.views.ExpandableTextView;
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseDatum;
@@ -28,17 +31,18 @@ import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 
 public class CouponDetailActivity extends BaseActivity implements View.OnClickListener {
 
-    Boolean isCheck = true;
+    private Boolean isCheck = true;
 
     private Context mContext;
-    CategoryWiseDatum wiseDatum;
-    String strOffer = "";
-    String type = "";
-    LinearLayout ll;
-    ImageView shareBtn;
-    private TextView tvDescription;
-    int MAX_LINES = 3;
-    String strDesc = "";
+    private CategoryWiseDatum wiseDatum;
+    private String strOffer = "";
+    private String type = "";
+    private LinearLayout ll;
+    private ImageView shareBtn;
+    private ExpandableTextView tvDescription;
+    private int lineCount = 0;
+    private String strDesc = "";
+    private RelativeLayout relativeShowMore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +55,12 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
     private void init() {
         if (getIntent() == null)
             return;
+
+        relativeShowMore = (RelativeLayout) findViewById(R.id.relativeShowMore);
+        relativeShowMore.setOnClickListener(this);
         ((ImageView) findViewById(R.id.imgBack)).setOnClickListener(this);
 
-        tvDescription = (TextView) findViewById(R.id.tvDescription);
+        tvDescription = (ExpandableTextView) findViewById(R.id.tvDescription);
         wiseDatum = getIntent().getParcelableExtra("coupon_detail");
         type = getIntent().getStringExtra("type");
 
@@ -115,6 +122,15 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
             case R.id.imgBack:
                 finish();
                 break;
+            case R.id.relativeShowMore:
+                if (tvDescription.isExpanded()) {
+                    tvDescription.collapse();
+                    ((TextView)findViewById(R.id.tvShowMore)).setText("Show More");
+                } else {
+                    tvDescription.expand();
+                    ((TextView)findViewById(R.id.tvShowMore)).setText("Show Less");
+                }
+                break;
         }
     }
 
@@ -167,48 +183,25 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void expandableTextview() {
+        tvDescription.setAnimationDuration(750L);
+        tvDescription.setInterpolator(new OvershootInterpolator());
+        tvDescription.setExpandInterpolator(new OvershootInterpolator());
+        tvDescription.setCollapseInterpolator(new OvershootInterpolator());
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             strDesc = String.valueOf(Html.fromHtml(wiseDatum.getCouponDesc(), Html.FROM_HTML_MODE_COMPACT));
-            //((TextView) findViewById(R.id.tvDescription)).setText(strDesc);
         } else {
             strDesc = String.valueOf(Html.fromHtml(wiseDatum.getCouponDesc()));
-            //((TextView) findViewById(R.id.tvDescription)).setText(strDesc);
         }
         tvDescription.setText(strDesc);
         tvDescription.post(new Runnable() {
             @Override
             public void run() {
-                // Past the maximum number of lines we want to display.
-                if (tvDescription.getLineCount() > MAX_LINES) {
-                    int lastCharShown = tvDescription.getLayout().getLineVisibleEnd(MAX_LINES - 1);
-
-                    tvDescription.setMaxLines(MAX_LINES);
-
-                    String moreString = "Show more";
-                    String suffix = " " + moreString;
-
-                    // 3 is a "magic number" but it's just basically the length of the ellipsis we're going to insert
-                    String actionDisplayText = strDesc.substring(0, lastCharShown - suffix.length() - 3) + "..." + suffix;
-
-                    SpannableString truncatedSpannableString = new SpannableString(actionDisplayText);
-                    int startIndex = actionDisplayText.indexOf(moreString);
-                    truncatedSpannableString.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.darkBlue)),
-                            startIndex, startIndex + moreString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    tvDescription.setText(truncatedSpannableString);
-                }
-            }
-        });
-
-        tvDescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isCheck) {
-                    tvDescription.setMaxLines(15);
-                    tvDescription.setText(strDesc);
-                    isCheck = false;
+                lineCount = tvDescription.getLineCount();
+                if (lineCount > 2) {
+                    relativeShowMore.setVisibility(View.VISIBLE);
                 } else {
-                    tvDescription.setMaxLines(3);
-                    isCheck = true;
+                    relativeShowMore.setVisibility(View.GONE);
                 }
             }
         });
