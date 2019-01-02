@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -26,6 +27,7 @@ import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseDatum;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioDatum;
+import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.AppPreference;
 import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 
@@ -148,10 +150,13 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
         dialog.setContentView(R.layout.custom_alertdialogbox);
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
         TextView text = (TextView) dialog.findViewById(R.id.text);
+        ImageView imageCopy = (ImageView) dialog.findViewById(R.id.imageCopy);
         ImageView image = (ImageView) dialog.findViewById(R.id.image);
         if (wiseDatum.getCouponCode().equals("")) {
+            imageCopy.setVisibility(View.GONE);
             text.setText("No Code is required! \n click below to Save Now");
         } else {
+            imageCopy.setVisibility(View.VISIBLE);
             text.setText("Code ''" + wiseDatum.getCouponCode() + "'' Copied \n paste this code at checkout");
         }
         // if button is clicked, close the custom dialog
@@ -167,6 +172,13 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
+        imageCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setClipboard(mContext, wiseDatum.getCouponCode());
+                Alerts.show(mContext, "Code copied");
+            }
+        });
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,6 +186,12 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
             }
         });
         dialog.show();
+    }
+
+    private void setClipboard(Context context, String text) {
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+        clipboard.setPrimaryClip(clip);
     }
 
     private void getCompanyName() {

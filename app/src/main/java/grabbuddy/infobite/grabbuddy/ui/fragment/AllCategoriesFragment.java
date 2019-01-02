@@ -56,7 +56,10 @@ public class AllCategoriesFragment extends BaseFragment implements FragmentChang
 
     @Override
     public void onFragmentVisible(String fragmentTag) {
-
+        mContext = getActivity();
+        cd = new ConnectionDetector(mContext);
+        retrofitApiClient = RetrofitService.getRetrofit();
+        init();
     }
 
     @Override

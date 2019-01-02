@@ -43,7 +43,6 @@ public class MainActivity extends BaseActivity
     private int currentPos = 0;
     private NavigationView navigationView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -74,7 +74,7 @@ public class CategoryDetailActivity extends BaseActivity implements View.OnClick
 
         ((TextView) findViewById(R.id.tvName)).setText(strName);
         Picasso.with(mContext)
-                .load(Constant.IMAGE + strLogo)
+                .load(Constant.IMAGE3 + strLogo)
                 .placeholder(R.drawable.app_logo_b)
                 .into(((ImageView) findViewById(R.id.img)));
         categoryWiseCouponApi();

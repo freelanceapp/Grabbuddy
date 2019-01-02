@@ -132,6 +132,7 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                 CategoryWiseDatum wiseDatum = new CategoryWiseDatum();
                 wiseDatum.setCouponOffer("15");
                 wiseDatum.setCouponName(studioDatum.getCouponName());
+                wiseDatum.setCouponType(studioDatum.getCouponType());
                 wiseDatum.setCouponCode("THE23WJKD");
                 wiseDatum.setCouponDesc("");
                 wiseDatum.setCouponLink(studioDatum.getCouponLink());
