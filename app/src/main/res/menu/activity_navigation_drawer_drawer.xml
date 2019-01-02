@@ -24,12 +24,10 @@
             android:title="Share the App" />
         <item
             android:id="@+id/subscribe"
-            android:title="Subscibe"
-            />
+            android:title="Subscribe" />
         <item
             android:id="@+id/contact_us"
-            android:title="Contact Us"
-            />
+            android:title="Contact Us" />
     </group>
 
     <item android:title="Help and Support:">

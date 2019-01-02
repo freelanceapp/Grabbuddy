@@ -150,36 +150,67 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-                <LinearLayout
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/llBottom"
+                    android:fillViewport="true">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Description:"
-                        android:textColor="@color/text_color_a"
-                        android:textSize="16dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textColor="@color/text_color_c" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Description:"
+                            android:textColor="@color/text_color_a"
+                            android:textSize="16dp" />
 
-                    <com.abdulhakeem.seemoretextview.SeeMoreTextView
-                        android:id="@+id/tvDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textColor="@color/text_color_c" />
-                </LinearLayout>
+                        <at.blogc.android.views.ExpandableTextView
+                            android:id="@+id/tvDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:ellipsize="end"
+                            android:maxLines="3"
+                            android:textColor="@color/text_color_c" />
+
+                        <RelativeLayout
+                            android:id="@+id/relativeShowMore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:padding="4dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tvShowMore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Show More"
+                                android:textColor="@color/darkBlue" />
+
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:layout_below="@+id/tvShowMore"
+                                android:layout_alignLeft="@+id/tvShowMore"
+                                android:layout_alignRight="@+id/tvShowMore"
+                                android:background="@color/darkBlue" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </ScrollView>
 
                 <LinearLayout
+                    android:id="@+id/llBottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="22dp"
                     android:orientation="vertical">
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.util.zip.GZIPOutputStream;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.utils.AppPreference;
@@ -63,12 +66,26 @@ public class MainActivity extends BaseActivity
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         USER_ID = prefs.getString("user_id", "0");//"No name defined" is the default value.
         USER_NAME = prefs.getString("name", "abc"); //0 is the default value.
-        USER_MOBILE = prefs.getString("number","123");
-        USER_EMAIL = prefs.getString("email","abc@gmail.com");
+        USER_MOBILE = prefs.getString("number", "123");
+        USER_EMAIL = prefs.getString("email", "abc@gmail.com");
 
+        init();
     }
 
+    private void init() {
+        if (getIntent() == null)
+            return;
+        String strIsLogin = getIntent().getStringExtra("isLogin");
+        if (strIsLogin.equalsIgnoreCase("skip")) {
+            toggleVisibility(navigationView.getMenu(), R.id.logout, false);
+        } else {
+            toggleVisibility(navigationView.getMenu(), R.id.logout, true);
+        }
+    }
 
+    private void toggleVisibility(Menu menu, @IdRes int id, boolean visible) {
+        menu.findItem(id).setVisible(visible);
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -152,8 +169,7 @@ public class MainActivity extends BaseActivity
             setTitle("Contact Us");
             fragmentUtils.inflateFragment(null, FragmentUtils.CONTACT_US,
                     FragmentUtils.CONTACT_US_FRAGMENT, false);
-        }
-         else if (id == R.id.share) {
+        } else if (id == R.id.share) {
             if (currentPos == 10)
                 return true;
             item.setChecked(true);
@@ -163,19 +179,18 @@ public class MainActivity extends BaseActivity
             fragmentUtils.inflateFragment(null, FragmentUtils.SHARE_APP1,
                     FragmentUtils.SHARE_APP_FRAGMENT1, false);
 
-        }else if (id == R.id.logout) {
+        } else if (id == R.id.logout) {
             if (currentPos == 11)
                 return true;
             item.setChecked(true);
             currentPos = 11;
-           logout();
-        }
-        else if (id == R.id.subscribe) {
+            logout();
+        } else if (id == R.id.subscribe) {
             if (currentPos == 9)
                 return true;
             item.setChecked(true);
             currentPos = 9;
-             fragmentUtils.inflateFragment(null, FragmentUtils.SHARE_APP,
+            fragmentUtils.inflateFragment(null, FragmentUtils.SHARE_APP,
                     FragmentUtils.SHARE_APP_FRAGMENT, false);
             setTitle("Subscribe");
 
@@ -187,7 +202,6 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-
     private void logout() {
         new AlertDialog.Builder(mContext)
                 .setTitle("Logout")
@@ -196,9 +210,9 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferences.Editor editor = mContext.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                        editor.putString("user_id","0");
+                        editor.putString("user_id", "0");
                         editor.apply();
-                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -225,7 +239,7 @@ public class MainActivity extends BaseActivity
                         public void run() {
                             isPressedExit = false;
                         }
-                    }, 2000);
+                    }, 3000);
                 }
             } else {
                 int backStackCount = fragmentUtils.manager.getBackStackEntryCount();

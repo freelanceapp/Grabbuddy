@@ -40,11 +40,7 @@ public class CategoryWiseCouponAdapter extends RecyclerView.Adapter<CategoryWise
         holder.tvDescription.setText(reviewModelList.get(position).getCouponName());
         holder.tvExpires.setText("Expires" + " " + reviewModelList.get(position).getEndDate());
 
-        if (reviewModelList.get(position).getCouponType().equalsIgnoreCase("Deals")) {
-            holder.tvDeals.setText("Activate" + " " + reviewModelList.get(position).getCouponType());
-        } else if (reviewModelList.get(position).getCouponType().equalsIgnoreCase("Coupon")) {
-            holder.tvDeals.setText("Show" + " " + reviewModelList.get(position).getCouponType());
-        }
+        holder.tvDeals.setText(reviewModelList.get(position).getCouponType());
 
         if (reviewModelList.get(position).getEditorPick().equalsIgnoreCase("y")) {
             holder.llExclusive.setVisibility(View.VISIBLE);

@@ -31,13 +31,16 @@
         <activity android:name=".ui.activities.LoginActivity" />
         <activity
             android:name=".ui.activities.CouponDetailActivity"
-            android:label="Coupon" />
+            android:label="Coupon"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activities.StoreDetailActivity"
-            android:label="Coupon" />
+            android:label="Coupon"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activities.CategoryDetailActivity"
-            android:label="" />
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -1,1 +1,1 @@
-include ':app', ':infinite-cards'
+include ':app', ':infinite-cards', ':expandabletextview'

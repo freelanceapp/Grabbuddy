@@ -2,6 +2,7 @@ package grabbuddy.infobite.grabbuddy.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -87,6 +88,7 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void initImages() {
+        adapter = new MarriagePagerAdapter(mContext, successImagesList, this);
         imagesApi();
         imageHandler = new Handler();
         imageRunnable = new Runnable() {
@@ -137,6 +139,15 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                 intentA.putExtra("coupon_detail", (Parcelable) wiseDatum);
                 startActivity(intentA);
                 break;
+            case R.id.imageView:
+                int posB = Integer.parseInt(v.getTag().toString());
+                BannerDatum bannerDatum = successImagesList.get(posB);
+                String strUrl = bannerDatum.getOfferLink();
+                if (!strUrl.startsWith("http://") && !strUrl.startsWith("https://"))
+                    strUrl = "http://" + strUrl;
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUrl));
+                startActivity(browserIntent);
+                break;
         }
     }
 
@@ -177,7 +188,6 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-
     private void imagesApi() {
         if (cd.isNetworkAvailable()) {
             RetrofitService.getBanner(new Dialog(mContext), retrofitApiClient.getBanner(), new WebResponse() {
@@ -188,8 +198,6 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
                     if (imagesModal == null)
                         return;
                     successImagesList.addAll(imagesModal.getData());
-
-                    adapter = new MarriagePagerAdapter(mContext, successImagesList);
                     pagerSuccess.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }

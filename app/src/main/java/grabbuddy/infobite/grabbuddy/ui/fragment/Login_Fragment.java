@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,13 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,11 +33,10 @@ import grabbuddy.infobite.grabbuddy.CustomToast;
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.Utils;
 import grabbuddy.infobite.grabbuddy.modal.api_model.LoginModel;
-import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
+import grabbuddy.infobite.grabbuddy.ui.activities.LoginActivity;
 import grabbuddy.infobite.grabbuddy.ui.activities.MainActivity;
-import grabbuddy.infobite.grabbuddy.ui.activities.WelcomeActivity;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
@@ -210,7 +200,9 @@ public class Login_Fragment extends BaseFragment implements OnClickListener {
                         editor.putString("email", storeMainModel.getUserEmail());
                         editor.putString("number", storeMainModel.getUserMobile());
                         editor.apply();
-                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("isLogin", "login");
+                        startActivity(intent);
                         getActivity().finish();
 
                     } else {
