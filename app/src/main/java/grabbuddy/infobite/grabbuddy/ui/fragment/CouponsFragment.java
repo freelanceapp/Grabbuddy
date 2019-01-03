@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.MarriagePagerAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.PopularStoresAdapter;
 import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
+import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
 import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerDatum;
@@ -32,11 +37,16 @@ import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitImagesService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.CouponDetailActivity;
+import grabbuddy.infobite.grabbuddy.ui.activities.MainActivity;
 import grabbuddy.infobite.grabbuddy.ui.activities.StoreDetailActivity;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
+import grabbuddy.infobite.grabbuddy.utils.FragmentUtils;
 import retrofit2.Response;
+
+import static grabbuddy.infobite.grabbuddy.utils.FragmentUtils.HOME_FRAGMENT;
+import static grabbuddy.infobite.grabbuddy.utils.FragmentUtils.HOME_ID;
 
 public class CouponsFragment extends BaseFragment implements View.OnClickListener {
 
@@ -48,9 +58,10 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
     private PopularStoresAdapter popularStoresAdapter;
     private List<Datum> popularStoresArrayList = new ArrayList<>();
     private List<CouponDatum> stylesList = new ArrayList<>();
-
+    private TextView tvViewStore;
     private MarriagePagerAdapter adapter;
     private List<BannerDatum> successImagesList = new ArrayList<>();
+    private FragmentManager fragmentManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,15 +71,32 @@ public class CouponsFragment extends BaseFragment implements View.OnClickListene
         retrofitApiClient = RetrofitService.getRetrofit();
         retrofitApiClientImages = RetrofitImagesService.getRetrofit();
         cd = new ConnectionDetector(mContext);
+        fragmentManager = (getActivity()).getSupportFragmentManager();
+
         init((new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)),
                 (new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)));
         return rootView;
     }
 
+    private void changeFragment(Fragment fragment, String strTag) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.right_enter, R.anim.left_out);
+        transaction.replace(R.id.frame_home_items, fragment, strTag);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
     private void init(RecyclerView.LayoutManager layout, RecyclerView.LayoutManager layoutB) {
         RecyclerView recyclerViewPopularStore = rootView.findViewById(R.id.recyclerViewPopularStore);
         RecyclerView recyclerViewTopOffer = rootView.findViewById(R.id.recyclerViewTopOffer);
 
+        tvViewStore = rootView.findViewById(R.id.tvViewStore);
+        tvViewStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFragment(new TopStoresFragment(), Constant.TopStoresFragment);
+
+            }
+        });
         todaysOfferAdapter = new TodaysOfferAdapter(stylesList, mContext, this);
         recyclerViewTopOffer.setLayoutManager(layout);
         recyclerViewTopOffer.setItemAnimator(new DefaultItemAnimator());

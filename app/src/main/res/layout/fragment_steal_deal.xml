@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Steal Deal of the Day"
+        android:text="Featuring Best Deal of the Day or Nothing!"
         android:textColor="#000"
         android:textSize="20dp" />
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="10dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="8dp">
 

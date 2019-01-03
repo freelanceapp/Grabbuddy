@@ -10,6 +10,12 @@ import com.google.gson.annotations.SerializedName;
 public class CouponDatum implements Parcelable
 {
 
+    @SerializedName("company_logo")
+    @Expose
+    private String company_logo;
+    @SerializedName("company_name")
+    @Expose
+    private String company_name;
     @SerializedName("id")
     @Expose
     private String id;
@@ -73,6 +79,8 @@ public class CouponDatum implements Parcelable
     ;
 
     protected CouponDatum(Parcel in) {
+        this.company_logo = ((String) in.readValue((String.class.getClassLoader())));
+        this.company_name = ((String) in.readValue((String.class.getClassLoader())));
         this.id = ((String) in.readValue((String.class.getClassLoader())));
         this.categoryId = ((String) in.readValue((String.class.getClassLoader())));
         this.companyId = ((String) in.readValue((String.class.getClassLoader())));
@@ -91,6 +99,22 @@ public class CouponDatum implements Parcelable
     }
 
     public CouponDatum() {
+    }
+
+    public String getCompany_logo() {
+        return company_logo;
+    }
+
+    public void setCompany_logo(String company_logo) {
+        this.company_logo = company_logo;
+    }
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
     }
 
     public String getId() {
@@ -289,7 +313,9 @@ public class CouponDatum implements Parcelable
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(company_name);
         dest.writeValue(id);
+        dest.writeValue(company_logo);
         dest.writeValue(categoryId);
         dest.writeValue(companyId);
         dest.writeValue(couponName);

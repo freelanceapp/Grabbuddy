@@ -49,7 +49,7 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
         holder.cardView.setOnClickListener(onClickListener);
 
         Picasso.with(context)
-                .load(Constant.IMAGE + reviewModelList.get(position).getEditorPick())
+                .load("https://www.grabbuddy.in/admin/images/company_picture/"+ reviewModelList.get(position).getCompany_logo())
                 .placeholder(R.drawable.default_img)
                 .into(holder.offer_img);
     }

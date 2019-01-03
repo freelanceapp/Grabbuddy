@@ -227,26 +227,17 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (currentPos == 0) {
-                if (isPressedExit) {
-                    super.onBackPressed();
-                } else {
-                    isPressedExit = true;
-                    Toast.makeText(mContext, "Press again to exit.", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            isPressedExit = false;
-                        }
-                    }, 3000);
-                }
+            if (isPressedExit) {
+                super.onBackPressed();
             } else {
-                int backStackCount = fragmentUtils.manager.getBackStackEntryCount();
-                if (backStackCount > 0) {
-                    fragmentUtils.manager.popBackStack();
-                } else {
-                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.home));
-                }
+                isPressedExit = true;
+                Toast.makeText(mContext, "Press again to exit.", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isPressedExit = false;
+                    }
+                }, 3000);
             }
         }
     }
