@@ -60,6 +60,8 @@ public class Constant {
     public static final String CouponFragment = "CouponFragment";
     public static final String DealsFragment = "DealsFragment";
     public static final String StylesStudioFragment = "StylesStudioFragment";
+    public static final String StealDealFragment = "StealDealFragment";
+    public static final String TopStoresFragment = "TopStoresFragment";
 
     //Preference
     public static final String IMAGE_PREF = "img_pref";

@@ -98,12 +98,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="24dp"
+                                android:layout_marginLeft="20dp"
                                 android:ellipsize="end"
                                 android:lines="2"
                                 android:text="100 Yellow"
                                 android:textColor="@color/white"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                         </LinearLayout>
 

@@ -101,6 +101,8 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 showAlert();
+                setClipboard(mContext, wiseDatum.getCouponCode());
+
 
             }
         });
@@ -159,6 +161,20 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
             imageCopy.setVisibility(View.VISIBLE);
             text.setText("Code ''" + wiseDatum.getCouponCode() + "'' Copied \n paste this code at checkout");
         }
+        String strCompanyName1 = wiseDatum.getCouponLink();
+           if (strCompanyName1.contains(".")) {
+            String strArray[] = strCompanyName1.split("\\.");
+            if (strArray.length > 1) {
+                dialogButton.setText(strArray[1]);
+                dialogButton.setText("Visit " + strArray[1] );
+            }
+        } else {
+               dialogButton.setText(strCompanyName1);
+               dialogButton.setText("Visit" + strCompanyName1 );
+        }
+
+
+       // dialogButton.setText("Visit "+wiseDatum.getCouponName());
         // if button is clicked, close the custom dialog
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,8 +211,8 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void getCompanyName() {
-        String strCompanyName = wiseDatum.getCouponLink();
-        if (strCompanyName.contains(".")) {
+        String strCompanyName = wiseDatum.getCouponName();
+       /* if (strCompanyName.contains(".")) {
             String strArray[] = strCompanyName.split("\\.");
             if (strArray.length > 1) {
                 ((TextView) findViewById(R.id.tvName)).setText(strArray[1]);
@@ -205,7 +221,9 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
         } else {
             ((TextView) findViewById(R.id.tvName)).setText(strCompanyName);
             ((TextView) findViewById(R.id.tvSeeAll)).setText("See all " + strCompanyName + " " + "coupons");
-        }
+        }*/
+        ((TextView) findViewById(R.id.tvName)).setText(strCompanyName);
+
     }
 
     private void expandableTextview() {

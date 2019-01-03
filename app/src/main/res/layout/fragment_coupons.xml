@@ -29,13 +29,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Popular stores" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Popular stores" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginTop="10dp"
+                            android:text="View All"
+                            android:id="@+id/tvViewStore"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:layout_alignParentRight="true"/>
+                    </RelativeLayout>
+
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewPopularStore"
