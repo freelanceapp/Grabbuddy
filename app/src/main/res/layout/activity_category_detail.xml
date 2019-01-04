@@ -38,7 +38,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="28dp"
                     android:layout_toRightOf="@+id/imgBack"
-                    android:text="Store Details"
+                    android:text="Category Details"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     android:textStyle="bold" />

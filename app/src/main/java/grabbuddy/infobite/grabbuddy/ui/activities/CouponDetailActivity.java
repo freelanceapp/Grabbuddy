@@ -34,7 +34,7 @@ import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 public class CouponDetailActivity extends BaseActivity implements View.OnClickListener {
 
     private Boolean isCheck = true;
-
+    private String companyId = "";
     private Context mContext;
     private CategoryWiseDatum wiseDatum;
     private String strOffer = "";
@@ -69,14 +69,23 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
         ((LinearLayout) findViewById(R.id.linearShowStoreDetail)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if (type.equals("CouponFragment")) {
+                    Intent intent = new Intent(mContext, StoreDetailActivity.class);
+                    intent.putExtra("id", companyId);
+                    intent.putExtra("name", wiseDatum.getStatus());
+                    intent.putExtra("logo", wiseDatum.getDateTime());
+                    startActivity(intent);
+                    finish();
+                }else {
+                    finish();
+                }
             }
         });
 
         strOffer = wiseDatum.getCouponOffer();
         ((TextView) findViewById(R.id.tvOffer)).setText(strOffer);
         ((TextView) findViewById(R.id.tvCouponCode)).setText(wiseDatum.getCouponCode());
-
+        companyId = wiseDatum.getCompanyId();
         getCompanyName();
 
         String strLogo = "";
@@ -102,10 +111,12 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
             public void onClick(View v) {
                 showAlert();
                 setClipboard(mContext, wiseDatum.getCouponCode());
+                Alerts.show(mContext, "Code copied");
 
 
             }
         });
+        ((TextView) findViewById(R.id.tvName)).setText(wiseDatum.getCouponName());
 
         shareBtn = (ImageView) findViewById(R.id.shareBtn);
         shareBtn.setOnClickListener(new View.OnClickListener() {
@@ -211,19 +222,17 @@ public class CouponDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void getCompanyName() {
-        String strCompanyName = wiseDatum.getCouponName();
-       /* if (strCompanyName.contains(".")) {
+        String strCompanyName = wiseDatum.getCouponLink();
+        if (strCompanyName.contains(".")) {
             String strArray[] = strCompanyName.split("\\.");
             if (strArray.length > 1) {
-                ((TextView) findViewById(R.id.tvName)).setText(strArray[1]);
+                //((TextView) findViewById(R.id.tvName)).setText(strArray[1]);
                 ((TextView) findViewById(R.id.tvSeeAll)).setText("See all " + strArray[1] + " " + "coupons");
             }
         } else {
-            ((TextView) findViewById(R.id.tvName)).setText(strCompanyName);
+            //((TextView) findViewById(R.id.tvName)).setText(strCompanyName);
             ((TextView) findViewById(R.id.tvSeeAll)).setText("See all " + strCompanyName + " " + "coupons");
-        }*/
-        ((TextView) findViewById(R.id.tvName)).setText(strCompanyName);
-
+        }
     }
 
     private void expandableTextview() {

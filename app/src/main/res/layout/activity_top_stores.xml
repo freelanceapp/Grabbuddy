@@ -21,5 +21,6 @@
         android:layout_centerHorizontal="true"
         android:padding="16dp"
         android:text="All Stores"
+        android:visibility="gone"
         android:textColor="@color/green" />
 </RelativeLayout>

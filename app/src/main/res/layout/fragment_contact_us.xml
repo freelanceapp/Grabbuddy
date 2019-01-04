@@ -39,14 +39,14 @@
                 android:hint="Email Id"
                 android:padding="7dp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/tvBudiness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:background="@drawable/edittext_back_a"
                 android:hint="Business"
-                android:padding="7dp" />
+                android:padding="10dp" />
 
             <EditText
                 android:id="@+id/tvContact"
