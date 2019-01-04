@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
@@ -29,9 +31,11 @@ import static grabbuddy.infobite.grabbuddy.constant.Constant.MY_PREFS_NAME;
 public class ContactUsFragment extends BaseFragment implements FragmentChangeListener {
 
     private View rootView;
-    private EditText tvFullName,tvEmailId,tvContact,tvBusness,tvMessage;
+    private EditText tvFullName,tvEmailId,tvContact,tvMessage;
+    private Spinner tvBusness;
     private Button btnSubmit1;
     String fullName,emailId,busness,contact,message;
+    String[] country = { "Select One", "Partner with us", "General question", "Feedback service", "Problem with Coupon or Deals", "Other"};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +47,23 @@ public class ContactUsFragment extends BaseFragment implements FragmentChangeLis
         retrofitApiClientImages = RetrofitImagesService.getRetrofit();
         tvFullName = (EditText)rootView.findViewById(R.id.tvFullName);
         tvEmailId = (EditText)rootView.findViewById(R.id.tvEmailId);
-        tvBusness = (EditText)rootView.findViewById(R.id.tvBudiness);
+        tvBusness = (Spinner)rootView.findViewById(R.id.tvBudiness);
         tvContact = (EditText)rootView.findViewById(R.id.tvContact);
         tvMessage = (EditText)rootView.findViewById(R.id.tvMessage);
         btnSubmit1 = (Button)rootView.findViewById(R.id.btnSubmit1);
+
+        //Creating the ArrayAdapter instance having the country list
+        ArrayAdapter aa = new ArrayAdapter(mContext,android.R.layout.simple_spinner_item,country);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        tvBusness.setAdapter(aa);
 
         btnSubmit1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fullName = tvFullName.getText().toString();
                 emailId = tvEmailId.getText().toString();
-                busness = tvBusness.getText().toString();
+                busness = tvBusness.getSelectedItem().toString();
                 contact = tvContact.getText().toString();
                 message = tvMessage.getText().toString();
                 if (fullName.equals(""))

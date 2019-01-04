@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
@@ -25,7 +28,7 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
     private List<CouponDatum> reviewModelList;
     private Context context;
     private View.OnClickListener onClickListener;
-
+    String str = null;
     public TodaysOfferAdapter(List<CouponDatum> reviewModelList, Context context, View.OnClickListener onClickListener) {
         this.reviewModelList = reviewModelList;
         this.context = context;
@@ -43,15 +46,15 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
         holder.tvDescription.setText(reviewModelList.get(position).getCouponName());
 
         String strDate = reviewModelList.get(position).getEndDate();
-        holder.tvDateTime.setText(strDate);
+        parseDateToddMMyyyy(strDate);
+        holder.tvDateTime.setText(str);
 
         holder.cardView.setTag(position);
         holder.cardView.setOnClickListener(onClickListener);
 
         Picasso.with(context)
                 .load("https://www.grabbuddy.in/admin/images/company_picture/"+ reviewModelList.get(position).getCompany_logo())
-                .placeholder(R.drawable.default_img)
-                .into(holder.offer_img);
+                .placeholder(R.drawable.default_img).into(holder.offer_img);
     }
 
     @Override
@@ -81,5 +84,22 @@ public class TodaysOfferAdapter extends RecyclerView.Adapter<TodaysOfferAdapter.
         }
     }
 
+    public String parseDateToddMMyyyy(String time) {
+        String inputPattern = "yyyy-MM-dd";
+        String outputPattern = "dd-MMM-yyyy";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date date = null;
+
+
+        try {
+            date = inputFormat.parse(time);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
 
 }
