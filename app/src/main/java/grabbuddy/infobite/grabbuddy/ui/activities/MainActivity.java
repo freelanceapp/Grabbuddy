@@ -1,14 +1,19 @@
 package grabbuddy.infobite.grabbuddy.ui.activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,18 +25,40 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 
 import grabbuddy.infobite.grabbuddy.R;
+import grabbuddy.infobite.grabbuddy.modal.api_model.Datum;
+import grabbuddy.infobite.grabbuddy.modal.api_model.StoreMainModel;
+import grabbuddy.infobite.grabbuddy.modal.tokan_responce.TokenModel;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.HttpHandler;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
+import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
+import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.AppPreference;
 import grabbuddy.infobite.grabbuddy.utils.BaseActivity;
 import grabbuddy.infobite.grabbuddy.utils.FragmentUtils;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
+import static android.support.constraint.Constraints.TAG;
 import static grabbuddy.infobite.grabbuddy.constant.Constant.MY_PREFS_NAME;
 import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_EMAIL;
 import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_ID;
 import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_MOBILE;
 import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_NAME;
+import static grabbuddy.infobite.grabbuddy.ui.activities.SplashScreenActivity.android_id;
+import static grabbuddy.infobite.grabbuddy.ui.activities.SplashScreenActivity.refreshedToken;
 import static grabbuddy.infobite.grabbuddy.utils.FragmentUtils.HOME_FRAGMENT;
 import static grabbuddy.infobite.grabbuddy.utils.FragmentUtils.HOME_ID;
 
@@ -42,6 +69,7 @@ public class MainActivity extends BaseActivity
     private FragmentUtils fragmentUtils;
     private int currentPos = 0;
     private NavigationView navigationView;
+    ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +78,9 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         fragmentUtils = FragmentUtils.initFragments(MainActivity.this);
         fragmentUtils.inflateFragment(null, HOME_ID, HOME_FRAGMENT, false);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,7 +95,7 @@ public class MainActivity extends BaseActivity
         USER_NAME = prefs.getString("name", "abc"); //0 is the default value.
         USER_MOBILE = prefs.getString("number", "123");
         USER_EMAIL = prefs.getString("email", "abc@gmail.com");
-
+        Log.e("User Id","..."+USER_ID);
         init();
     }
 
@@ -79,6 +107,9 @@ public class MainActivity extends BaseActivity
             toggleVisibility(navigationView.getMenu(), R.id.logout, false);
         } else {
             toggleVisibility(navigationView.getMenu(), R.id.logout, true);
+            //getToken1();
+           // new GetContacts().execute();
+
         }
     }
 
@@ -239,6 +270,58 @@ public class MainActivity extends BaseActivity
                     }
                 }, 3000);
             }
+        }
+    }
+
+
+
+    /**
+     * Async task class to get json by making HTTP call
+     */
+    private class GetContacts extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new ProgressDialog(mContext);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall("https://grabbuddy.in/androidapi/app_token.php?user_id=4&user_ip=11&token=1fg");
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                Log.e(TAG, "Json not empity " );
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(jsonStr);
+                    Log.e("Massage",obj.getString("message"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, "Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
         }
     }
 

@@ -181,7 +181,8 @@
             android:adjustViewBounds="true"
             android:gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/login_facebook" />
+            android:src="@drawable/login_facebook"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/already_user"

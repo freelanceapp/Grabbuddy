@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "151768610307",
+    "firebase_url": "https://grabbuddy-202f1.firebaseio.com",
+    "project_id": "grabbuddy-202f1",
+    "storage_bucket": "grabbuddy-202f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151768610307:android:d7ca7ca3d2462804",
+        "android_client_info": {
+          "package_name": "grabbuddy.infobite.grabbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151768610307-ik4abe3dk2qv9ltb96da72ehklq42t5k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "grabbuddy.infobite.grabbuddy",
+            "certificate_hash": "af6e7a438225bb46c5ab7585a31fb59ee4c135dd"
+          }
+        },
+        {
+          "client_id": "151768610307-71fq4nm2857motk9ogrisbnsvnagfivt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0psV2NAE9CNzijZTYLb6GeSj6iz5WJZA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "151768610307-71fq4nm2857motk9ogrisbnsvnagfivt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

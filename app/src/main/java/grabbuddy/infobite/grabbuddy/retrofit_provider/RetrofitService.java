@@ -2,6 +2,8 @@ package grabbuddy.infobite.grabbuddy.retrofit_provider;
 
 import android.app.Dialog;
 
+import java.util.concurrent.TimeUnit;
+
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.modal.api_model.LoginModel;
 import grabbuddy.infobite.grabbuddy.modal.api_model.SignUpModel;
@@ -13,10 +15,14 @@ import grabbuddy.infobite.grabbuddy.modal.api_model.privacy_model.PrivacyModel;
 import grabbuddy.infobite.grabbuddy.modal.banner_model.BannerModel;
 import grabbuddy.infobite.grabbuddy.modal.category_wise_data.CategoryWiseMainModal;
 import grabbuddy.infobite.grabbuddy.modal.coupon_model.CouponModel;
+import grabbuddy.infobite.grabbuddy.modal.search_modal_data.SearchStoreMainModal;
 import grabbuddy.infobite.grabbuddy.modal.side_banner.SideBannerModal;
 import grabbuddy.infobite.grabbuddy.modal.style_studio.StyleStudioMainModal;
+import grabbuddy.infobite.grabbuddy.modal.term_responce.TermModel;
 import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
+import grabbuddy.infobite.grabbuddy.modal.tokan_responce.TokenModel;
 import grabbuddy.infobite.grabbuddy.utils.AppProgressDialog;
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,11 +34,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitService {
 
     public static RetrofitApiClient client;
+    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            .readTimeout(80, TimeUnit.SECONDS)
+            .connectTimeout(80, TimeUnit.SECONDS)
+            .build();
 
     public RetrofitService() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
         client = retrofit.create(RetrofitApiClient.class);
     }
@@ -67,6 +78,47 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<SignUpModel> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getTerm(final Dialog dialog, final Call<TermModel> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<TermModel>() {
+            @Override
+            public void onResponse(Call<TermModel> call, Response<TermModel> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<TermModel> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getToken(final Dialog dialog, final Call<TokenModel> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+        method.enqueue(new Callback<TokenModel>() {
+            @Override
+            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<TokenModel> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());
@@ -110,6 +162,29 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<StoreMainModel> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+
+    // All Store
+    public static void getSearchStore(final Dialog dialog, final Call<SearchStoreMainModal> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<SearchStoreMainModal>() {
+            @Override
+            public void onResponse(Call<SearchStoreMainModal> call, Response<SearchStoreMainModal> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<SearchStoreMainModal> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());
@@ -175,6 +250,28 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<AboutModel> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+
+    public static void getToken1(final Dialog dialog, final Call<TokenModel> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<TokenModel>() {
+            @Override
+            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<TokenModel> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());

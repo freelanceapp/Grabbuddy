@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,16 +40,23 @@ import grabbuddy.infobite.grabbuddy.adapter.TodaysOfferAdapter;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
 import grabbuddy.infobite.grabbuddy.interfaces.FragmentChangeListener;
 import grabbuddy.infobite.grabbuddy.modal.Coupon;
+import grabbuddy.infobite.grabbuddy.modal.api_model.SignUpModel;
 import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealDataList;
 import grabbuddy.infobite.grabbuddy.modal.today_deal_modal.TodayDealMainModal;
+import grabbuddy.infobite.grabbuddy.modal.tokan_responce.TokenModel;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
+import grabbuddy.infobite.grabbuddy.ui.activities.LoginActivity;
 import grabbuddy.infobite.grabbuddy.ui.activities.MainActivity;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
 import grabbuddy.infobite.grabbuddy.utils.FragmentUtils;
 import retrofit2.Response;
+
+import static grabbuddy.infobite.grabbuddy.constant.Constant.USER_ID;
+import static grabbuddy.infobite.grabbuddy.ui.activities.SplashScreenActivity.android_id;
+import static grabbuddy.infobite.grabbuddy.ui.activities.SplashScreenActivity.refreshedToken;
 
 public class HomeFragment extends BaseFragment implements FragmentChangeListener, View.OnClickListener {
 
@@ -69,6 +77,7 @@ public class HomeFragment extends BaseFragment implements FragmentChangeListener
         retrofitApiClient = RetrofitService.getRetrofit();
 
         init();
+        tokenApi();
         return rootView;
     }
 
@@ -155,5 +164,31 @@ public class HomeFragment extends BaseFragment implements FragmentChangeListener
             cd.show(mContext);
         }
     }
+
+    private void tokenApi() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.getToken1(new Dialog(mContext), retrofitApiClient.getToken(USER_ID,android_id,refreshedToken), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    TokenModel sign = (TokenModel) result.body();
+                    assert sign != null;
+                        Alerts.show(mContext, sign.getMessage());
+                        /*if (offerMainModal.getMessage().equals("User is Not Verified")) {
+                           // startFragment(Constant.Verification_Fragment, new VerificationFragment(), loginModal.getUser().getPhone());
+                          //activity.finish();
+                       }*/
+                }
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
+
+        } else {
+            cd.show(mContext);
+        }
+    }
+
+
 
 }
