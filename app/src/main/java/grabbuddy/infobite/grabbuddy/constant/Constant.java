@@ -23,8 +23,11 @@ public class Constant {
     public static final String VENDOR_DETAIL = "api/vendor-details.php";
     public static final String VENDOR_LIST = "api/vendor-list.php";
     public static final String FOROGOT_PASSWORD = "androidapi/forgot.php";
+    public static final String TERM_DATA = "androidapi/term.php";
+    public static final String APP_TOKEN = "androidapi/app_token.php";
 
     public static final String ALL_STORE = "androidapi/all-store.php";
+    public static final String SEARCH_STORE = "androidapi/all-store.php";
     public static final String IMAGE = "https://www.grabbuddy.in/admin/images/company_picture/";
     public static final String IMAGE1 = "https://www.grabbuddy.in/admin/images/style_studio_picture/";
     public static final String IMAGE2 = "https://www.grabbuddy.in/admin/images/product_picture/";

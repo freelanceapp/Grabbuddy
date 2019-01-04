@@ -37,6 +37,7 @@ import grabbuddy.infobite.grabbuddy.retrofit_provider.RetrofitService;
 import grabbuddy.infobite.grabbuddy.retrofit_provider.WebResponse;
 import grabbuddy.infobite.grabbuddy.ui.activities.LoginActivity;
 import grabbuddy.infobite.grabbuddy.ui.activities.MainActivity;
+import grabbuddy.infobite.grabbuddy.ui.activities.SearchActivity;
 import grabbuddy.infobite.grabbuddy.utils.Alerts;
 import grabbuddy.infobite.grabbuddy.utils.BaseFragment;
 import grabbuddy.infobite.grabbuddy.utils.ConnectionDetector;
@@ -136,7 +137,10 @@ public class Login_Fragment extends BaseFragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-                checkValidation();
+                //checkValidation();
+
+                Intent intent = new Intent(mContext,SearchActivity.class);
+                startActivity(intent);
 
                 break;
 

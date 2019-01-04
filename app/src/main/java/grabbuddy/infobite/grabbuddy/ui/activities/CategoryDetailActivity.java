@@ -185,4 +185,7 @@ public class CategoryDetailActivity extends BaseActivity implements View.OnClick
         }
         setupViewPager(viewPager);
     }
+
+
+
 }
