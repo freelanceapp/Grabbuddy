@@ -1,6 +1,7 @@
 package grabbuddy.infobite.grabbuddy.ui.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.adapter.CustomerListAdapter;
@@ -28,7 +30,7 @@ import retrofit2.Response;
 public class SearchActivity extends BaseActivity {
 
     private CustomerListAdapter customerListAdapter;
-    ArrayList<SearchStoreDatum> offersModelArrayList = new ArrayList<>();
+    List<SearchStoreDatum> offersModelArrayList = new ArrayList<>();
     String companyId = "";
     private Datum datum;
 
@@ -40,9 +42,8 @@ public class SearchActivity extends BaseActivity {
         cd = new ConnectionDetector(mContext);
         retrofitApiClient = RetrofitService.getRetrofit();
 
-
-        init();
         allStoreApi();
+        init();
     }
 
     private void init() {
@@ -50,7 +51,6 @@ public class SearchActivity extends BaseActivity {
         customerListAdapter = new CustomerListAdapter(mContext, R.layout.row_top_stores, offersModelArrayList);
         ListView listViewCustomer = (ListView) findViewById(R.id.listViewCustomer);
         listViewCustomer.setAdapter(customerListAdapter);
-        customerListAdapter.notifyDataSetChanged();
 
         ((EditText) findViewById(R.id.edtSearchCustomer))
                 .addTextChangedListener(new TextWatcher() {
@@ -76,6 +76,13 @@ public class SearchActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 companyId = offersModelArrayList.get(position).getCId();
                 // ((TextView)findViewById(R.id.tvSelectCustomer)).setText(location);
+
+                Intent intent = new Intent(mContext, StoreDetailActivity.class);
+                intent.putExtra("id", offersModelArrayList.get(position).getCId());
+                intent.putExtra("name", offersModelArrayList.get(position).getCompanyName());
+                intent.putExtra("logo", offersModelArrayList.get(position).getCompanyLogo());
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -88,14 +95,28 @@ public class SearchActivity extends BaseActivity {
                 public void onResponseSuccess(Response<?> result) {
                     SearchStoreMainModal storeMainModel = (SearchStoreMainModal) result.body();
                     assert storeMainModel != null;
-                   // offersModelArrayList.clear();
+                   offersModelArrayList.clear();
 
                     //Log.e("store",".."+storeMainModel.getData().get(1).getCompanyName());
+/*
+
+                    for (int i = 0 ; i < storeMainModel.getData().size() ; i++)
+                    {
+                        SearchStoreDatum searchStoreDatum = new SearchStoreDatum();
+                        searchStoreDatum.setCId(storeMainModel.getData().get(i).getCId());
+                        searchStoreDatum.setCompanyLogo(storeMainModel.getData().get(i).getCompanyLogo());
+                        searchStoreDatum.setCompanyName(storeMainModel.getData().get(i).getCompanyName());
+                        searchStoreDatum.setCompanyUrl(storeMainModel.getData().get(i).getCompanyUrl());
+                        searchStoreDatum.setDateTime(storeMainModel.getData().get(i).getDateTime());
+
+                        Log.e("Store",".."+storeMainModel.getData().size());
+                        offersModelArrayList.add(searchStoreDatum);
+                    }
+*/
 
                     offersModelArrayList.addAll(storeMainModel.getData());
 
-                    //customerListAdapter.notifyDataSetChanged();
-
+                    customerListAdapter.notifyDataSetChanged();
 
                 }
                 @Override

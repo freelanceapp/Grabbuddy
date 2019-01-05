@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import grabbuddy.infobite.grabbuddy.R;
 import grabbuddy.infobite.grabbuddy.constant.Constant;
@@ -22,17 +23,17 @@ import grabbuddy.infobite.grabbuddy.modal.search_modal_data.SearchStoreDatum;
 
 public class CustomerListAdapter extends ArrayAdapter<SearchStoreDatum> {
 
-    private ArrayList<SearchStoreDatum> originalList;
-    private ArrayList<SearchStoreDatum> DatumList;
+    private List<SearchStoreDatum> originalList;
+    private List<SearchStoreDatum> DatumList;
     private DatumFilter filter;
     private Context context;
 
-    public CustomerListAdapter(Context context, int textViewResourceId, ArrayList<SearchStoreDatum> DatumList) {
+    public CustomerListAdapter(Context context, int textViewResourceId, List<SearchStoreDatum> DatumList) {
         super(context, textViewResourceId, DatumList);
         this.DatumList = new ArrayList<SearchStoreDatum>();
-        this.DatumList.addAll(DatumList);
+        this.DatumList=(DatumList);
         this.originalList = new ArrayList<SearchStoreDatum>();
-        this.originalList.addAll(DatumList);
+        this.originalList=(DatumList);
         this.context = context;
     }
 
@@ -52,7 +53,6 @@ public class CustomerListAdapter extends ArrayAdapter<SearchStoreDatum> {
         ViewHolder holder = null;
         Log.v("ConvertView", String.valueOf(position));
         if (convertView == null) {
-
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (vi != null) {
                 convertView = vi.inflate(R.layout.row_top_stores, null);
@@ -61,15 +61,14 @@ public class CustomerListAdapter extends ArrayAdapter<SearchStoreDatum> {
             if (convertView != null) {
                 holder.txtCityList = (TextView) convertView.findViewById(R.id.tvName);
                 holder.img = (ImageView) convertView.findViewById(R.id.img);
-
-            }
+                }
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-//        SearchStoreDatum datum = DatumList.get(position);
- //       holder.txtCityList.setText(datum.getCompanyName());
-//        Picasso.with(context).load(Constant.IMAGE + datum.getCompanyLogo()).into(holder.img);
+       SearchStoreDatum datum = DatumList.get(position);
+       holder.txtCityList.setText(datum.getCompanyName());
+       Picasso.with(context).load(Constant.IMAGE + datum.getCompanyLogo()).into(holder.img);
 
         return convertView;
     }

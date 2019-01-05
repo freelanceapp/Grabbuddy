@@ -137,10 +137,9 @@ public class Login_Fragment extends BaseFragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-                //checkValidation();
+                checkValidation();
 
-                Intent intent = new Intent(mContext,SearchActivity.class);
-                startActivity(intent);
+
 
                 break;
 

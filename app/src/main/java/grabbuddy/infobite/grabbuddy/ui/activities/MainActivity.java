@@ -23,9 +23,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity
     private int currentPos = 0;
     private NavigationView navigationView;
     ProgressDialog pDialog;
-
+    private ImageView searchBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +78,10 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         fragmentUtils = FragmentUtils.initFragments(MainActivity.this);
         fragmentUtils.inflateFragment(null, HOME_ID, HOME_FRAGMENT, false);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -100,6 +98,14 @@ public class MainActivity extends BaseActivity
     }
 
     private void init() {
+        searchBtn = (ImageView)findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,SearchActivity.class);
+                startActivity(intent);
+            }
+        });
         if (getIntent() == null)
             return;
         String strIsLogin = getIntent().getStringExtra("isLogin");
@@ -109,7 +115,6 @@ public class MainActivity extends BaseActivity
             toggleVisibility(navigationView.getMenu(), R.id.logout, true);
             //getToken1();
            // new GetContacts().execute();
-
         }
     }
 
